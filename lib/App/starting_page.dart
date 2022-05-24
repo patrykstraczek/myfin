@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/home_page.dart';
@@ -5,7 +6,10 @@ import 'package:myfin/App/home_page.dart';
 class SecondPage extends StatelessWidget {
   const SecondPage({
     Key? key,
+    required this.user,
   }) : super(key: key);
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +37,12 @@ class SecondPage extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            child: Text(
-              "Konto 1",
-              style: GoogleFonts.lato(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+          Text(
+            "Konto 1",
+            style: GoogleFonts.lato(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
             ),
           ),
           const TextField(
@@ -49,14 +51,12 @@ class SecondPage extends StatelessWidget {
           const SizedBox(
             height: (40),
           ),
-          Container(
-            child: Text(
-              "Konto 2",
-              style: GoogleFonts.lato(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+          Text(
+            "Konto 2",
+            style: GoogleFonts.lato(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
             ),
           ),
           const TextField(
@@ -68,7 +68,7 @@ class SecondPage extends StatelessWidget {
               Navigator.of(context).pop();
             },
             child: Text(
-              'Wróć (później dalej)',
+              'Wróć(tymczasowe)',
               style: GoogleFonts.lato(
                 color: Colors.black,
                 fontSize: 20,
@@ -81,8 +81,13 @@ class SecondPage extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => const HomePage()));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => HomePage(
+                      user: user,
+                    ),
+                  ),
+                );
               },
               child: (const Text('Dalej')))
         ],

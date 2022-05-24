@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1013286674196",
+    "project_id": "myfin-99",
+    "storage_bucket": "myfin-99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013286674196:android:a06d71c788ab3e7d172c01",
+        "android_client_info": {
+          "package_name": "com.patrykstraczek.myfin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013286674196-6q78d7qr19rfbhoh6k8eptgdmhshlek3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg1qKQfK3Q1UCOrL1p4qzq3Gu43zP-OEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013286674196-6q78d7qr19rfbhoh6k8eptgdmhshlek3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

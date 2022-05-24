@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
+    required this.user,
   }) : super(key: key);
+
+  final User user;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -33,7 +37,7 @@ class _HomePageState extends State<HomePage> {
               'Aktualny stan',
               textAlign: TextAlign.center,
               style: GoogleFonts.lato(
-                color: const Color.fromARGB(255, 201, 226, 101),
+                color: const Color.fromARGB(255, 174, 152, 100),
                 fontWeight: FontWeight.bold,
                 fontSize: 35,
               ),
@@ -48,6 +52,7 @@ class _HomePageState extends State<HomePage> {
             currentIndex = newIndex;
           });
         },
+        backgroundColor: const Color.fromARGB(255, 174, 152, 100),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.store),
@@ -55,6 +60,10 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.money),
+            label: 'Wpływy',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
             label: 'Wpływy',
           )
         ],
