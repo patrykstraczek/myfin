@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myfin/App/home_page.dart';
-import 'package:myfin/App/login_page.dart';
-import 'package:myfin/App/starting_page.dart';
-import 'package:myfin/App/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:myfin/App/welcome_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -25,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const FirstPage(),
+      home: const RootPage(),
     );
   }
 }
@@ -42,7 +40,7 @@ class RootPage extends StatelessWidget {
       builder: (context, snapshot) {
         final user = snapshot.data;
         if (user == null) {
-          return LoginPage();
+          return const FirstPage();
         }
         return HomePage(user: user);
       },
