@@ -39,11 +39,21 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 50),
               TextField(
                 controller: widget.emailController,
-                decoration: const InputDecoration(hintText: 'E-mail'),
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                  hintText: 'E-mail',
+                  hintStyle:
+                      TextStyle(color: Color.fromARGB(200, 218, 216, 216)),
+                ),
               ),
               TextField(
                 controller: widget.passwordController,
-                decoration: const InputDecoration(hintText: 'Hasło'),
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                  hintText: 'Hasło',
+                  hintStyle:
+                      TextStyle(color: Color.fromARGB(200, 218, 216, 216)),
+                ),
                 obscureText: true,
               ),
               const SizedBox(height: 20),

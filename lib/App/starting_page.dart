@@ -63,22 +63,6 @@ class SecondPage extends StatelessWidget {
             decoration: InputDecoration(hintText: 'Wprowadź saldo'),
           ),
           const SizedBox(height: 100),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              'Wróć(tymczasowe)',
-              style: GoogleFonts.lato(
-                color: Colors.black,
-                fontSize: 20,
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              fixedSize: const Size(10, 50),
-              primary: const Color.fromARGB(255, 181, 185, 183),
-            ),
-          ),
           TextButton(
               onPressed: () {
                 Navigator.of(context).push(
