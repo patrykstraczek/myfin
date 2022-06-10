@@ -3,11 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 @override
 Widget build(BuildContext context) {
-  return AddPage();
+  return const AddPage();
 }
 
 class AddPage extends StatefulWidget {
-  AddPage({
+  const AddPage({
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +18,7 @@ class AddPage extends StatefulWidget {
 class _AddPageState extends State<AddPage> {
   final controller = TextEditingController();
 
-  var AddingIncome = false;
+  var addingIncome = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +55,12 @@ class _AddPageState extends State<AddPage> {
               ),
             ),
           ),
-          SizedBox(height: 10),
-          if (AddingIncome == false) ...[
+          const SizedBox(height: 10),
+          if (addingIncome == false) ...[
             TextButton(
                 onPressed: () {
                   setState(() {
-                    AddingIncome = true;
+                    addingIncome = true;
                   });
                 },
                 child: Text('Dodaj przychód',
@@ -68,11 +68,11 @@ class _AddPageState extends State<AddPage> {
                       color: const Color.fromARGB(255, 174, 152, 100),
                     )))
           ],
-          if (AddingIncome == true) ...[
+          if (addingIncome == true) ...[
             TextButton(
                 onPressed: () {
                   setState(() {
-                    AddingIncome = false;
+                    addingIncome = false;
                   });
                 },
                 child: Text('Dodaj wydatek',
