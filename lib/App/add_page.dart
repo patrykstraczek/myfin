@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 @override
 Widget build(BuildContext context) {
   return AddPage();
 }
 
-class AddPage extends StatelessWidget {
+class AddPage extends StatefulWidget {
   AddPage({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<AddPage> createState() => _AddPageState();
+}
+
+class _AddPageState extends State<AddPage> {
   final controller = TextEditingController();
+
+  var AddingIncome = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dodaj wartość'),
+        title: const Text('Dodaj wydatek'),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 174, 152, 100),
       ),
@@ -47,6 +55,31 @@ class AddPage extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(height: 10),
+          if (AddingIncome == false) ...[
+            TextButton(
+                onPressed: () {
+                  setState(() {
+                    AddingIncome = true;
+                  });
+                },
+                child: Text('Dodaj przychód',
+                    style: GoogleFonts.lato(
+                      color: const Color.fromARGB(255, 174, 152, 100),
+                    )))
+          ],
+          if (AddingIncome == true) ...[
+            TextButton(
+                onPressed: () {
+                  setState(() {
+                    AddingIncome = false;
+                  });
+                },
+                child: Text('Dodaj wydatek',
+                    style: GoogleFonts.lato(
+                      color: const Color.fromARGB(255, 174, 152, 100),
+                    )))
+          ],
         ],
       ),
     );
