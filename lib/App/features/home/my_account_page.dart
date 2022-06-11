@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,7 +46,7 @@ class MyAccountPage extends StatelessWidget {
               const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
-                  context.read<RootCubit>().signOut();
+                  FirebaseAuth.instance.signOut();
                 },
                 child: const Text('Wyloguj'),
                 style: ElevatedButton.styleFrom(
