@@ -35,7 +35,7 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
-                      color: Color.fromARGB(125, 238, 210, 145),
+                      color: const Color.fromARGB(125, 238, 210, 145),
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Row(

@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:myfin/App/account_balance_page.dart';
-import 'package:myfin/App/add_page.dart';
-import 'package:myfin/App/incomes_page.dart';
-import 'package:myfin/App/my_account_page.dart';
+import 'package:myfin/App/features/home/account_balance_page.dart';
+import 'package:myfin/App/features/home/add_page.dart';
+import 'package:myfin/App/features/home/incomes_page.dart';
+import 'package:myfin/App/features/home/my_account_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => AddPage(),
+            builder: (_) => const AddPage(),
           ));
         },
       ),
