@@ -32,24 +32,33 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
             return ListView(
               children: [
                 for (final document in documents) ...[
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      color: const Color.fromARGB(125, 238, 210, 145),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              document['name'],
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            Text(
-                              document['value'].toString(),
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ],
+                  Dismissible(
+                    key: ValueKey(document.id),
+                    onDismissed: (_) {
+                      FirebaseFirestore.instance
+                          .collection('spendings')
+                          .doc(document.id)
+                          .delete();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        color: const Color.fromARGB(125, 238, 210, 145),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                document['name'],
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              Text(
+                                document['value'].toString(),
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
