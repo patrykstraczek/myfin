@@ -41,7 +41,7 @@ class InfoPage extends StatelessWidget {
           Text(
             'Version 0.1',
             style: GoogleFonts.lato(
-              color: Colors.white,
+              color: const Color.fromARGB(125, 255, 255, 255),
             ),
           ),
         ],

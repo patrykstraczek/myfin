@@ -34,6 +34,24 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                 for (final document in documents) ...[
                   Dismissible(
                     key: ValueKey(document.id),
+                    background: const DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 3, 37, 39),
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 32.0),
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    confirmDismiss: (direction) async {
+                      return direction == DismissDirection.endToStart;
+                    },
                     onDismissed: (_) {
                       FirebaseFirestore.instance
                           .collection('spendings')
@@ -54,7 +72,7 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                                 style: const TextStyle(color: Colors.white),
                               ),
                               Text(
-                                document['value'].toString(),
+                                document['value'].toString() + 'zł',
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ],

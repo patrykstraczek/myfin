@@ -22,7 +22,8 @@ class AddPage extends StatefulWidget {
 class _AddPageState extends State<AddPage> {
   var addingIncome = false;
   var name = '';
-  var value = 3.0.toString();
+  double? _value;
+  double? _income;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,9 @@ class _AddPageState extends State<AddPage> {
         builder: (context, snapshot) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Dodaj wydatek'),
+              title: addingIncome == false
+                  ? const Text('Dodaj wydatek')
+                  : const Text('Dodaj przychód'),
               centerTitle: true,
               backgroundColor: const Color.fromARGB(255, 174, 152, 100),
             ),
@@ -59,12 +62,12 @@ class _AddPageState extends State<AddPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: TextField(
                     controller: widget.valueController,
-                    keyboardType: TextInputType.number,
                     onChanged: (newValue) {
                       setState(() {
-                        value = newValue;
+                        _value = double.parse(newValue);
                       });
                     },
+                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       hintText: 'Kwota',
                       hintStyle: TextStyle(
@@ -81,7 +84,7 @@ class _AddPageState extends State<AddPage> {
                           addingIncome = true;
                         });
                       },
-                      child: Text('Dodaj przychód',
+                      child: Text('Chcę dodać przychód',
                           style: GoogleFonts.lato(
                             color: const Color.fromARGB(255, 174, 152, 100),
                           )))
@@ -94,7 +97,7 @@ class _AddPageState extends State<AddPage> {
                       });
                     },
                     child: Text(
-                      'Dodaj wydatek',
+                      'Chcę dodać wydatek',
                       style: GoogleFonts.lato(
                         color: const Color.fromARGB(255, 174, 152, 100),
                       ),
@@ -107,8 +110,8 @@ class _AddPageState extends State<AddPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         FirebaseFirestore.instance.collection('spendings').add({
-                          'name': widget.nameController.text,
-                          'value': widget.valueController.text
+                          'name': name,
+                          'value': _value,
                         });
                       },
                       child: const Text('Dodaj'),
@@ -125,10 +128,7 @@ class _AddPageState extends State<AddPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         FirebaseFirestore.instance.collection('incomes').add(
-                          {
-                            'name': widget.nameController.text,
-                            'income': widget.valueController.text
-                          },
+                          {'name': name, 'income': _income},
                         );
                       },
                       child: const Text('Dodaj'),

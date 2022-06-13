@@ -33,6 +33,24 @@ class _IncomesPage extends State<IncomesPage> {
                 for (final document in documents) ...[
                   Dismissible(
                     key: ValueKey(document.id),
+                    background: const DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 3, 37, 39),
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 32.0),
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    confirmDismiss: (direction) async {
+                      return direction == DismissDirection.startToEnd;
+                    },
                     onDismissed: (_) {
                       FirebaseFirestore.instance
                           .collection('incomes')
@@ -53,7 +71,7 @@ class _IncomesPage extends State<IncomesPage> {
                                 style: const TextStyle(color: Colors.white),
                               ),
                               Text(
-                                document['income'].toString(),
+                                document['income'].toString() + 'zł',
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ],
