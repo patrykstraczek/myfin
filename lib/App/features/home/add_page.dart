@@ -23,7 +23,6 @@ class _AddPageState extends State<AddPage> {
   var addingIncome = false;
   var name = '';
   double? _value;
-  double? _income;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +44,7 @@ class _AddPageState extends State<AddPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: TextField(
                     controller: widget.nameController,
+                    style: const TextStyle(color: Colors.white),
                     onChanged: (newValue) {
                       setState(() {
                         name = newValue;
@@ -62,6 +62,7 @@ class _AddPageState extends State<AddPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: TextField(
                     controller: widget.valueController,
+                    style: const TextStyle(color: Colors.white),
                     onChanged: (newValue) {
                       setState(() {
                         _value = double.parse(newValue);
@@ -128,7 +129,7 @@ class _AddPageState extends State<AddPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         FirebaseFirestore.instance.collection('incomes').add(
-                          {'name': name, 'income': _income},
+                          {'name': name, 'income': _value},
                         );
                       },
                       child: const Text('Dodaj'),

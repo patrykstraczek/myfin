@@ -24,7 +24,7 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: Text('Loading...'));
+              return const Center(child: Text(''));
             }
 
             final documents = snapshot.data!.docs;
