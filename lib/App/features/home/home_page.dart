@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/features/home/account_balance_page.dart';
 import 'package:myfin/App/features/home/add_page.dart';
 import 'package:myfin/App/features/home/incomes_page.dart';
+import 'package:myfin/App/features/home/info_page.dart';
 import 'package:myfin/App/features/home/my_account_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,22 +37,58 @@ class _HomePageState extends State<HomePage> {
       ),
       appBar: AppBar(
         toolbarHeight: 100,
-        leading: const Text(
-          'Aktualny stan',
-          textAlign: TextAlign.center,
-        ),
         backgroundColor: const Color.fromARGB(255, 174, 152, 100),
-        actions: [
-          PopupMenuButton<int>(
-              color: const Color.fromARGB(255, 238, 210, 145),
-              onSelected: (item) => onSelected(context, item),
-              itemBuilder: (context) => [
-                    const PopupMenuItem<int>(
-                      value: 0,
-                      child: Text('Konto i ustawienia'),
-                    )
-                  ])
-        ],
+      ),
+      drawer: Drawer(
+        backgroundColor: const Color.fromARGB(255, 3, 37, 39),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 174, 152, 100),
+              ),
+              child: Text(
+                'MyFin',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(
+                  color: const Color.fromARGB(255, 3, 37, 39),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('Moje konto',
+                  style: GoogleFonts.lato(
+                    color: Colors.white,
+                  )),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => MyAccountPage(email: widget.user.email),
+                  ),
+                );
+              },
+            ),
+            Divider(color: Colors.white),
+            ListTile(
+              title: Text('Informacje',
+                  style: GoogleFonts.lato(
+                    color: Colors.white,
+                  )),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const InfoPage(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
       backgroundColor: const Color.fromARGB(255, 3, 37, 39),
       body: Builder(builder: (context) {
@@ -79,16 +117,5 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-  }
-
-  void onSelected(BuildContext context, int item) {
-    switch (item) {
-      case 0:
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => MyAccountPage(email: widget.user.email),
-          ),
-        );
-    }
   }
 }

@@ -44,6 +44,7 @@ class _AddPageState extends State<AddPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: TextField(
                     controller: widget.nameController,
+                    textCapitalization: TextCapitalization.sentences,
                     style: const TextStyle(color: Colors.white),
                     onChanged: (newValue) {
                       setState(() {
@@ -110,6 +111,7 @@ class _AddPageState extends State<AddPage> {
                     padding: const EdgeInsets.fromLTRB(100, 10, 100, 10),
                     child: ElevatedButton(
                       onPressed: () {
+                        Navigator.pop(context);
                         FirebaseFirestore.instance.collection('spendings').add({
                           'name': name,
                           'value': _value,
@@ -128,6 +130,7 @@ class _AddPageState extends State<AddPage> {
                     padding: const EdgeInsets.fromLTRB(100, 10, 100, 10),
                     child: ElevatedButton(
                       onPressed: () {
+                        Navigator.pop(context);
                         FirebaseFirestore.instance.collection('incomes').add(
                           {'name': name, 'income': _value},
                         );

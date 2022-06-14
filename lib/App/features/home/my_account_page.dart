@@ -51,20 +51,6 @@ class MyAccountPage extends StatelessWidget {
                   primary: const Color.fromARGB(255, 174, 152, 100),
                 ),
               ),
-              const SizedBox(height: 250),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const InfoPage()),
-                  );
-                },
-                child: Text(
-                  'Informacje',
-                  style: GoogleFonts.lato(
-                    color: const Color.fromARGB(255, 174, 152, 100),
-                  ),
-                ),
-              ),
             ],
           ),
         ));
