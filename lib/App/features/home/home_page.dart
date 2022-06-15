@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        backgroundColor: Colors.black54,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             fullscreenDialog: true,
@@ -36,29 +36,59 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       appBar: AppBar(
-        toolbarHeight: 100,
-        backgroundColor: const Color.fromARGB(255, 174, 152, 100),
+        backgroundColor: Colors.black,
+        toolbarHeight: 250,
+        bottom: PreferredSize(
+            child: Container(
+              alignment: Alignment.topCenter,
+              color: const Color.fromARGB(255, 174, 152, 100),
+              height: 194.0,
+              child: Column(children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(
+                    'Saldo:',
+                    style: GoogleFonts.lato(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                currentIndex == 0
+                    ? const Text(
+                        'tu wydatki',
+                      )
+                    : const Text(
+                        'tu przychody',
+                      ),
+              ]),
+            ),
+            preferredSize: const Size.fromHeight(0)),
       ),
       drawer: Drawer(
-        backgroundColor: const Color.fromARGB(255, 3, 37, 39),
+        backgroundColor: Colors.black,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 174, 152, 100),
+                color: Color.fromARGB(255, 3, 37, 39),
               ),
               child: Text(
                 'MyFin',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.lato(
-                  color: const Color.fromARGB(255, 3, 37, 39),
+                  color: const Color.fromARGB(255, 174, 152, 100),
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
                 ),
               ),
             ),
             ListTile(
+              leading: const Icon(
+                Icons.person,
+                color: Colors.white54,
+              ),
               title: Text('Moje konto',
                   style: GoogleFonts.lato(
                     color: Colors.white,
@@ -72,8 +102,12 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-            Divider(color: Colors.white),
+            const Divider(color: Colors.white),
             ListTile(
+              leading: const Icon(
+                Icons.info,
+                color: Colors.white54,
+              ),
               title: Text('Informacje',
                   style: GoogleFonts.lato(
                     color: Colors.white,

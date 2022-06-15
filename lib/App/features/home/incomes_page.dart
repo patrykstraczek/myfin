@@ -43,7 +43,7 @@ class _IncomesPage extends State<IncomesPage> {
                           padding: EdgeInsets.only(left: 32.0),
                           child: Icon(
                             Icons.delete,
-                            color: Colors.white,
+                            color: Colors.red,
                           ),
                         ),
                       ),

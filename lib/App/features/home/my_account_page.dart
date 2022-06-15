@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myfin/App/features/home/info_page.dart';
 
 class MyAccountPage extends StatelessWidget {
   const MyAccountPage({
@@ -21,9 +20,9 @@ class MyAccountPage extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 3, 37, 39),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Center(child: SizedBox(height: 100)),
+              const SizedBox(height: 150),
               Text(
                 'Jesteś zalogowany jako:',
                 style: GoogleFonts.lato(

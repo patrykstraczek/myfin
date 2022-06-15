@@ -44,7 +44,7 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                           padding: EdgeInsets.only(right: 32.0),
                           child: Icon(
                             Icons.delete,
-                            color: Colors.white,
+                            color: Colors.red,
                           ),
                         ),
                       ),
@@ -61,7 +61,7 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
-                        color: const Color.fromARGB(125, 238, 210, 145),
+                        color: Colors.white12,
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Row(
