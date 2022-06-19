@@ -14,7 +14,7 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 3, 37, 39),
+      backgroundColor: Colors.black,
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream:
               FirebaseFirestore.instance.collection('spendings').snapshots(),
@@ -61,7 +61,10 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
-                        color: Colors.white12,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          color: Colors.white12,
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Row(

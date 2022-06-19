@@ -14,7 +14,7 @@ class MyAccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 174, 152, 100),
+          backgroundColor: Colors.black,
           title: const Text('Moje konto'),
         ),
         backgroundColor: const Color.fromARGB(255, 3, 37, 39),

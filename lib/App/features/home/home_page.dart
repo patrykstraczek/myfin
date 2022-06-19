@@ -40,28 +40,90 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 250,
         bottom: PreferredSize(
             child: Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                color: Color.fromARGB(255, 174, 152, 100),
+              ),
               alignment: Alignment.topCenter,
-              color: const Color.fromARGB(255, 174, 152, 100),
               height: 194.0,
-              child: Column(children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    'Saldo:',
-                    style: GoogleFonts.lato(
-                      fontSize: 20,
-                    ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: currentIndex == 0
+                        ? Text(
+                            'Suma wydatków',
+                            style: GoogleFonts.lato(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : Text(
+                            'Suma przychodów',
+                            style: GoogleFonts.lato(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                currentIndex == 0
-                    ? const Text(
-                        'tu wydatki',
-                      )
-                    : const Text(
-                        'tu przychody',
-                      ),
-              ]),
+                  const SizedBox(height: 10),
+                  currentIndex == 0
+                      ? Text(
+                          'Kwota',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : Text(
+                          'Kwota2',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                  const SizedBox(height: 40),
+                  DataTable(
+                      headingRowHeight: 25,
+                      dataRowHeight: 20,
+                      columns: const [
+                        DataColumn(label: Text('Okres')),
+                        DataColumn(label: Text('Kwota')),
+                      ],
+                      rows: [
+                        DataRow(cells: [
+                          const DataCell(Text('Obecny miesiąc')),
+                          if (currentIndex == 0)
+                            const DataCell(
+                              Text(
+                                'wydatków',
+                              ),
+                            )
+                          else
+                            const DataCell(
+                              Text(
+                                'przychodów',
+                              ),
+                            ),
+                        ]),
+                        DataRow(cells: [
+                          const DataCell(Text('Poprzedni miesiąc')),
+                          if (currentIndex == 0)
+                            const DataCell(
+                              Text(
+                                'wydatków-1msc',
+                              ),
+                            )
+                          else
+                            const DataCell(
+                              Text(
+                                'przychodów-1msc',
+                              ),
+                            ),
+                        ]),
+                      ]),
+                ],
+              ),
             ),
             preferredSize: const Size.fromHeight(0)),
       ),
@@ -138,7 +200,7 @@ class _HomePageState extends State<HomePage> {
             currentIndex = newIndex;
           });
         },
-        backgroundColor: const Color.fromARGB(255, 174, 152, 100),
+        backgroundColor: Colors.white10,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.store),
