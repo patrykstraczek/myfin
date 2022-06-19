@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        backgroundColor: Colors.black54,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             fullscreenDialog: true,
@@ -36,29 +36,121 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       appBar: AppBar(
-        toolbarHeight: 100,
-        backgroundColor: const Color.fromARGB(255, 174, 152, 100),
+        backgroundColor: Colors.black,
+        toolbarHeight: 250,
+        bottom: PreferredSize(
+            child: Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                color: Color.fromARGB(255, 174, 152, 100),
+              ),
+              alignment: Alignment.topCenter,
+              height: 194.0,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: currentIndex == 0
+                        ? Text(
+                            'Suma wydatków',
+                            style: GoogleFonts.lato(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : Text(
+                            'Suma przychodów',
+                            style: GoogleFonts.lato(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                  ),
+                  const SizedBox(height: 10),
+                  currentIndex == 0
+                      ? Text(
+                          'Kwota',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : Text(
+                          'Kwota2',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                  const SizedBox(height: 40),
+                  DataTable(
+                      headingRowHeight: 25,
+                      dataRowHeight: 20,
+                      columns: const [
+                        DataColumn(label: Text('Okres')),
+                        DataColumn(label: Text('Kwota')),
+                      ],
+                      rows: [
+                        DataRow(cells: [
+                          const DataCell(Text('Obecny miesiąc')),
+                          if (currentIndex == 0)
+                            const DataCell(
+                              Text(
+                                'wydatków',
+                              ),
+                            )
+                          else
+                            const DataCell(
+                              Text(
+                                'przychodów',
+                              ),
+                            ),
+                        ]),
+                        DataRow(cells: [
+                          const DataCell(Text('Poprzedni miesiąc')),
+                          if (currentIndex == 0)
+                            const DataCell(
+                              Text(
+                                'wydatków-1msc',
+                              ),
+                            )
+                          else
+                            const DataCell(
+                              Text(
+                                'przychodów-1msc',
+                              ),
+                            ),
+                        ]),
+                      ]),
+                ],
+              ),
+            ),
+            preferredSize: const Size.fromHeight(0)),
       ),
       drawer: Drawer(
-        backgroundColor: const Color.fromARGB(255, 3, 37, 39),
+        backgroundColor: Colors.black,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 174, 152, 100),
+                color: Color.fromARGB(255, 3, 37, 39),
               ),
               child: Text(
                 'MyFin',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.lato(
-                  color: const Color.fromARGB(255, 3, 37, 39),
+                  color: const Color.fromARGB(255, 174, 152, 100),
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
                 ),
               ),
             ),
             ListTile(
+              leading: const Icon(
+                Icons.person,
+                color: Colors.white54,
+              ),
               title: Text('Moje konto',
                   style: GoogleFonts.lato(
                     color: Colors.white,
@@ -72,8 +164,12 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-            Divider(color: Colors.white),
+            const Divider(color: Colors.white),
             ListTile(
+              leading: const Icon(
+                Icons.info,
+                color: Colors.white54,
+              ),
               title: Text('Informacje',
                   style: GoogleFonts.lato(
                     color: Colors.white,
@@ -104,7 +200,7 @@ class _HomePageState extends State<HomePage> {
             currentIndex = newIndex;
           });
         },
-        backgroundColor: const Color.fromARGB(255, 174, 152, 100),
+        backgroundColor: Colors.white10,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.store),

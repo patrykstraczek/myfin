@@ -43,7 +43,7 @@ class _IncomesPage extends State<IncomesPage> {
                           padding: EdgeInsets.only(left: 32.0),
                           child: Icon(
                             Icons.delete,
-                            color: Colors.white,
+                            color: Colors.red,
                           ),
                         ),
                       ),
@@ -60,7 +60,10 @@ class _IncomesPage extends State<IncomesPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
-                        color: const Color.fromARGB(125, 238, 210, 145),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          color: Colors.white12,
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Row(

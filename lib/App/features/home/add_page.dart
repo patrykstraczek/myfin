@@ -51,7 +51,9 @@ class _AddPageState extends State<AddPage> {
                         name = newValue;
                       });
                     },
+                    textInputAction: TextInputAction.next,
                     decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
                       hintText: 'Nazwa',
                       hintStyle: TextStyle(
                         color: Color.fromARGB(200, 218, 216, 216),
@@ -70,7 +72,10 @@ class _AddPageState extends State<AddPage> {
                       });
                     },
                     keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) => FocusScope.of(context).unfocus(),
                     decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
                       hintText: 'Kwota',
                       hintStyle: TextStyle(
                         color: Color.fromARGB(200, 218, 216, 216),
