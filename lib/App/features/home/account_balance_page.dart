@@ -36,7 +36,7 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                     key: ValueKey(document.id),
                     background: const DecoratedBox(
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 3, 37, 39),
+                        color: Colors.black,
                       ),
                       child: Align(
                         alignment: Alignment.centerRight,
@@ -62,7 +62,7 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
                         decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
                           color: Colors.white12,
                         ),
                         child: Padding(
@@ -76,7 +76,7 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                               ),
                               Text(
                                 document['value'].toString() + 'zł',
-                                style: const TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.red),
                               ),
                             ],
                           ),
