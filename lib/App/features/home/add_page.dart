@@ -2,11 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-@override
-Widget build(BuildContext context) {
-  return AddPage();
-}
-
 class AddPage extends StatefulWidget {
   AddPage({
     Key? key,
@@ -23,6 +18,7 @@ class _AddPageState extends State<AddPage> {
   var addingIncome = false;
   var name = '';
   double? _value;
+  DateTime actualDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +28,32 @@ class _AddPageState extends State<AddPage> {
           return Scaffold(
             appBar: AppBar(
               title: addingIncome == false
-                  ? const Text('Dodaj wydatek')
-                  : const Text('Dodaj przychód'),
+                  ? RichText(
+                      text: TextSpan(
+                        text: "Dodaj ",
+                        style:
+                            GoogleFonts.lato(color: Colors.white, fontSize: 20),
+                        children: const <TextSpan>[
+                          TextSpan(
+                              text: 'Wydatek',
+                              style: TextStyle(color: Colors.red)),
+                        ],
+                      ),
+                    )
+                  : RichText(
+                      text: TextSpan(
+                        text: "Dodaj ",
+                        style:
+                            GoogleFonts.lato(color: Colors.white, fontSize: 20),
+                        children: const <TextSpan>[
+                          TextSpan(
+                              text: 'Przychód',
+                              style: TextStyle(color: Colors.green)),
+                        ],
+                      ),
+                    ),
               centerTitle: true,
-              backgroundColor: const Color.fromARGB(255, 174, 152, 100),
+              backgroundColor: Colors.black,
             ),
             backgroundColor: const Color.fromARGB(255, 3, 37, 39),
             body: ListView(
@@ -54,7 +72,7 @@ class _AddPageState extends State<AddPage> {
                     textInputAction: TextInputAction.next,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Nazwa',
+                      hintText: 'Nazwa (opcjonalnie)',
                       hintStyle: TextStyle(
                         color: Color.fromARGB(200, 218, 216, 216),
                       ),
@@ -83,7 +101,18 @@ class _AddPageState extends State<AddPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now().subtract(
+                          const Duration(days: 365),
+                        ),
+                        lastDate: DateTime.now());
+                  },
+                  child: Text(actualDate.toString()),
+                ),
                 if (addingIncome == false) ...[
                   TextButton(
                       onPressed: () {
@@ -93,7 +122,8 @@ class _AddPageState extends State<AddPage> {
                       },
                       child: Text('Chcę dodać przychód',
                           style: GoogleFonts.lato(
-                            color: const Color.fromARGB(255, 174, 152, 100),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           )))
                 ],
                 if (addingIncome == true) ...[
@@ -106,7 +136,8 @@ class _AddPageState extends State<AddPage> {
                     child: Text(
                       'Chcę dodać wydatek',
                       style: GoogleFonts.lato(
-                        color: const Color.fromARGB(255, 174, 152, 100),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -137,7 +168,10 @@ class _AddPageState extends State<AddPage> {
                       onPressed: () {
                         Navigator.pop(context);
                         FirebaseFirestore.instance.collection('incomes').add(
-                          {'name': name, 'income': _value},
+                          {
+                            'name': name,
+                            'income': _value,
+                          },
                         );
                       },
                       child: const Text('Dodaj'),
@@ -147,7 +181,7 @@ class _AddPageState extends State<AddPage> {
                       ),
                     ),
                   ),
-                ]
+                ],
               ],
             ),
           );

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,6 +21,9 @@ class HomePage extends StatefulWidget {
 }
 
 var currentIndex = 0;
+var incomesSum = 0.0;
+var spendingsSum = 0.0;
+var balanceThisMonth = incomesSum - spendingsSum;
 
 class _HomePageState extends State<HomePage> {
   @override
@@ -27,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        backgroundColor: Colors.black54,
+        backgroundColor: Colors.white12,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             fullscreenDialog: true,
@@ -41,89 +45,119 @@ class _HomePageState extends State<HomePage> {
         bottom: PreferredSize(
             child: Container(
               decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
                 color: Color.fromARGB(255, 174, 152, 100),
               ),
               alignment: Alignment.topCenter,
               height: 194.0,
-              child: Column(
-                children: [
-                  Padding(
+              child: Column(children: [
+                Padding(
                     padding: const EdgeInsets.only(top: 10),
-                    child: currentIndex == 0
-                        ? Text(
-                            'Suma wydatków',
-                            style: GoogleFonts.lato(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        : Text(
-                            'Suma przychodów',
-                            style: GoogleFonts.lato(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                    child: Text(
+                      'Stan:',
+                      style: GoogleFonts.lato(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                const SizedBox(height: 10),
+                Text(
+                  '$balanceThisMonth',
+                  style: GoogleFonts.lato(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 10),
-                  currentIndex == 0
-                      ? Text(
-                          'Kwota',
-                          style: GoogleFonts.lato(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      : Text(
-                          'Kwota2',
-                          style: GoogleFonts.lato(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                  const SizedBox(height: 40),
-                  DataTable(
-                      headingRowHeight: 25,
-                      dataRowHeight: 20,
-                      columns: const [
-                        DataColumn(label: Text('Okres')),
-                        DataColumn(label: Text('Kwota')),
-                      ],
-                      rows: [
-                        DataRow(cells: [
-                          const DataCell(Text('Obecny miesiąc')),
-                          if (currentIndex == 0)
-                            const DataCell(
-                              Text(
-                                'wydatków',
-                              ),
-                            )
-                          else
-                            const DataCell(
-                              Text(
-                                'przychodów',
-                              ),
-                            ),
-                        ]),
-                        DataRow(cells: [
-                          const DataCell(Text('Poprzedni miesiąc')),
-                          if (currentIndex == 0)
-                            const DataCell(
-                              Text(
-                                'wydatków-1msc',
-                              ),
-                            )
-                          else
-                            const DataCell(
-                              Text(
-                                'przychodów-1msc',
-                              ),
-                            ),
-                        ]),
-                      ]),
-                ],
-              ),
+                ),
+                const SizedBox(height: 40),
+                currentIndex == 0
+                    ? StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('spendings')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return const Center(
+                                child: Text('Something went wrong'));
+                          }
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(child: Text(''));
+                          }
+
+                          final documents = snapshot.data!.docs;
+
+                          for (final doc in documents) {
+                            [spendingsSum += (doc['value'])];
+                          }
+
+                          return DataTable(
+                              columnSpacing: 80,
+                              headingRowHeight: 25,
+                              dataRowHeight: 20,
+                              columns: const [
+                                DataColumn(label: Text('Okres')),
+                                DataColumn(label: Text('Suma wydatków:'))
+                              ],
+                              rows: [
+                                DataRow(cells: [
+                                  const DataCell(Text('Obecny miesiąc')),
+                                  DataCell(
+                                    Text(
+                                      '$spendingsSum',
+                                    ),
+                                  )
+                                ]),
+                                const DataRow(cells: [
+                                  DataCell(Text('Poprzedni miesiąc')),
+                                  DataCell(Text('wydatków-1msc'))
+                                ])
+                              ]);
+                        })
+                    : StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('incomes')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return const Center(
+                                child: Text('Something went wrong'));
+                          }
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(child: Text(''));
+                          }
+
+                          final documents = snapshot.data!.docs;
+
+                          for (final doc in documents) {
+                            [incomesSum += (doc['income'])];
+                          }
+
+                          return DataTable(
+                              headingRowHeight: 25,
+                              dataRowHeight: 20,
+                              columns: const [
+                                DataColumn(label: Text('Okres')),
+                                DataColumn(label: Text('Suma przychodów')),
+                              ],
+                              rows: [
+                                DataRow(cells: [
+                                  const DataCell(Text('Obecny miesiąc')),
+                                  DataCell(
+                                    Text(
+                                      '$incomesSum',
+                                    ),
+                                  ),
+                                ]),
+                                const DataRow(cells: [
+                                  DataCell(Text('Poprzedni miesiąc')),
+                                  DataCell(Text('przychodów-1msc')),
+                                ]),
+                              ]);
+                        })
+              ]),
             ),
             preferredSize: const Size.fromHeight(0)),
       ),
@@ -186,7 +220,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      backgroundColor: const Color.fromARGB(255, 3, 37, 39),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
           return const AccountBalancePage();
@@ -200,14 +233,14 @@ class _HomePageState extends State<HomePage> {
             currentIndex = newIndex;
           });
         },
-        backgroundColor: Colors.white10,
+        backgroundColor: const Color.fromARGB(255, 3, 37, 39),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.store),
             label: 'Wydatki',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.money),
+            icon: Icon(Icons.monetization_on),
             label: 'Wpływy',
           ),
         ],

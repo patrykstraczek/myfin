@@ -14,7 +14,7 @@ class _IncomesPage extends State<IncomesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 3, 37, 39),
+      backgroundColor: Colors.black,
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance.collection('incomes').snapshots(),
           builder: (context, snapshot) {
@@ -34,9 +34,7 @@ class _IncomesPage extends State<IncomesPage> {
                   Dismissible(
                     key: ValueKey(document.id),
                     background: const DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 3, 37, 39),
-                      ),
+                      decoration: BoxDecoration(color: Colors.black),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
@@ -58,24 +56,28 @@ class _IncomesPage extends State<IncomesPage> {
                           .delete();
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Container(
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                           color: Colors.white12,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              const Icon(
+                                Icons.monetization_on,
+                                color: Colors.white54,
+                              ),
                               Text(
                                 document['name'],
                                 style: const TextStyle(color: Colors.white),
                               ),
                               Text(
                                 document['income'].toString() + 'zł',
-                                style: const TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.green),
                               ),
                             ],
                           ),
