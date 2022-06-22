@@ -23,6 +23,7 @@ class HomePage extends StatefulWidget {
 var currentIndex = 0;
 var incomesSum = 0.0;
 var spendingsSum = 0.0;
+var balanceThisMonth = incomesSum - spendingsSum;
 
 class _HomePageState extends State<HomePage> {
   @override
@@ -61,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                     )),
                 const SizedBox(height: 10),
                 Text(
-                  'Różnica',
+                  '$balanceThisMonth',
                   style: GoogleFonts.lato(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

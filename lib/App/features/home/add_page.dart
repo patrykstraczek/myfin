@@ -18,6 +18,7 @@ class _AddPageState extends State<AddPage> {
   var addingIncome = false;
   var name = '';
   double? _value;
+  DateTime actualDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class _AddPageState extends State<AddPage> {
                     textInputAction: TextInputAction.next,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Nazwa',
+                      hintText: 'Nazwa (opcjonalnie)',
                       hintStyle: TextStyle(
                         color: Color.fromARGB(200, 218, 216, 216),
                       ),
@@ -84,14 +85,17 @@ class _AddPageState extends State<AddPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
-                Container(
-                  height: 400,
-                  child: DatePickerDialog(
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now()
-                          .subtract(const Duration(days: 365 * 10)),
-                      lastDate: DateTime.now()),
+                ElevatedButton(
+                  onPressed: () {
+                    showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now().subtract(
+                          const Duration(days: 365),
+                        ),
+                        lastDate: DateTime.now());
+                  },
+                  child: Text(actualDate.toString()),
                 ),
                 if (addingIncome == false) ...[
                   TextButton(
