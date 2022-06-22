@@ -28,14 +28,30 @@ class _AddPageState extends State<AddPage> {
           return Scaffold(
             appBar: AppBar(
               title: addingIncome == false
-                  ? Text('Dodaj wydatek',
-                      style: GoogleFonts.lato(
-                        color: Colors.red,
-                      ))
-                  : Text('Dodaj przychód',
-                      style: GoogleFonts.lato(
-                        color: Colors.green,
-                      )),
+                  ? RichText(
+                      text: TextSpan(
+                        text: "Dodaj ",
+                        style:
+                            GoogleFonts.lato(color: Colors.white, fontSize: 20),
+                        children: const <TextSpan>[
+                          TextSpan(
+                              text: 'Wydatek',
+                              style: TextStyle(color: Colors.red)),
+                        ],
+                      ),
+                    )
+                  : RichText(
+                      text: TextSpan(
+                        text: "Dodaj ",
+                        style:
+                            GoogleFonts.lato(color: Colors.white, fontSize: 20),
+                        children: const <TextSpan>[
+                          TextSpan(
+                              text: 'Przychód',
+                              style: TextStyle(color: Colors.green)),
+                        ],
+                      ),
+                    ),
               centerTitle: true,
               backgroundColor: Colors.black,
             ),
