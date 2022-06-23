@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myfin/App/features/auth/pages/user_profile.dart';
 import 'package:myfin/App/features/home/account_balance_page.dart';
 import 'package:myfin/App/features/home/add_page.dart';
 import 'package:myfin/App/features/home/incomes_page.dart';
@@ -193,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pop(context);
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => MyAccountPage(email: widget.user.email),
+                    builder: (_) => const UserProfile(),
                   ),
                 );
               },
