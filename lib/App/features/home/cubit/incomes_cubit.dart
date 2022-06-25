@@ -50,6 +50,25 @@ class IncomesCubit extends Cubit<IncomesState> {
       });
   }
 
+  Future<void> remove({required String documentID}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc('2SHBQGWMo4JZleshrllF')
+          .collection('incomes')
+          .doc(documentID)
+          .delete();
+    } catch (error) {
+      emit(
+        IncomesState(
+            documents: const [],
+            isLoading: false,
+            errorMessage: error.toString()),
+      );
+      start();
+    }
+  }
+
   @override
   Future<void> close() {
     incomesSubscription?.cancel();

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myfin/App/features/home/cubit/incomes_cubit.dart';
@@ -55,13 +54,10 @@ class _IncomesPage extends State<IncomesPage> {
                     confirmDismiss: (direction) async {
                       return direction == DismissDirection.startToEnd;
                     },
-                    onDismissed: (_) {
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc('2SHBQGWMo4JZleshrllF')
-                          .collection('incomes')
-                          .doc(document.id)
-                          .delete();
+                    onDismissed: (direction) {
+                      context
+                          .read<IncomesCubit>()
+                          .remove(documentID: document.id);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
