@@ -1,13 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/features/auth/pages/user_profile.dart';
-import 'package:myfin/App/features/home/account_balance_page.dart';
-import 'package:myfin/App/features/home/add_page.dart';
+import 'package:myfin/App/features/add/add_page.dart';
+import 'package:myfin/App/features/home/spendings_page.dart';
+import 'package:myfin/App/features/home/cubit/home_cubit.dart';
 import 'package:myfin/App/features/home/incomes_page.dart';
 import 'package:myfin/App/features/home/info_page.dart';
-import 'package:myfin/App/features/home/my_account_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -71,93 +71,102 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 40),
                 currentIndex == 0
-                    ? StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('spendings')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return const Center(
-                                child: Text('Something went wrong'));
-                          }
+                    ? BlocProvider(
+                        create: (context) => HomeCubit()..start(),
+                        child: BlocBuilder<HomeCubit, HomeState>(
+                          builder: (context, state) {
+                            state.documents;
 
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(child: Text(''));
-                          }
+                            if (state.errorMessage.isNotEmpty) {
+                              return Center(
+                                  child: Text(
+                                      'Something went wrong ${state.errorMessage}'));
+                            }
 
-                          final documents = snapshot.data!.docs;
+                            if (state.isLoading) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
 
-                          for (final doc in documents) {
-                            [spendingsSum += (doc['value'])];
-                          }
+                            final documents = state.documents;
 
-                          return DataTable(
-                              columnSpacing: 80,
-                              headingRowHeight: 25,
-                              dataRowHeight: 20,
-                              columns: const [
-                                DataColumn(label: Text('Okres')),
-                                DataColumn(label: Text('Suma wydatków:'))
-                              ],
-                              rows: [
-                                DataRow(cells: [
-                                  const DataCell(Text('Obecny miesiąc')),
-                                  DataCell(
-                                    Text(
-                                      '$spendingsSum',
-                                    ),
-                                  )
-                                ]),
-                                const DataRow(cells: [
-                                  DataCell(Text('Poprzedni miesiąc')),
-                                  DataCell(Text('wydatków-1msc'))
-                                ])
-                              ]);
-                        })
-                    : StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('incomes')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return const Center(
-                                child: Text('Something went wrong'));
-                          }
+                            for (final doc in documents) {
+                              [spendingsSum += (doc['spendingValue'])];
+                            }
 
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(child: Text(''));
-                          }
+                            return DataTable(
+                                columnSpacing: 80,
+                                headingRowHeight: 25,
+                                dataRowHeight: 20,
+                                columns: const [
+                                  DataColumn(label: Text('Okres')),
+                                  DataColumn(label: Text('Suma wydatków:'))
+                                ],
+                                rows: [
+                                  DataRow(cells: [
+                                    const DataCell(Text('Obecny miesiąc')),
+                                    DataCell(
+                                      Text(
+                                        '$spendingsSum',
+                                      ),
+                                    )
+                                  ]),
+                                  const DataRow(cells: [
+                                    DataCell(Text('Poprzedni miesiąc')),
+                                    DataCell(Text('wydatków-1msc'))
+                                  ])
+                                ]);
+                          },
+                        ),
+                      )
+                    : BlocProvider(
+                        create: (context) => HomeIncomeCubit()..start(),
+                        child: BlocBuilder<HomeIncomeCubit, HomeState>(
+                          builder: (context, state) {
+                            state.documents;
 
-                          final documents = snapshot.data!.docs;
+                            if (state.errorMessage.isNotEmpty) {
+                              return Center(
+                                  child: Text(
+                                      'Something went wrong ${state.errorMessage}'));
+                            }
 
-                          for (final doc in documents) {
-                            [incomesSum += (doc['income'])];
-                          }
+                            if (state.isLoading) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
 
-                          return DataTable(
-                              headingRowHeight: 25,
-                              dataRowHeight: 20,
-                              columns: const [
-                                DataColumn(label: Text('Okres')),
-                                DataColumn(label: Text('Suma przychodów')),
-                              ],
-                              rows: [
-                                DataRow(cells: [
-                                  const DataCell(Text('Obecny miesiąc')),
-                                  DataCell(
-                                    Text(
-                                      '$incomesSum',
-                                    ),
-                                  ),
-                                ]),
-                                const DataRow(cells: [
-                                  DataCell(Text('Poprzedni miesiąc')),
-                                  DataCell(Text('przychodów-1msc')),
-                                ]),
-                              ]);
-                        })
+                            final documents = state.documents;
+
+                            for (final doc in documents) {
+                              [incomesSum += (doc['incomeValue'])];
+                            }
+
+                            return DataTable(
+                                columnSpacing: 80,
+                                headingRowHeight: 25,
+                                dataRowHeight: 20,
+                                columns: const [
+                                  DataColumn(label: Text('Okres')),
+                                  DataColumn(label: Text('Suma przychodów:'))
+                                ],
+                                rows: [
+                                  DataRow(cells: [
+                                    const DataCell(Text('Obecny miesiąc')),
+                                    DataCell(
+                                      Text(
+                                        '$incomesSum',
+                                      ),
+                                    )
+                                  ]),
+                                  const DataRow(cells: [
+                                    DataCell(Text('Poprzedni miesiąc')),
+                                    DataCell(Text('przychodów-1msc'))
+                                  ])
+                                ]);
+                          },
+                        ),
+                      )
               ]),
             ),
             preferredSize: const Size.fromHeight(0)),
@@ -223,7 +232,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
-          return const AccountBalancePage();
+          return const SpendingsPage();
         }
         return const IncomesPage();
       }),

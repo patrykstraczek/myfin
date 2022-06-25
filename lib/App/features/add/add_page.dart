@@ -23,7 +23,11 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('categories').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc('2SHBQGWMo4JZleshrllF')
+            .collection('categories')
+            .snapshots(),
         builder: (context, snapshot) {
           return Scaffold(
             appBar: AppBar(
@@ -148,9 +152,13 @@ class _AddPageState extends State<AddPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        FirebaseFirestore.instance.collection('spendings').add({
-                          'name': name,
-                          'value': _value,
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .doc('2SHBQGWMo4JZleshrllF')
+                            .collection('spendings')
+                            .add({
+                          'spendingName': name,
+                          'spendingValue': _value,
                         });
                       },
                       child: const Text('Dodaj'),
@@ -167,10 +175,14 @@ class _AddPageState extends State<AddPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        FirebaseFirestore.instance.collection('incomes').add(
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .doc('2SHBQGWMo4JZleshrllF')
+                            .collection('incomes')
+                            .add(
                           {
-                            'name': name,
-                            'income': _value,
+                            'incomeName': name,
+                            'incomeValue': _value,
                           },
                         );
                       },

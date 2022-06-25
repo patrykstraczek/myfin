@@ -1,26 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class AccountBalancePage extends StatefulWidget {
-  const AccountBalancePage({
+class SpendingsPage extends StatefulWidget {
+  const SpendingsPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<AccountBalancePage> createState() => _AccountBalancePageState();
+  State<SpendingsPage> createState() => _SpendingsPageState();
 }
 
-class _AccountBalancePageState extends State<AccountBalancePage> {
+class _SpendingsPageState extends State<SpendingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream:
-              FirebaseFirestore.instance.collection('spendings').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc('2SHBQGWMo4JZleshrllF')
+              .collection('spendings')
+              .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong'));
+              return const Center(child: Text('Something went wrong:'));
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -54,6 +57,8 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                     },
                     onDismissed: (_) {
                       FirebaseFirestore.instance
+                          .collection('users')
+                          .doc('2SHBQGWMo4JZleshrllF')
                           .collection('spendings')
                           .doc(document.id)
                           .delete();
@@ -71,11 +76,11 @@ class _AccountBalancePageState extends State<AccountBalancePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                document['name'],
+                                document['spendingName'],
                                 style: const TextStyle(color: Colors.white),
                               ),
                               Text(
-                                document['value'].toString() + 'zł',
+                                document['spendingValue'].toString() + 'zł',
                                 style: const TextStyle(color: Colors.red),
                               ),
                             ],

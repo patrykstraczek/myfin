@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myfin/App/features/home/cubit/incomes_cubit.dart';
 
 class IncomesPage extends StatefulWidget {
   const IncomesPage({
@@ -15,18 +17,22 @@ class _IncomesPage extends State<IncomesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance.collection('incomes').snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong'));
+      body: BlocProvider(
+        create: (context) => IncomesCubit()..start(),
+        child: BlocBuilder<IncomesCubit, IncomesState>(
+          builder: (context, state) {
+            state.documents;
+
+            if (state.errorMessage.isNotEmpty) {
+              return Center(
+                  child: Text('Something went wrong ${state.errorMessage}'));
             }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (state.isLoading) {
               return const Center(child: Text(''));
             }
 
-            final documents = snapshot.data!.docs;
+            final documents = state.documents;
 
             return ListView(
               children: [
@@ -51,6 +57,8 @@ class _IncomesPage extends State<IncomesPage> {
                     },
                     onDismissed: (_) {
                       FirebaseFirestore.instance
+                          .collection('users')
+                          .doc('2SHBQGWMo4JZleshrllF')
                           .collection('incomes')
                           .doc(document.id)
                           .delete();
@@ -72,11 +80,11 @@ class _IncomesPage extends State<IncomesPage> {
                                 color: Colors.white54,
                               ),
                               Text(
-                                document['name'],
+                                document['incomeName'],
                                 style: const TextStyle(color: Colors.white),
                               ),
                               Text(
-                                document['income'].toString() + 'zł',
+                                document['incomeValue'].toString() + 'zł',
                                 style: const TextStyle(color: Colors.green),
                               ),
                             ],
@@ -88,7 +96,9 @@ class _IncomesPage extends State<IncomesPage> {
                 ],
               ],
             );
-          }),
+          },
+        ),
+      ),
     );
   }
 }
