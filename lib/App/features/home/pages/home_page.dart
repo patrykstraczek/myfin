@@ -2,12 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myfin/App/features/auth/pages/user_profile.dart';
+
 import 'package:myfin/App/features/add/add_page.dart';
-import 'package:myfin/App/features/home/spendings_page.dart';
+import 'package:myfin/App/features/home/pages/spendings_page.dart';
 import 'package:myfin/App/features/home/cubit/home_cubit.dart';
-import 'package:myfin/App/features/home/incomes_page.dart';
-import 'package:myfin/App/features/home/info_page.dart';
+import 'package:myfin/App/features/home/pages/incomes_page.dart';
+
+import 'package:myfin/App/features/home/widgets/drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -171,65 +172,7 @@ class _HomePageState extends State<HomePage> {
             ),
             preferredSize: const Size.fromHeight(0)),
       ),
-      drawer: Drawer(
-        backgroundColor: Colors.black,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 3, 37, 39),
-              ),
-              child: Text(
-                'MyFin',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.lato(
-                  color: const Color.fromARGB(255, 174, 152, 100),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.person,
-                color: Colors.white54,
-              ),
-              title: Text('Moje konto',
-                  style: GoogleFonts.lato(
-                    color: Colors.white,
-                  )),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const UserProfile(),
-                  ),
-                );
-              },
-            ),
-            const Divider(color: Colors.white),
-            ListTile(
-              leading: const Icon(
-                Icons.info,
-                color: Colors.white54,
-              ),
-              title: Text('Informacje',
-                  style: GoogleFonts.lato(
-                    color: Colors.white,
-                  )),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const InfoPage(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const DrawerWidget(),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
           return const SpendingsPage();
