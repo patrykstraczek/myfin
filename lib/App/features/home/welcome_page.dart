@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myfin/app/features/login/login_page.dart';
+import 'package:myfin/App/features/auth/pages/login_page.dart';
 
 class FirstPage extends StatelessWidget {
   const FirstPage({

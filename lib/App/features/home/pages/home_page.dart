@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:myfin/App/features/add/add_page.dart';
 import 'package:myfin/App/features/home/pages/spendings_page.dart';
-import 'package:myfin/App/features/home/cubit/home_cubit.dart';
+import 'package:myfin/App/features/home/cubit/home/home_cubit.dart';
 import 'package:myfin/App/features/home/pages/incomes_page.dart';
 
 import 'package:myfin/App/features/home/widgets/drawer.dart';
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey[900],
         toolbarHeight: 250,
         bottom: PreferredSize(
             child: Container(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myfin/App/features/home/cubit/incomes_cubit.dart';
+import 'package:myfin/App/features/home/cubit/incomes/incomes_cubit.dart';
 
 class IncomesPage extends StatefulWidget {
   const IncomesPage({
