@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:myfin/App/features/add/add_page.dart';
+import 'package:myfin/App/features/add/pages/add_page.dart';
 import 'package:myfin/App/features/home/pages/spendings_page.dart';
 import 'package:myfin/App/features/home/cubit/home/home_cubit.dart';
 import 'package:myfin/App/features/home/pages/incomes_page.dart';

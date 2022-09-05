@@ -15,7 +15,7 @@ class _IncomesPage extends State<IncomesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.grey[900],
       body: BlocProvider(
         create: (context) => IncomesCubit()..start(),
         child: BlocBuilder<IncomesCubit, IncomesState>(
@@ -63,7 +63,7 @@ class _IncomesPage extends State<IncomesPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                         decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
                           color: Colors.white12,
                         ),
                         child: Padding(
