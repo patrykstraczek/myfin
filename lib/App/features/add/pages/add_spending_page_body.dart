@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:myfin/App/features/add/widgets/calendar.dart';
 
 class AddSpendingPageBody extends StatefulWidget {
   AddSpendingPageBody({Key? key}) : super(key: key);
@@ -12,8 +12,8 @@ class AddSpendingPageBody extends StatefulWidget {
   State<AddSpendingPageBody> createState() => _AddSpendingPageBodyState();
 }
 
-var name = '';
-double? _value;
+var spendingName = '';
+double? spendingValue;
 DateTime actualDate = DateTime.now();
 
 class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
@@ -31,7 +31,7 @@ class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
               style: const TextStyle(color: Colors.white),
               onChanged: (newValue) {
                 setState(() {
-                  name = newValue;
+                  spendingName = newValue;
                 });
               },
               textInputAction: TextInputAction.next,
@@ -51,7 +51,7 @@ class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
               style: const TextStyle(color: Colors.white),
               onChanged: (newValue) {
                 setState(() {
-                  _value = double.parse(newValue);
+                  spendingValue = double.parse(newValue);
                 });
               },
               keyboardType: TextInputType.number,
@@ -68,18 +68,7 @@ class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 80),
-            child: ElevatedButton(
-              onPressed: () async {
-                await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now().subtract(
-                      const Duration(days: 365),
-                    ),
-                    lastDate: DateTime.now());
-              },
-              child: Text(DateFormat.yMMMEd().format(actualDate)),
-            ),
+            child: const MyCalendar(),
           ),
           const SizedBox(height: 150),
           Padding(
@@ -92,8 +81,8 @@ class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
                     .doc('2SHBQGWMo4JZleshrllF')
                     .collection('spendings')
                     .add({
-                  'spendingName': name,
-                  'spendingValue': _value,
+                  'spendingName': spendingName,
+                  'spendingValue': spendingValue,
                 });
               },
               child: const Text('Dodaj'),

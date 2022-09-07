@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             fullscreenDialog: true,
-            builder: (_) => AddPage(),
+            builder: (_) => const AddPage(),
           ));
         },
       ),

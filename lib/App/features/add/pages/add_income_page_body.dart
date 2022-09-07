@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:myfin/App/features/add/widgets/calendar.dart';
 
 class AddIncomePageBody extends StatefulWidget {
   AddIncomePageBody({Key? key}) : super(key: key);
@@ -12,9 +12,8 @@ class AddIncomePageBody extends StatefulWidget {
   State<AddIncomePageBody> createState() => _AddIncomePageBodyState();
 }
 
-var name = '';
-double? _value;
-DateTime actualDate = DateTime.now();
+var incomeName = '';
+double? incomeValue;
 
 class _AddIncomePageBodyState extends State<AddIncomePageBody> {
   @override
@@ -31,7 +30,7 @@ class _AddIncomePageBodyState extends State<AddIncomePageBody> {
               style: const TextStyle(color: Colors.white),
               onChanged: (newValue) {
                 setState(() {
-                  name = newValue;
+                  incomeName = newValue;
                 });
               },
               textInputAction: TextInputAction.next,
@@ -51,7 +50,7 @@ class _AddIncomePageBodyState extends State<AddIncomePageBody> {
               style: const TextStyle(color: Colors.white),
               onChanged: (newValue) {
                 setState(() {
-                  _value = double.parse(newValue);
+                  incomeValue = double.parse(newValue);
                 });
               },
               keyboardType: TextInputType.number,
@@ -68,18 +67,7 @@ class _AddIncomePageBodyState extends State<AddIncomePageBody> {
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 80),
-            child: ElevatedButton(
-              onPressed: () async {
-                await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now().subtract(
-                      const Duration(days: 365),
-                    ),
-                    lastDate: DateTime.now());
-              },
-              child: Text(DateFormat.yMMMEd().format(actualDate)),
-            ),
+            child: const MyCalendar(),
           ),
           const SizedBox(height: 150),
           Padding(
@@ -92,8 +80,8 @@ class _AddIncomePageBodyState extends State<AddIncomePageBody> {
                     .doc('2SHBQGWMo4JZleshrllF')
                     .collection('incomes')
                     .add({
-                  'incomeName': name,
-                  'incomeValue': _value,
+                  'incomeName': incomeName,
+                  'incomeValue': incomeValue,
                 });
               },
               child: const Text('Dodaj'),
