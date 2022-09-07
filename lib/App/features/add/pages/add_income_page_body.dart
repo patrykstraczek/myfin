@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/features/add/widgets/calendar.dart';
 
 class AddIncomePageBody extends StatefulWidget {
@@ -11,6 +12,8 @@ class AddIncomePageBody extends StatefulWidget {
   @override
   State<AddIncomePageBody> createState() => _AddIncomePageBodyState();
 }
+
+List<bool> isSelected = List.generate(5, (_) => false);
 
 var incomeName = '';
 double? incomeValue;
@@ -65,11 +68,62 @@ class _AddIncomePageBodyState extends State<AddIncomePageBody> {
               ),
             ),
           ),
+          const SizedBox(height: 50),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+            child: Text(
+              'Data:',
+              style: GoogleFonts.lato(
+                color: Colors.white,
+              ),
+            ),
+          ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 80),
+            padding: const EdgeInsets.symmetric(horizontal: 100),
             child: const MyCalendar(),
           ),
-          const SizedBox(height: 150),
+          const SizedBox(height: 100),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+            child: Text(
+              'Kategoria:',
+              style: GoogleFonts.lato(
+                color: Colors.white,
+              ),
+            ),
+          ),
+          Column(
+            children: [
+              ToggleButtons(
+                children: const [
+                  Icon(Icons.monetization_on),
+                  Icon(Icons.people),
+                  Icon(Icons.local_post_office),
+                  Icon(Icons.home),
+                  Icon(Icons.recycling),
+                ],
+                color: Colors.white,
+                selectedColor: Colors.green,
+                fillColor: Colors.transparent,
+                renderBorder: false,
+                isSelected: isSelected,
+                onPressed: (int newIndex) {
+                  setState(() {
+                    for (int index = 0; index < isSelected.length; index++) {
+                      if (index == newIndex) {
+                        isSelected[index] = true;
+                      } else {
+                        isSelected[index] = false;
+                      }
+                    }
+                  });
+                },
+              ),
+            ],
+          ),
+          /* const SizedBox(height: 100),
           Padding(
             padding: const EdgeInsets.fromLTRB(100, 10, 100, 10),
             child: ElevatedButton(
@@ -90,7 +144,7 @@ class _AddIncomePageBodyState extends State<AddIncomePageBody> {
                 fixedSize: const Size(10, 50),
               ),
             ),
-          ),
+          ), */
         ],
       ),
     );

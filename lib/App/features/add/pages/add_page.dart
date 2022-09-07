@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/features/add/pages/add_income_page_body.dart';
 import 'package:myfin/App/features/add/pages/add_spending_page_body.dart';
 
@@ -21,6 +22,7 @@ class _AddPageState extends State<AddPage> {
         appBar: AppBar(
           actions: [
             IconButton(
+              color: Colors.white,
               onPressed: () {
                 spendingValue == null
                     ? null
@@ -39,10 +41,14 @@ class _AddPageState extends State<AddPage> {
               icon: const Icon(Icons.check),
             ),
           ],
-          title: const Text('Dodaj'),
+          title: Text(
+            'Dodaj',
+            style: GoogleFonts.lato(color: Colors.white),
+          ),
           centerTitle: true,
           backgroundColor: Colors.grey[900],
           bottom: const TabBar(
+            labelColor: Colors.white,
             tabs: [
               Tab(text: 'Wydatek'),
               Tab(text: 'Przychód'),

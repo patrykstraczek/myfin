@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MyFin - Moje Finanse',
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        primarySwatch: Colors.amber,
       ),
       home: const RootPage(),
     );

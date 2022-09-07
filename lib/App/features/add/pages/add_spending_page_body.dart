@@ -12,6 +12,8 @@ class AddSpendingPageBody extends StatefulWidget {
   State<AddSpendingPageBody> createState() => _AddSpendingPageBodyState();
 }
 
+List<bool> isSelected = List.generate(5, (_) => false);
+
 var spendingName = '';
 double? spendingValue;
 DateTime actualDate = DateTime.now();
@@ -67,10 +69,40 @@ class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 80),
+            padding: const EdgeInsets.symmetric(horizontal: 100),
             child: const MyCalendar(),
           ),
-          const SizedBox(height: 150),
+          const SizedBox(height: 100),
+          Column(
+            children: [
+              ToggleButtons(
+                children: const [
+                  Icon(Icons.shopping_cart),
+                  Icon(Icons.local_gas_station),
+                  Icon(Icons.flight_takeoff),
+                  Icon(Icons.home),
+                  Icon(Icons.sports_esports),
+                ],
+                color: Colors.white,
+                selectedColor: Colors.red,
+                fillColor: Colors.transparent,
+                renderBorder: false,
+                isSelected: isSelected,
+                onPressed: (int newIndex) {
+                  setState(() {
+                    for (int index = 0; index < isSelected.length; index++) {
+                      if (index == newIndex) {
+                        isSelected[index] = true;
+                      } else {
+                        isSelected[index] = false;
+                      }
+                    }
+                  });
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 100),
           Padding(
             padding: const EdgeInsets.fromLTRB(100, 10, 100, 10),
             child: ElevatedButton(
