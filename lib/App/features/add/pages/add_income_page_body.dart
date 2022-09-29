@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+/* import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:myfin/App/features/add/widgets/calendar.dart';
 
 class AddIncomePageBody extends StatefulWidget {
@@ -17,6 +18,7 @@ List<bool> isSelected = List.generate(5, (_) => false);
 
 var incomeName = '';
 double? incomeValue;
+DateTime? actualDate;
 
 class _AddIncomePageBodyState extends State<AddIncomePageBody> {
   @override
@@ -81,7 +83,16 @@ class _AddIncomePageBodyState extends State<AddIncomePageBody> {
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 100),
-            child: const MyCalendar(),
+            child: MyCalendar(
+              onDateChanged: (newValue) {
+                setState(() {
+                  actualDate = newValue;
+                });
+              },
+              selectedDateFormatted: actualDate == null
+                  ? null
+                  : DateFormat.yMMMEd().format(actualDate!),
+            ),
           ),
           const SizedBox(height: 100),
           Padding(
@@ -123,7 +134,7 @@ class _AddIncomePageBodyState extends State<AddIncomePageBody> {
               ),
             ],
           ),
-          /* const SizedBox(height: 100),
+          const SizedBox(height: 300),
           Padding(
             padding: const EdgeInsets.fromLTRB(100, 10, 100, 10),
             child: ElevatedButton(
@@ -140,13 +151,13 @@ class _AddIncomePageBodyState extends State<AddIncomePageBody> {
               },
               child: const Text('Dodaj'),
               style: ElevatedButton.styleFrom(
-                primary: const Color.fromARGB(255, 174, 152, 100),
                 fixedSize: const Size(10, 50),
               ),
             ),
-          ), */
+          ),
         ],
       ),
     );
   }
 }
+ */

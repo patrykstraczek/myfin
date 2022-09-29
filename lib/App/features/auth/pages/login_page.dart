@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 3, 37, 39),
+      backgroundColor: Colors.grey[850],
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -41,15 +41,18 @@ class _LoginPageState extends State<LoginPage> {
                 controller: widget.emailController,
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'E-mail',
                   hintStyle:
                       TextStyle(color: Color.fromARGB(200, 218, 216, 216)),
                 ),
               ),
+              const SizedBox(height: 20),
               TextField(
                 controller: widget.passwordController,
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'Hasło',
                   hintStyle:
                       TextStyle(color: Color.fromARGB(200, 218, 216, 216)),
@@ -92,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                     ? 'Zarejestruj się'
                     : 'Zaloguj się'),
                 style: ElevatedButton.styleFrom(
-                  primary: const Color.fromARGB(255, 174, 152, 100),
+                  primary: Colors.amber,
                 ),
               ),
               const SizedBox(height: 20),
@@ -106,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     'Utwórz konto',
                     style: GoogleFonts.lato(
-                      color: const Color.fromARGB(255, 174, 152, 100),
+                      color: Colors.teal,
                     ),
                   ),
                 ),
@@ -121,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     'Masz już konto?',
                     style: GoogleFonts.lato(
-                      color: const Color.fromARGB(255, 174, 152, 100),
+                      color: Colors.teal,
                     ),
                   ),
                 ),

@@ -37,11 +37,11 @@ class _SpendingsPageState extends State<SpendingsPage> {
               for (final document in documents) ...[
                 Dismissible(
                   key: ValueKey(document.id),
-                  background: const DecoratedBox(
+                  background: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.grey[900],
                     ),
-                    child: Align(
+                    child: const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(right: 32.0),
@@ -61,26 +61,29 @@ class _SpendingsPageState extends State<SpendingsPage> {
                         .remove(documentID: document.id);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Container(
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                         color: Colors.white12,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              document['spendingName'],
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            Text(
-                              document['spendingValue'].toString() + 'zł',
-                              style: const TextStyle(color: Colors.red),
-                            ),
-                          ],
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.remove,
+                          color: Colors.white54,
+                        ),
+                        title: Text(
+                          document['spendingName'],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                        trailing: Text(
+                          document['spendingValue'].toString() + 'zł',
+                          style: const TextStyle(
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                     ),

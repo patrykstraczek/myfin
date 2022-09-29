@@ -13,14 +13,14 @@ class DrawerWidget extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 3, 37, 39),
+            decoration: BoxDecoration(
+              color: Colors.grey[900],
             ),
             child: Text(
               'MyFin',
               textAlign: TextAlign.center,
               style: GoogleFonts.lato(
-                color: const Color.fromARGB(255, 174, 152, 100),
+                color: Colors.amber,
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
               ),

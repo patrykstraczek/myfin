@@ -1,5 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+/* import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:myfin/App/features/add/widgets/calendar.dart';
 
 class AddSpendingPageBody extends StatefulWidget {
@@ -13,10 +15,11 @@ class AddSpendingPageBody extends StatefulWidget {
 }
 
 List<bool> isSelected = List.generate(5, (_) => false);
+List<bool> spendingSelected = [true, false];
 
 var spendingName = '';
 double? spendingValue;
-DateTime actualDate = DateTime.now();
+DateTime? actualDate;
 
 class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
   @override
@@ -25,6 +28,48 @@ class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
       backgroundColor: Colors.grey[900],
       body: ListView(
         children: [
+          Column(
+            children: [
+              ToggleButtons(
+                  borderWidth: 100,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        'Wydatek',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        'Przychód',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                  ],
+                  color: Colors.white,
+                  selectedColor: Colors.teal,
+                  fillColor: Colors.transparent,
+                  renderBorder: false,
+                  isSelected: spendingSelected,
+                  onPressed: (int newIndex) {
+                    setState(
+                      () {
+                        for (int index = 0;
+                            index < spendingSelected.length;
+                            index++) {
+                          if (index == newIndex) {
+                            spendingSelected[index] = true;
+                          } else {
+                            spendingSelected[index] = false;
+                          }
+                        }
+                      },
+                    );
+                  })
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: TextField(
@@ -68,11 +113,41 @@ class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
               ),
             ),
           ),
+          const SizedBox(height: 50),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+            child: Text(
+              'Data:',
+              style: GoogleFonts.lato(
+                color: Colors.white,
+              ),
+            ),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 100),
-            child: const MyCalendar(),
+            child: MyCalendar(
+              onDateChanged: (newValue) {
+                setState(() {
+                  actualDate = newValue;
+                });
+              },
+              selectedDateFormatted: actualDate == null
+                  ? null
+                  : DateFormat.yMMMEd().format(actualDate!),
+            ),
           ),
           const SizedBox(height: 100),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+            child: Text(
+              'Kategoria:',
+              style: GoogleFonts.lato(
+                color: Colors.white,
+              ),
+            ),
+          ),
           Column(
             children: [
               ToggleButtons(
@@ -102,7 +177,7 @@ class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
               ),
             ],
           ),
-          const SizedBox(height: 100),
+          const SizedBox(height: 300),
           Padding(
             padding: const EdgeInsets.fromLTRB(100, 10, 100, 10),
             child: ElevatedButton(
@@ -119,7 +194,6 @@ class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
               },
               child: const Text('Dodaj'),
               style: ElevatedButton.styleFrom(
-                primary: const Color.fromARGB(255, 174, 152, 100),
                 fixedSize: const Size(10, 50),
               ),
             ),
@@ -129,3 +203,4 @@ class _AddSpendingPageBodyState extends State<AddSpendingPageBody> {
     );
   }
 }
+ */

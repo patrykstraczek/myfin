@@ -2,23 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class MyCalendar extends StatelessWidget {
-  const MyCalendar({Key? key}) : super(key: key);
+  const MyCalendar({
+    Key? key,
+    required this.onDateChanged,
+    this.selectedDateFormatted,
+  }) : super(key: key);
+
+  final Function(DateTime?) onDateChanged;
+  final String? selectedDateFormatted;
 
   @override
   Widget build(BuildContext context) {
-    DateTime actualDate = DateTime.now();
-
     return ElevatedButton(
-      onPressed: () async {
-        await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime.now().subtract(
-              const Duration(days: 365),
-            ),
-            lastDate: DateTime.now());
-      },
-      child: Text(DateFormat.yMMMEd().format(actualDate)),
-    );
+        onPressed: () async {
+          final selectedDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime.now().subtract(
+                const Duration(days: 365),
+              ),
+              lastDate: DateTime.now());
+          onDateChanged(selectedDate);
+        },
+        child: Text(selectedDateFormatted ??
+            DateFormat.yMMMEd().format(DateTime.now())));
   }
 }

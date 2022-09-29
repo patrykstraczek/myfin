@@ -38,9 +38,9 @@ class _IncomesPage extends State<IncomesPage> {
                 for (final document in documents) ...[
                   Dismissible(
                     key: ValueKey(document.id),
-                    background: const DecoratedBox(
-                      decoration: BoxDecoration(color: Colors.black),
-                      child: Align(
+                    background: DecoratedBox(
+                      decoration: BoxDecoration(color: Colors.grey[900]),
+                      child: const Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: EdgeInsets.only(left: 32.0),
@@ -66,24 +66,23 @@ class _IncomesPage extends State<IncomesPage> {
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           color: Colors.white12,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Icon(
-                                Icons.monetization_on,
-                                color: Colors.white54,
-                              ),
-                              Text(
-                                document['incomeName'],
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              Text(
-                                document['incomeValue'].toString() + 'zł',
-                                style: const TextStyle(color: Colors.green),
-                              ),
-                            ],
+                        child: ListTile(
+                          leading: const Icon(
+                            Icons.add,
+                            color: Colors.white54,
+                          ),
+                          title: Text(
+                            document['incomeName'],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
+                          ),
+                          trailing: Text(
+                            document['incomeValue'].toString() + 'zł',
+                            style: const TextStyle(
+                              color: Colors.green,
+                            ),
                           ),
                         ),
                       ),

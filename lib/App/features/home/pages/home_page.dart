@@ -34,10 +34,11 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         backgroundColor: Colors.white12,
+        foregroundColor: Colors.teal,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             fullscreenDialog: true,
-            builder: (_) => const AddPage(),
+            builder: (_) => AddPage(),
           ));
         },
       ),
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                color: Color.fromARGB(255, 174, 152, 100),
+                color: Color.fromARGB(255, 204, 155, 8),
               ),
               alignment: Alignment.topCenter,
               height: 194.0,
@@ -108,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                                     const DataCell(Text('Obecny miesiąc')),
                                     DataCell(
                                       Text(
-                                        '$spendingsSum',
+                                        '$spendingsSum zł',
                                       ),
                                     )
                                   ]),
@@ -186,7 +187,7 @@ class _HomePageState extends State<HomePage> {
             currentIndex = newIndex;
           });
         },
-        backgroundColor: const Color.fromARGB(255, 3, 37, 39),
+        backgroundColor: Colors.grey[850],
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.store),
