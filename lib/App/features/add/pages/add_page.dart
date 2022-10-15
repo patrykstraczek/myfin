@@ -52,12 +52,10 @@ class _AddPageState extends State<AddPage> {
         ],
         title: Text(
           'Dodaj',
-          style: GoogleFonts.lato(color: Colors.white),
+          style: GoogleFonts.lato(),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey[900],
       ),
-      backgroundColor: Colors.grey[900],
       body: ListView(
         children: [
           Column(
@@ -163,7 +161,7 @@ class _AddPageState extends State<AddPage> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 130),
+            padding: const EdgeInsets.symmetric(horizontal: 100),
             child: MyCalendar(
               onDateChanged: (newValue) {
                 setState(() {

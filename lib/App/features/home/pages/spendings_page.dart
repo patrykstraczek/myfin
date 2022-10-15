@@ -15,7 +15,6 @@ class _SpendingsPageState extends State<SpendingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
       body: BlocProvider(
         create: (context) => SpendingsCubit()..start(),
         child: BlocBuilder<SpendingsCubit, SpendingsState>(

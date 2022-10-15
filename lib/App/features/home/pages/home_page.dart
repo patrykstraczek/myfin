@@ -9,6 +9,7 @@ import 'package:myfin/App/features/home/cubit/home/home_cubit.dart';
 import 'package:myfin/App/features/home/pages/incomes_page.dart';
 
 import 'package:myfin/App/features/home/widgets/drawer.dart';
+import 'package:myfin/App/features/theme/theme_data.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -45,11 +46,21 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
         toolbarHeight: 250,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                iconBool = !iconBool;
+              });
+            },
+            icon: Icon(iconBool ? iconDark : iconLight),
+          )
+        ],
         bottom: PreferredSize(
             child: Container(
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                color: Color.fromARGB(255, 204, 155, 8),
+                /* color: Color.fromARGB(255, 204, 155, 8), */
               ),
               alignment: Alignment.topCenter,
               height: 194.0,
