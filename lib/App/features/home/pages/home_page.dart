@@ -50,17 +50,17 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: () {
               setState(() {
-                iconBool = !iconBool;
+                darkMode = !darkMode;
               });
             },
-            icon: Icon(iconBool ? iconDark : iconLight),
+            icon: Icon(darkMode ? iconDark : iconLight),
           )
         ],
         bottom: PreferredSize(
             child: Container(
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                /* color: Color.fromARGB(255, 204, 155, 8), */
+                color: Color.fromARGB(255, 148, 112, 4),
               ),
               alignment: Alignment.topCenter,
               height: 194.0,

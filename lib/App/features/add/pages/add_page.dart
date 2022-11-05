@@ -19,9 +19,7 @@ class AddPage extends StatefulWidget {
 List<bool> isSelected = List.generate(5, (_) => false);
 List<bool> spendingSelected = [true, false];
 
-var name = '';
-double? value;
-DateTime? actualDate;
+DateTime? selectedDate;
 
 class _AddPageState extends State<AddPage> {
   @override
@@ -31,7 +29,7 @@ class _AddPageState extends State<AddPage> {
         actions: [
           IconButton(
             onPressed: () {
-              value == null || actualDate == null
+              widget.valueController == null || widget.nameController == null
                   ? null
                   : Navigator.pop(context);
               FirebaseFirestore.instance
@@ -39,10 +37,12 @@ class _AddPageState extends State<AddPage> {
                   .doc('2SHBQGWMo4JZleshrllF')
                   .collection('spendings')
                   .add({
-                'spendingName': name,
-                'spendingValue': value,
-                'date': actualDate,
+                'spendingName': widget.nameController.text,
+                'spendingValue': double.parse(widget.valueController.text),
+                'date': selectedDate,
               });
+              widget.valueController.clear();
+              widget.nameController.clear();
             },
             icon: const Icon(
               Icons.check,
@@ -84,7 +84,6 @@ class _AddPageState extends State<AddPage> {
                     ),
                   ],
                   color: Colors.white,
-                  selectedColor: Colors.amber,
                   fillColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   renderBorder: false,
@@ -112,15 +111,10 @@ class _AddPageState extends State<AddPage> {
               controller: widget.nameController,
               textCapitalization: TextCapitalization.sentences,
               style: const TextStyle(color: Colors.white),
-              onChanged: (newValue) {
-                setState(() {
-                  name = newValue;
-                });
-              },
               textInputAction: TextInputAction.next,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Nazwa (opcjonalnie)',
+                hintText: 'Nazwa',
                 hintStyle: TextStyle(
                   color: Color.fromARGB(200, 218, 216, 216),
                 ),
@@ -132,11 +126,6 @@ class _AddPageState extends State<AddPage> {
             child: TextField(
               controller: widget.valueController,
               style: const TextStyle(color: Colors.white),
-              onChanged: (newValue) {
-                setState(() {
-                  value = double.parse(newValue);
-                });
-              },
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
               onSubmitted: (_) => FocusScope.of(context).unfocus(),
@@ -165,12 +154,12 @@ class _AddPageState extends State<AddPage> {
             child: MyCalendar(
               onDateChanged: (newValue) {
                 setState(() {
-                  actualDate = newValue;
+                  selectedDate = newValue;
                 });
               },
-              selectedDateFormatted: actualDate == null
+              selectedDateFormatted: selectedDate == null
                   ? null
-                  : DateFormat.yMMMEd().format(actualDate!),
+                  : DateFormat.yMMMEd().format(selectedDate!),
             ),
           ),
           const SizedBox(height: 50),
@@ -213,28 +202,6 @@ class _AddPageState extends State<AddPage> {
                 },
               ),
             ],
-          ),
-          const SizedBox(height: 300),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(100, 10, 100, 10),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc('2SHBQGWMo4JZleshrllF')
-                    .collection('spendings')
-                    .add({
-                  'spendingName': name,
-                  'spendingValue': value,
-                  'date': actualDate,
-                });
-              },
-              child: const Text('Dodaj'),
-              style: ElevatedButton.styleFrom(
-                fixedSize: const Size(10, 50),
-              ),
-            ),
           ),
         ],
       ),

@@ -17,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MyFin - Moje Finanse',
-      theme: iconBool ? darkTheme : lightTheme,
+      theme: darkMode ? darkTheme : lightTheme,
       home: const RootPage(),
     );
   }
