@@ -17,7 +17,7 @@ class AddPage extends StatefulWidget {
 }
 
 List<bool> isSelected = List.generate(5, (_) => false);
-List<bool> spendingSelected = [true, false];
+var spendingSelected = true;
 
 DateTime? selectedDate;
 
@@ -27,28 +27,54 @@ class _AddPageState extends State<AddPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () {
-              widget.valueController == null || widget.nameController == null
-                  ? null
-                  : Navigator.pop(context);
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc('2SHBQGWMo4JZleshrllF')
-                  .collection('spendings')
-                  .add({
-                'spendingName': widget.nameController.text,
-                'spendingValue': double.parse(widget.valueController.text),
-                'date': selectedDate,
-              });
-              widget.valueController.clear();
-              widget.nameController.clear();
-            },
-            icon: const Icon(
-              Icons.check,
-              color: Colors.white,
+          if (spendingSelected == true) ...[
+            IconButton(
+              onPressed: () {
+                widget.valueController == null || selectedDate == null
+                    ? null
+                    : Navigator.pop(context);
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc('2SHBQGWMo4JZleshrllF')
+                    .collection('spendings')
+                    .add({
+                  'spendingName': widget.nameController.text,
+                  'spendingValue': double.parse(widget.valueController.text),
+                  'date': selectedDate,
+                });
+                widget.valueController.clear();
+                widget.nameController.clear();
+              },
+              icon: const Icon(
+                Icons.check,
+                color: Colors.white,
+              ),
             ),
-          ),
+          ],
+          if (spendingSelected == false) ...[
+            IconButton(
+              onPressed: () {
+                widget.valueController == null || widget.nameController == null
+                    ? null
+                    : Navigator.pop(context);
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc('2SHBQGWMo4JZleshrllF')
+                    .collection('incomes')
+                    .add({
+                  'incomeName': widget.nameController.text,
+                  'incomeValue': double.parse(widget.valueController.text),
+                  'date': selectedDate,
+                });
+                widget.valueController.clear();
+                widget.nameController.clear();
+              },
+              icon: const Icon(
+                Icons.check,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ],
         title: Text(
           'Dodaj',
@@ -58,7 +84,41 @@ class _AddPageState extends State<AddPage> {
       ),
       body: ListView(
         children: [
-          Column(
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    spendingSelected = true;
+                  });
+                },
+                child: Text(
+                  'Wydatek',
+                  style: GoogleFonts.lato(
+                    color: spendingSelected ? Colors.amber : Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 100),
+              TextButton(
+                  onPressed: () {
+                    setState(() {
+                      spendingSelected = false;
+                    });
+                  },
+                  child: Text(
+                    'Przychód',
+                    style: GoogleFonts.lato(
+                      color: spendingSelected ? Colors.grey : Colors.amber,
+                      fontSize: 16,
+                    ),
+                  )),
+            ],
+          ),
+          /* Column(
             children: [
               const SizedBox(height: 20),
               ToggleButtons(
@@ -104,7 +164,7 @@ class _AddPageState extends State<AddPage> {
                     );
                   })
             ],
-          ),
+          ), */
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: TextField(

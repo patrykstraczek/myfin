@@ -16,6 +16,7 @@ class MyCalendar extends StatelessWidget {
     return ElevatedButton(
         onPressed: () async {
           final selectedDate = await showDatePicker(
+              currentDate: DateTime.now(),
               context: context,
               initialDate: DateTime.now(),
               firstDate: DateTime.now().subtract(
