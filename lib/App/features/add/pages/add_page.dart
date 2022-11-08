@@ -18,6 +18,8 @@ class AddPage extends StatefulWidget {
 
 List<bool> isSelected = List.generate(5, (_) => false);
 var spendingSelected = true;
+var incomeIcon = 0xe047;
+var spendingIcon = 0xe516;
 
 DateTime? selectedDate;
 
@@ -38,6 +40,7 @@ class _AddPageState extends State<AddPage> {
                     .doc('2SHBQGWMo4JZleshrllF')
                     .collection('spendings')
                     .add({
+                  'icon': spendingIcon,
                   'spendingName': widget.nameController.text,
                   'spendingValue': double.parse(widget.valueController.text),
                   'date': selectedDate,
@@ -54,7 +57,7 @@ class _AddPageState extends State<AddPage> {
           if (spendingSelected == false) ...[
             IconButton(
               onPressed: () {
-                widget.valueController == null || widget.nameController == null
+                widget.valueController == null || selectedDate == null
                     ? null
                     : Navigator.pop(context);
                 FirebaseFirestore.instance
@@ -62,6 +65,7 @@ class _AddPageState extends State<AddPage> {
                     .doc('2SHBQGWMo4JZleshrllF')
                     .collection('incomes')
                     .add({
+                  'icon': incomeIcon,
                   'incomeName': widget.nameController.text,
                   'incomeValue': double.parse(widget.valueController.text),
                   'date': selectedDate,
@@ -227,7 +231,7 @@ class _AddPageState extends State<AddPage> {
             padding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
             child: Text(
-              'Kategoria:',
+              'Oznaczenie:',
               style: GoogleFonts.lato(
                 color: Colors.white,
               ),
@@ -235,34 +239,82 @@ class _AddPageState extends State<AddPage> {
           ),
           Column(
             children: [
-              ToggleButtons(
-                children: const [
-                  Icon(Icons.shopping_cart),
-                  Icon(Icons.local_gas_station),
-                  Icon(Icons.flight_takeoff),
-                  Icon(Icons.home),
-                  Icon(Icons.sports_esports),
-                ],
-                color: Colors.white,
-                splashColor: Colors.transparent,
-                selectedColor: Colors.red,
-                fillColor: Colors.transparent,
-                renderBorder: false,
-                isSelected: isSelected,
-                onPressed: (int newIndex) {
-                  setState(() {
-                    for (int index = 0; index < isSelected.length; index++) {
-                      if (index == newIndex) {
-                        isSelected[index] = true;
-                      } else {
-                        isSelected[index] = false;
-                      }
-                    }
-                  });
-                },
-              ),
+              spendingSelected
+                  ? ToggleButtons(
+                      children: const [
+                        Icon(Icons.remove),
+                        Icon(Icons.local_gas_station),
+                        Icon(Icons.flight_takeoff),
+                        Icon(Icons.home),
+                        Icon(Icons.sports_esports),
+                      ],
+                      color: Colors.white,
+                      splashColor: Colors.transparent,
+                      selectedColor: Colors.red,
+                      fillColor: Colors.transparent,
+                      renderBorder: false,
+                      isSelected: isSelected,
+                      onPressed: (int newIndex) {
+                        setState(() {
+                          for (int index = 0;
+                              index < isSelected.length;
+                              index++) {
+                            if (index == newIndex) {
+                              isSelected[index] = true;
+                            } else {
+                              isSelected[index] = false;
+                            }
+                          }
+                        });
+                      },
+                    )
+                  : ToggleButtons(
+                      children: const [
+                        Icon(Icons.add),
+                        Icon(Icons.work),
+                        Icon(Icons.local_post_office),
+                        Icon(Icons.legend_toggle),
+                        Icon(Icons.person),
+                      ],
+                      color: Colors.white,
+                      splashColor: Colors.transparent,
+                      selectedColor: Colors.green,
+                      fillColor: Colors.transparent,
+                      renderBorder: false,
+                      isSelected: isSelected,
+                      onPressed: (int newIndex) {
+                        setState(() {
+                          for (int index = 0;
+                              index < isSelected.length;
+                              index++) {
+                            if (index == newIndex) {
+                              isSelected[index] = true;
+                            } else {
+                              isSelected[index] = false;
+                            }
+                          }
+                        });
+                      },
+                    ),
             ],
           ),
+          spendingSelected
+              ? TextButton(
+                  onPressed: () {
+                    setState(() {
+                      spendingIcon = 0xe516;
+                    });
+                  },
+                  child: const Icon(Icons.remove),
+                )
+              : TextButton(
+                  onPressed: () {
+                    setState(() {
+                      incomeIcon = 0xe047;
+                    });
+                  },
+                  child: const Icon(Icons.add),
+                ),
         ],
       ),
     );

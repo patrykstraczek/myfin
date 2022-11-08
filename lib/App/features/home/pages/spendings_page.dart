@@ -36,11 +36,11 @@ class _SpendingsPageState extends State<SpendingsPage> {
               for (final document in documents) ...[
                 Dismissible(
                   key: ValueKey(document.id),
-                  background: DecoratedBox(
+                  background: const DecoratedBox(
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
+                      color: Colors.black,
                     ),
-                    child: const Align(
+                    child: Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(right: 32.0),
@@ -67,8 +67,9 @@ class _SpendingsPageState extends State<SpendingsPage> {
                         color: Colors.white12,
                       ),
                       child: ListTile(
-                        leading: const Icon(
-                          Icons.remove,
+                        leading: Icon(
+                          IconData(document['icon'],
+                              fontFamily: 'materialIcons'),
                           color: Colors.white54,
                         ),
                         title: Text(

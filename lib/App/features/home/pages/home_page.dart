@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: darkMode ? Colors.black : Colors.grey[200],
         toolbarHeight: 250,
         actions: [
           IconButton(
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                     )),
                 const SizedBox(height: 10),
                 Text(
-                  '$balanceThisMonth',
+                  '$balanceThisMonth zł',
                   style: GoogleFonts.lato(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

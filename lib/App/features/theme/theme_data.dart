@@ -11,9 +11,9 @@ ThemeData lightTheme = ThemeData(
   bottomAppBarColor: Colors.amber,
   splashColor: Colors.amber,
   selectedRowColor: Colors.amber,
-  backgroundColor: Colors.black,
+  backgroundColor: Colors.grey[200],
   buttonColor: Colors.amber,
-  scaffoldBackgroundColor: Colors.grey,
+  scaffoldBackgroundColor: Colors.grey[200],
 );
 
 ThemeData darkTheme = ThemeData(

@@ -15,7 +15,6 @@ class _IncomesPage extends State<IncomesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
       body: BlocProvider(
         create: (context) => IncomesCubit()..start(),
         child: BlocBuilder<IncomesCubit, IncomesState>(
@@ -38,9 +37,11 @@ class _IncomesPage extends State<IncomesPage> {
                 for (final document in documents) ...[
                   Dismissible(
                     key: ValueKey(document.id),
-                    background: DecoratedBox(
-                      decoration: BoxDecoration(color: Colors.grey[900]),
-                      child: const Align(
+                    background: const DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                      ),
+                      child: Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: EdgeInsets.only(left: 32.0),
@@ -67,8 +68,9 @@ class _IncomesPage extends State<IncomesPage> {
                           color: Colors.white12,
                         ),
                         child: ListTile(
-                          leading: const Icon(
-                            Icons.add,
+                          leading: Icon(
+                            IconData(document['icon'],
+                                fontFamily: 'materialIcons'),
                             color: Colors.white54,
                           ),
                           title: Text(
