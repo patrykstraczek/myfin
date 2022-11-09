@@ -5,12 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:myfin/App/features/add/widgets/calendar.dart';
 
 class AddPage extends StatefulWidget {
-  AddPage({
+  const AddPage({
     Key? key,
   }) : super(key: key);
-
-  final nameController = TextEditingController();
-  final valueController = TextEditingController();
 
   @override
   State<AddPage> createState() => _AddPageState();
@@ -20,6 +17,8 @@ List<bool> isSelected = List.generate(5, (_) => false);
 var spendingSelected = true;
 var incomeIcon = 0xe047;
 var spendingIcon = 0xe516;
+var name = '';
+var value = 0.0;
 
 DateTime? selectedDate;
 
@@ -31,51 +30,45 @@ class _AddPageState extends State<AddPage> {
         actions: [
           if (spendingSelected == true) ...[
             IconButton(
-              onPressed: () {
-                widget.valueController == null || selectedDate == null
-                    ? null
-                    : Navigator.pop(context);
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc('2SHBQGWMo4JZleshrllF')
-                    .collection('spendings')
-                    .add({
-                  'icon': spendingIcon,
-                  'spendingName': widget.nameController.text,
-                  'spendingValue': double.parse(widget.valueController.text),
-                  'date': selectedDate,
-                });
-                widget.valueController.clear();
-                widget.nameController.clear();
-              },
+              onPressed: name.isEmpty || selectedDate == null || value == 0.0
+                  ? null
+                  : () {
+                      Navigator.pop(context);
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc('2SHBQGWMo4JZleshrllF')
+                          .collection('spendings')
+                          .add({
+                        'icon': spendingIcon,
+                        'spendingName': name,
+                        'spendingValue': value,
+                        'date': selectedDate,
+                      });
+                    },
               icon: const Icon(
                 Icons.check,
-                color: Colors.white,
               ),
             ),
           ],
           if (spendingSelected == false) ...[
             IconButton(
-              onPressed: () {
-                widget.valueController == null || selectedDate == null
-                    ? null
-                    : Navigator.pop(context);
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc('2SHBQGWMo4JZleshrllF')
-                    .collection('incomes')
-                    .add({
-                  'icon': incomeIcon,
-                  'incomeName': widget.nameController.text,
-                  'incomeValue': double.parse(widget.valueController.text),
-                  'date': selectedDate,
-                });
-                widget.valueController.clear();
-                widget.nameController.clear();
-              },
+              onPressed: name.isEmpty || selectedDate == null || value == 0.0
+                  ? null
+                  : () {
+                      Navigator.pop(context);
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc('2SHBQGWMo4JZleshrllF')
+                          .collection('incomes')
+                          .add({
+                        'icon': incomeIcon,
+                        'incomeName': name,
+                        'incomeValue': value,
+                        'date': selectedDate,
+                      });
+                    },
               icon: const Icon(
                 Icons.check,
-                color: Colors.white,
               ),
             ),
           ],
@@ -172,7 +165,11 @@ class _AddPageState extends State<AddPage> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: TextField(
-              controller: widget.nameController,
+              onChanged: (newValue) {
+                setState(() {
+                  name = newValue;
+                });
+              },
               textCapitalization: TextCapitalization.sentences,
               style: const TextStyle(color: Colors.white),
               textInputAction: TextInputAction.next,
@@ -188,7 +185,11 @@ class _AddPageState extends State<AddPage> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: TextField(
-              controller: widget.valueController,
+              onChanged: (newValue) {
+                setState(() {
+                  value = newValue as double;
+                });
+              },
               style: const TextStyle(color: Colors.white),
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
