@@ -1,8 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:myfin/App/features/add/widgets/calendar.dart';
+
+import 'package:myfin/App/features/pages/add/cubit/add_page_cubit.dart';
+import 'package:myfin/App/features/pages/add/widgets/calendar.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({
@@ -14,11 +16,11 @@ class AddPage extends StatefulWidget {
 }
 
 List<bool> isSelected = List.generate(5, (_) => false);
-var spendingSelected = true;
+bool spendingSelected = true;
 var incomeIcon = 0xe047;
 var spendingIcon = 0xe516;
-var name = '';
-var value = 0.0;
+String name = '';
+String value = '';
 
 DateTime? selectedDate;
 
@@ -29,46 +31,55 @@ class _AddPageState extends State<AddPage> {
       appBar: AppBar(
         actions: [
           if (spendingSelected == true) ...[
-            IconButton(
-              onPressed: name.isEmpty || selectedDate == null || value == 0.0
-                  ? null
-                  : () {
-                      Navigator.pop(context);
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc('2SHBQGWMo4JZleshrllF')
-                          .collection('spendings')
-                          .add({
-                        'icon': spendingIcon,
-                        'spendingName': name,
-                        'spendingValue': value,
-                        'date': selectedDate,
-                      });
-                    },
-              icon: const Icon(
-                Icons.check,
+            BlocProvider(
+              create: (context) => AddSpendingPageCubit(),
+              child: BlocBuilder<AddSpendingPageCubit, AddPageState>(
+                builder: (context, state) {
+                  return IconButton(
+                    onPressed: value.isEmpty ||
+                            selectedDate == null ||
+                            name.isEmpty
+                        ? null
+                        : () {
+                            context.read<AddSpendingPageCubit>().addSpending(
+                                  name,
+                                  value,
+                                  selectedDate!,
+                                  spendingIcon,
+                                );
+                            Navigator.pop(context);
+                          },
+                    icon: const Icon(
+                      Icons.check,
+                    ),
+                  );
+                },
               ),
             ),
           ],
           if (spendingSelected == false) ...[
-            IconButton(
-              onPressed: name.isEmpty || selectedDate == null || value == 0.0
-                  ? null
-                  : () {
-                      Navigator.pop(context);
-                      FirebaseFirestore.instance
-                          .collection('users')
-                          .doc('2SHBQGWMo4JZleshrllF')
-                          .collection('incomes')
-                          .add({
-                        'icon': incomeIcon,
-                        'incomeName': name,
-                        'incomeValue': value,
-                        'date': selectedDate,
-                      });
-                    },
-              icon: const Icon(
-                Icons.check,
+            BlocProvider(
+              create: (context) => AddIncomePageCubit(),
+              child: BlocBuilder<AddIncomePageCubit, AddPageState>(
+                builder: (context, state) {
+                  return IconButton(
+                    onPressed:
+                        value.isEmpty || selectedDate == null || name.isEmpty
+                            ? null
+                            : () {
+                                context.read<AddIncomePageCubit>().addIncome(
+                                      name,
+                                      value,
+                                      selectedDate!,
+                                      incomeIcon,
+                                    );
+                                Navigator.pop(context);
+                              },
+                    icon: const Icon(
+                      Icons.check,
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -115,53 +126,6 @@ class _AddPageState extends State<AddPage> {
                   )),
             ],
           ),
-          /* Column(
-            children: [
-              const SizedBox(height: 20),
-              ToggleButtons(
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: 60,
-                      ),
-                      child: Text(
-                        'Wydatek',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 60,
-                      ),
-                      child: Text(
-                        'Przychód',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
-                  color: Colors.white,
-                  fillColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  renderBorder: false,
-                  isSelected: spendingSelected,
-                  onPressed: (int newIndex) {
-                    setState(
-                      () {
-                        for (int index = 0;
-                            index < spendingSelected.length;
-                            index++) {
-                          if (index == newIndex) {
-                            spendingSelected[index] = true;
-                          } else {
-                            spendingSelected[index] = false;
-                          }
-                        }
-                      },
-                    );
-                  })
-            ],
-          ), */
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: TextField(
@@ -187,7 +151,7 @@ class _AddPageState extends State<AddPage> {
             child: TextField(
               onChanged: (newValue) {
                 setState(() {
-                  value = newValue as double;
+                  value = newValue;
                 });
               },
               style: const TextStyle(color: Colors.white),
@@ -242,13 +206,6 @@ class _AddPageState extends State<AddPage> {
             children: [
               spendingSelected
                   ? ToggleButtons(
-                      children: const [
-                        Icon(Icons.remove),
-                        Icon(Icons.local_gas_station),
-                        Icon(Icons.flight_takeoff),
-                        Icon(Icons.home),
-                        Icon(Icons.sports_esports),
-                      ],
                       color: Colors.white,
                       splashColor: Colors.transparent,
                       selectedColor: Colors.red,
@@ -268,15 +225,15 @@ class _AddPageState extends State<AddPage> {
                           }
                         });
                       },
+                      children: const [
+                        Icon(Icons.remove),
+                        Icon(Icons.local_gas_station),
+                        Icon(Icons.flight_takeoff),
+                        Icon(Icons.home),
+                        Icon(Icons.sports_esports),
+                      ],
                     )
                   : ToggleButtons(
-                      children: const [
-                        Icon(Icons.add),
-                        Icon(Icons.work),
-                        Icon(Icons.local_post_office),
-                        Icon(Icons.legend_toggle),
-                        Icon(Icons.person),
-                      ],
                       color: Colors.white,
                       splashColor: Colors.transparent,
                       selectedColor: Colors.green,
@@ -296,6 +253,13 @@ class _AddPageState extends State<AddPage> {
                           }
                         });
                       },
+                      children: const [
+                        Icon(Icons.add),
+                        Icon(Icons.work),
+                        Icon(Icons.local_post_office),
+                        Icon(Icons.legend_toggle),
+                        Icon(Icons.person),
+                      ],
                     ),
             ],
           ),

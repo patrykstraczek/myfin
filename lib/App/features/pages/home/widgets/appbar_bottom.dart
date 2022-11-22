@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myfin/App/features/home/cubit/home/home_cubit.dart';
-import 'package:myfin/App/features/home/pages/home_page.dart';
+import 'package:myfin/App/features/pages/home/cubit/home/home_cubit.dart';
+import 'package:myfin/App/features/pages/home/pages/home_page.dart';
 
 class AppBarBottomWidget extends StatelessWidget {
   const AppBarBottomWidget({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myfin/App/features/auth/pages/user_profile.dart';
+import 'package:myfin/App/features/pages/auth/pages/user_profile.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -50,14 +50,14 @@ class DrawerWidget extends StatelessWidget {
               Icons.info,
               color: Colors.white54,
             ),
-            child: Text('Informacje',
-                style: GoogleFonts.lato(
-                  color: Colors.white,
-                )),
             applicationIcon: const Icon(Icons.info),
             applicationName: 'MyFin - Moje Finanse',
             applicationVersion: 'ver. 0.1',
             applicationLegalese: 'Patryk Strączek',
+            child: Text('Informacje',
+                style: GoogleFonts.lato(
+                  color: Colors.white,
+                )),
           ),
         ],
       ),

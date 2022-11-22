@@ -91,12 +91,12 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amber,
+                ),
                 child: Text(isCreatingAccount == true
                     ? 'Zarejestruj się'
                     : 'Zaloguj się'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.amber,
-                ),
               ),
               const SizedBox(height: 20),
               if (isCreatingAccount == false) ...[

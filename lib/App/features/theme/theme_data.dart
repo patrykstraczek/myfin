@@ -12,7 +12,6 @@ ThemeData lightTheme = ThemeData(
   splashColor: Colors.amber,
   selectedRowColor: Colors.amber,
   backgroundColor: Colors.grey[200],
-  buttonColor: Colors.amber,
   scaffoldBackgroundColor: Colors.grey[200],
 );
 
@@ -23,6 +22,5 @@ ThemeData darkTheme = ThemeData(
     highlightColor: Colors.amber,
     selectedRowColor: Colors.amber,
     backgroundColor: Colors.black,
-    buttonColor: Colors.amber,
     scaffoldBackgroundColor: Colors.black,
     hintColor: Colors.amber);

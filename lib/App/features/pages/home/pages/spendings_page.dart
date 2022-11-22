@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myfin/App/features/home/cubit/spendings/spendings_cubit.dart';
+import 'package:intl/intl.dart';
+import 'package:myfin/App/features/pages/home/cubit/spendings/spendings_cubit.dart';
 
 class SpendingsPage extends StatefulWidget {
   const SpendingsPage({
@@ -19,7 +20,7 @@ class _SpendingsPageState extends State<SpendingsPage> {
         create: (context) => SpendingsCubit()..start(),
         child: BlocBuilder<SpendingsCubit, SpendingsState>(
             builder: (context, state) {
-          state.documents;
+          state.docs;
 
           if (state.errorMessage.isNotEmpty) {
             return const Center(child: Text('Something went wrong:'));
@@ -29,21 +30,21 @@ class _SpendingsPageState extends State<SpendingsPage> {
             return const Center(child: Text(''));
           }
 
-          final documents = state.documents;
+          final spendingsModels = state.docs;
 
           return ListView(
             children: [
-              for (final document in documents) ...[
+              for (final spendingModel in spendingsModels) ...[
                 Dismissible(
-                  key: ValueKey(document.id),
+                  key: ValueKey(spendingModel.id),
                   background: const DecoratedBox(
                     decoration: BoxDecoration(
                       color: Colors.black,
                     ),
                     child: Align(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(right: 32.0),
+                        padding: EdgeInsets.only(left: 32.0),
                         child: Icon(
                           Icons.delete,
                           color: Colors.red,
@@ -52,12 +53,12 @@ class _SpendingsPageState extends State<SpendingsPage> {
                     ),
                   ),
                   confirmDismiss: (direction) async {
-                    return direction == DismissDirection.endToStart;
+                    return direction == DismissDirection.startToEnd;
                   },
                   onDismissed: (direction) {
                     context
                         .read<SpendingsCubit>()
-                        .remove(documentID: document.id);
+                        .remove(documentID: spendingModel.id);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -68,19 +69,22 @@ class _SpendingsPageState extends State<SpendingsPage> {
                       ),
                       child: ListTile(
                         leading: Icon(
-                          IconData(document['icon'],
+                          IconData(spendingModel.selectedSpendingIcon,
                               fontFamily: 'materialIcons'),
                           color: Colors.white54,
                         ),
                         title: Text(
-                          document['spendingName'],
+                          spendingModel.spendingName,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 15,
                           ),
                         ),
+                        subtitle: Text(
+                          spendingModel.spendingDate.toString(),
+                        ),
                         trailing: Text(
-                          document['spendingValue'].toString() + 'zł',
+                          '${spendingModel.spendingValue}zł',
                           style: const TextStyle(
                             color: Colors.red,
                           ),

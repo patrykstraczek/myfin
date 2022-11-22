@@ -46,10 +46,10 @@ class MyAccountPage extends StatelessWidget {
                   FirebaseAuth.instance.signOut();
                   Navigator.of(context).pop();
                 },
-                child: const Text('Wyloguj'),
                 style: ElevatedButton.styleFrom(
-                  primary: const Color.fromARGB(255, 174, 152, 100),
+                  backgroundColor: const Color.fromARGB(255, 174, 152, 100),
                 ),
+                child: const Text('Wyloguj'),
               ),
             ],
           ),

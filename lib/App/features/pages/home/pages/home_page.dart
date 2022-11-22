@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:myfin/App/features/add/pages/add_page.dart';
-import 'package:myfin/App/features/home/pages/spendings_page.dart';
-import 'package:myfin/App/features/home/cubit/home/home_cubit.dart';
-import 'package:myfin/App/features/home/pages/incomes_page.dart';
-
-import 'package:myfin/App/features/home/widgets/drawer.dart';
+import 'package:myfin/App/features/pages/add/pages/add_page.dart';
+import 'package:myfin/App/features/pages/home/cubit/home/home_cubit.dart';
+import 'package:myfin/App/features/pages/home/pages/incomes_page.dart';
+import 'package:myfin/App/features/pages/home/pages/spendings_page.dart';
+import 'package:myfin/App/features/pages/home/widgets/drawer.dart';
 import 'package:myfin/App/features/theme/theme_data.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
         backgroundColor: Colors.white12,
         foregroundColor: Colors.teal,
         onPressed: () {
@@ -42,6 +40,7 @@ class _HomePageState extends State<HomePage> {
             builder: (_) => const AddPage(),
           ));
         },
+        child: const Icon(Icons.add),
       ),
       appBar: AppBar(
         backgroundColor: darkMode ? Colors.black : Colors.grey[200],
@@ -57,6 +56,7 @@ class _HomePageState extends State<HomePage> {
           )
         ],
         bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(0),
             child: Container(
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -181,8 +181,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       )
               ]),
-            ),
-            preferredSize: const Size.fromHeight(0)),
+            )),
       ),
       drawer: const DrawerWidget(),
       body: Builder(builder: (context) {
