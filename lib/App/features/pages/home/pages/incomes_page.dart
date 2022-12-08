@@ -3,16 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myfin/App/features/pages/home/cubit/incomes/incomes_cubit.dart';
 
-class IncomesPage extends StatefulWidget {
+class IncomesPage extends StatelessWidget {
   const IncomesPage({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<IncomesPage> createState() => _IncomesPage();
-}
-
-class _IncomesPage extends State<IncomesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,8 +76,9 @@ class _IncomesPage extends State<IncomesPage> {
                               fontSize: 15,
                             ),
                           ),
-                          subtitle:
-                              Text((document['date'] as Timestamp).toString()),
+                          subtitle: Text((document['date'] as Timestamp)
+                              .toDate()
+                              .toString()),
                           trailing: Text(
                             '${document['incomeValue']}zł',
                             style: const TextStyle(

@@ -4,7 +4,7 @@ import 'package:myfin/App/features/cubit/root_cubit.dart';
 import 'package:myfin/App/features/pages/auth/pages/login_page.dart';
 
 import 'package:myfin/App/features/pages/home/pages/home_page.dart';
-import 'package:myfin/App/features/theme/theme_data.dart';
+import 'package:myfin/App/domain/theme/theme_data.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

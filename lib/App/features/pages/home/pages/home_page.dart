@@ -8,7 +8,7 @@ import 'package:myfin/App/features/pages/home/cubit/home/home_cubit.dart';
 import 'package:myfin/App/features/pages/home/pages/incomes_page.dart';
 import 'package:myfin/App/features/pages/home/pages/spendings_page.dart';
 import 'package:myfin/App/features/pages/home/widgets/drawer.dart';
-import 'package:myfin/App/features/theme/theme_data.dart';
+import 'package:myfin/App/domain/theme/theme_data.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({

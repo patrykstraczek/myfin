@@ -3,13 +3,14 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:myfin/App/models/spendings_model.dart';
+import 'package:myfin/App/domain/models/spendings_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 
 part 'spendings_state.dart';
 
 class SpendingsCubit extends Cubit<SpendingsState> {
-  SpendingsCubit()
+  SpendingsCubit(this._spendingsRepository)
       : super(
           const SpendingsState(
             docs: [],
@@ -17,9 +18,14 @@ class SpendingsCubit extends Cubit<SpendingsState> {
             errorMessage: '',
           ),
         );
+  final SpendingsRepository _spendingsRepository;
   StreamSubscription? spendingsSubscription;
 
   Future<void> start() async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('Użytkownik niezalogowany');
+    }
     emit(
       const SpendingsState(
         docs: [],
@@ -27,48 +33,34 @@ class SpendingsCubit extends Cubit<SpendingsState> {
         errorMessage: '',
       ),
     );
-    spendingsSubscription = FirebaseFirestore.instance
-        .collection('users')
-        .doc('2SHBQGWMo4JZleshrllF')
-        .collection('spendings')
-        .snapshots()
-        .listen((data) {
-      final spendingsModels = data.docs.map((doc) {
-        return SpendingsModel(
-          id: doc.id,
-          spendingName: doc['spendingName'],
-          spendingValue: doc['spendingValue'],
-          spendingDate: (doc['date'] as Timestamp).toDate(),
-          selectedSpendingIcon: doc['icon'],
-        );
-      }).toList();
+    spendingsSubscription =
+        _spendingsRepository.getSpendingsStream().listen((spendings) {
       emit(
         SpendingsState(
-          docs: spendingsModels,
+          docs: spendings,
           isLoading: false,
           errorMessage: '',
         ),
       );
     })
-      ..onError((error) {
-        emit(
-          SpendingsState(
-            docs: const [],
-            isLoading: false,
-            errorMessage: error.toString(),
-          ),
-        );
-      });
+          ..onError((error) {
+            emit(
+              SpendingsState(
+                docs: const [],
+                isLoading: false,
+                errorMessage: error.toString(),
+              ),
+            );
+          });
   }
 
   Future<void> remove({required String documentID}) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('Użytkownik niezalogowany');
+    }
     try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc('2SHBQGWMo4JZleshrllF')
-          .collection('spendings')
-          .doc(documentID)
-          .delete();
+      await _spendingsRepository.delete(id: documentID);
     } catch (error) {
       emit(
         SpendingsState(

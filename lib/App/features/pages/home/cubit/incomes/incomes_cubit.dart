@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 part 'incomes_state.dart';
 
@@ -19,6 +20,10 @@ class IncomesCubit extends Cubit<IncomesState> {
   StreamSubscription? incomesSubscription;
 
   Future<void> start() async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('Użytkownik niezalogowany');
+    }
     emit(
       const IncomesState(
         documents: [],
@@ -28,7 +33,7 @@ class IncomesCubit extends Cubit<IncomesState> {
     );
     incomesSubscription = FirebaseFirestore.instance
         .collection('users')
-        .doc('2SHBQGWMo4JZleshrllF')
+        .doc(userID)
         .collection('incomes')
         .snapshots()
         .listen((data) {
@@ -52,10 +57,14 @@ class IncomesCubit extends Cubit<IncomesState> {
   }
 
   Future<void> remove({required String documentID}) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('Użytkownik niezalogowany');
+    }
     try {
       await FirebaseFirestore.instance
           .collection('users')
-          .doc('2SHBQGWMo4JZleshrllF')
+          .doc(userID)
           .collection('incomes')
           .doc(documentID)
           .delete();

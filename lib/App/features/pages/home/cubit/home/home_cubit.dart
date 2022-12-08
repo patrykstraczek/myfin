@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 part 'home_state.dart';
 
@@ -21,6 +22,10 @@ class HomeCubit extends Cubit<HomeState> {
   StreamSubscription? _homeSpendingsSubscription;
 
   Future<void> start() async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('Użytkownik niezalogowany');
+    }
     emit(
       const HomeState(
         documents: [],
@@ -31,7 +36,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     _homeSpendingsSubscription = FirebaseFirestore.instance
         .collection('users')
-        .doc('2SHBQGWMo4JZleshrllF')
+        .doc(userID)
         .collection('spendings')
         .snapshots()
         .listen((data) {
@@ -74,6 +79,10 @@ class HomeIncomeCubit extends Cubit<HomeState> {
   StreamSubscription? _homeIncomesSubscription;
 
   Future<void> start() async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('Użytkownik niezalogowany');
+    }
     emit(
       const HomeState(
         documents: [],
@@ -84,7 +93,7 @@ class HomeIncomeCubit extends Cubit<HomeState> {
 
     _homeIncomesSubscription = FirebaseFirestore.instance
         .collection('users')
-        .doc('2SHBQGWMo4JZleshrllF')
+        .doc(userID)
         .collection('incomes')
         .snapshots()
         .listen((data) {

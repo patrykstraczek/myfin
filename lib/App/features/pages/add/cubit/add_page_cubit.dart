@@ -3,11 +3,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 
 part 'add_page_state.dart';
 
-class AddSpendingPageCubit extends Cubit<AddPageState> {
-  AddSpendingPageCubit() : super(const AddPageState());
+class AddPageCubit extends Cubit<AddPageState> {
+  AddPageCubit(this._spendingsRepository) : super(const AddPageState());
+
+  final SpendingsRepository _spendingsRepository;
 
   Future<void> addSpending(
     String name,
@@ -15,37 +19,33 @@ class AddSpendingPageCubit extends Cubit<AddPageState> {
     DateTime selectedDate,
     var spendingIcon,
   ) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('Użytkownik niezalogowany');
+    }
     try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc('2SHBQGWMo4JZleshrllF')
-          .collection('spendings')
-          .add({
-        'icon': spendingIcon,
-        'spendingName': name,
-        'spendingValue': double.parse(value),
-        'date': selectedDate,
-      });
+      await _spendingsRepository.addSpending(
+          name, value, selectedDate, spendingIcon);
       emit(const AddPageState(saved: true));
     } catch (error) {
-      emit(
-        AddPageState(
-          errorMessage: error.toString(),
-        ),
-      );
+      emit(AddPageState(errorMessage: error.toString()));
     }
   }
-}
-
-class AddIncomePageCubit extends Cubit<AddPageState> {
-  AddIncomePageCubit() : super(const AddPageState());
 
   Future<void> addIncome(
-      String name, String value, DateTime selectedDate, var incomeIcon) async {
+    String name,
+    String value,
+    DateTime selectedDate,
+    var incomeIcon,
+  ) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('Użytkownik niezalogowany');
+    }
     try {
       await FirebaseFirestore.instance
           .collection('users')
-          .doc('2SHBQGWMo4JZleshrllF')
+          .doc(userID)
           .collection('incomes')
           .add({
         'icon': incomeIcon,
@@ -55,11 +55,7 @@ class AddIncomePageCubit extends Cubit<AddPageState> {
       });
       emit(const AddPageState(saved: true));
     } catch (error) {
-      emit(
-        AddPageState(
-          errorMessage: error.toString(),
-        ),
-      );
+      emit(AddPageState(errorMessage: error.toString()));
     }
   }
 }

@@ -1,3 +1,0 @@
-/* class IncomesRepository{
-  Stream<List<
-} */
