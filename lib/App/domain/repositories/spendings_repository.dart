@@ -6,7 +6,7 @@ class SpendingsRepository {
   Stream<List<SpendingsModel>> getSpendingsStream() {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
+      throw Exception('User is not logged in');
     }
     return FirebaseFirestore.instance
         .collection('users')
@@ -31,7 +31,7 @@ class SpendingsRepository {
   Future<void> delete({required String id}) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
+      throw Exception('User is not logged in');
     }
     await FirebaseFirestore.instance
         .collection('users')
@@ -49,7 +49,7 @@ class SpendingsRepository {
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
+      throw Exception('User is not logged in');
     }
     await FirebaseFirestore.instance
         .collection('users')

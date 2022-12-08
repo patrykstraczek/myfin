@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                             final documents = state.documents;
 
                             for (final doc in documents) {
-                              [spendingsSum += (doc['spendingValue'])];
+                              [spendingsSum += (doc['spending_value'])];
                             }
 
                             return DataTable(
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                             final documents = state.documents;
 
                             for (final doc in documents) {
-                              [incomesSum += (doc['incomeValue'])];
+                              [incomesSum += (doc['income_value'])];
                             }
 
                             return DataTable(

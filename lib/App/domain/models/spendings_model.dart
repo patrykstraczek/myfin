@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class SpendingsModel {
   SpendingsModel({
     required this.id,
@@ -11,7 +9,7 @@ class SpendingsModel {
 
   final String id;
   final String spendingName;
-  final Double spendingValue;
+  final double spendingValue;
   final DateTime spendingDate;
   final int selectedSpendingIcon;
 }

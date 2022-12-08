@@ -49,8 +49,8 @@ class AddPageCubit extends Cubit<AddPageState> {
           .collection('incomes')
           .add({
         'icon': incomeIcon,
-        'incomeName': name,
-        'incomeValue': double.parse(value),
+        'income_name': name,
+        'income_value': double.parse(value),
         'date': selectedDate,
       });
       emit(const AddPageState(saved: true));

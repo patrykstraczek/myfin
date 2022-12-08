@@ -70,7 +70,7 @@ class IncomesPage extends StatelessWidget {
                             color: Colors.white54,
                           ),
                           title: Text(
-                            document['incomeName'],
+                            document['income_name'],
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 15,
@@ -80,7 +80,7 @@ class IncomesPage extends StatelessWidget {
                               .toDate()
                               .toString()),
                           trailing: Text(
-                            '${document['incomeValue']}zł',
+                            '${document['income_value']}zł',
                             style: const TextStyle(
                               color: Colors.green,
                             ),

@@ -24,7 +24,7 @@ class _SpendingsPageState extends State<SpendingsPage> {
           state.docs;
 
           if (state.errorMessage.isNotEmpty) {
-            return const Center(child: Text('Something went wrong:'));
+            return Center(child: Text(state.errorMessage.toString()));
           }
 
           if (state.isLoading) {
