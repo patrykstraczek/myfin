@@ -61,7 +61,7 @@ class _AddPageState extends State<AddPage> {
                                           name!,
                                           value!,
                                           selectedDate!,
-                                          spendingIcon,
+                                          incomeIcon,
                                         )
                                   ];
                                 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/features/pages/auth/pages/user_profile.dart';
+import 'package:myfin/App/features/pages/exchange/pages/exchange_rates_page.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -40,6 +41,24 @@ class DrawerWidget extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => const UserProfile(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.moving,
+              color: Colors.white54,
+            ),
+            title: Text('Kursy walut',
+                style: GoogleFonts.lato(
+                  color: Colors.white,
+                )),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ExchangeRatesPage(),
                 ),
               );
             },
