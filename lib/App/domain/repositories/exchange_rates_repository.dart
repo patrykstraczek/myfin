@@ -10,9 +10,7 @@ class ExchangeRatesRepository {
 
   Future<List<ExchangeRatesModel>> getExchangeRatesModel() async {
     final json = await remoteDataSource.getExchangeRatesModel();
-    if (json == null) {
-      return [];
-    }
-    return json.map((item) => ExchangeRatesModel.fromJson(item)).toList();
+
+    return json.map((rates) => ExchangeRatesModel.fromJson(rates)).toList();
   }
 }

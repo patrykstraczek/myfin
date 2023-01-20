@@ -91,9 +91,9 @@ class _ExchangeRateBody extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(exchangeRatesModel.purchaseRate.toString()),
+                  Text('Kupno:    ${exchangeRatesModel.purchaseRate}'),
                   const SizedBox(height: 15),
-                  Text(exchangeRatesModel.sellingRate.toString()),
+                  Text('Sprzedaż:   ${exchangeRatesModel.sellingRate}'),
                 ],
               ),
             ],

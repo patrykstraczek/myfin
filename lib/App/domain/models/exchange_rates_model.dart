@@ -9,7 +9,7 @@ class ExchangeRatesModel {
   final double sellingRate;
 
   ExchangeRatesModel.fromJson(Map<String, dynamic> json)
-      : code = json['rates'][0]['code'],
-        purchaseRate = json['rates'][0]['bid'],
-        sellingRate = json['rates'][0]['ask'];
+      : code = json['code'],
+        purchaseRate = json['bid'],
+        sellingRate = json['ask'];
 }
