@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:myfin/App/features/pages/add/pages/add_page.dart';
+import 'package:myfin/App/features/pages/auth/pages/user_profile.dart';
+import 'package:myfin/App/features/pages/exchange/pages/exchange_rates_page.dart';
 import 'package:myfin/App/features/pages/home/cubit/home/home_cubit.dart';
 import 'package:myfin/App/features/pages/home/pages/incomes_page.dart';
 import 'package:myfin/App/features/pages/home/pages/spendings_page.dart';
-import 'package:myfin/App/features/pages/home/widgets/drawer.dart';
 import 'package:myfin/App/domain/theme/theme_data.dart';
 
 class HomePage extends StatefulWidget {
@@ -183,7 +184,7 @@ class _HomePageState extends State<HomePage> {
               ]),
             )),
       ),
-      drawer: const DrawerWidget(),
+      drawer: const _DrawerWidget(),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
           return const SpendingsPage();
@@ -206,6 +207,87 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.monetization_on),
             label: 'Wpływy',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DrawerWidget extends StatelessWidget {
+  const _DrawerWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      backgroundColor: Colors.black,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.grey[900],
+            ),
+            child: Text(
+              'MyFin',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.lato(
+                color: Colors.amber,
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.person,
+              color: Colors.white54,
+            ),
+            title: Text('Moje konto',
+                style: GoogleFonts.lato(
+                  color: Colors.white,
+                )),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const UserProfile(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.moving,
+              color: Colors.white54,
+            ),
+            title: Text('Kursy walut',
+                style: GoogleFonts.lato(
+                  color: Colors.white,
+                )),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ExchangeRatesPage(),
+                ),
+              );
+            },
+          ),
+          const Divider(color: Colors.white),
+          AboutListTile(
+            icon: const Icon(
+              Icons.info,
+              color: Colors.white54,
+            ),
+            applicationIcon: const Icon(Icons.info),
+            applicationName: 'MyFin - Moje Finanse',
+            applicationVersion: 'ver. 0.1',
+            applicationLegalese: 'Patryk Strączek',
+            child: Text('Informacje',
+                style: GoogleFonts.lato(
+                  color: Colors.white,
+                )),
           ),
         ],
       ),
