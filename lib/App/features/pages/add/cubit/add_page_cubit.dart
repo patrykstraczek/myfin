@@ -1,17 +1,18 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 
 part 'add_page_state.dart';
 
 class AddPageCubit extends Cubit<AddPageState> {
-  AddPageCubit(this._spendingsRepository) : super(const AddPageState());
+  AddPageCubit(this._spendingsRepository, this._incomesRepository)
+      : super(const AddPageState());
 
   final SpendingsRepository _spendingsRepository;
+  final IncomesRepository _incomesRepository;
 
   Future<void> addSpending(
     String name,
@@ -19,13 +20,13 @@ class AddPageCubit extends Cubit<AddPageState> {
     DateTime selectedDate,
     var spendingIcon,
   ) async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
-    }
     try {
       await _spendingsRepository.addSpending(
-          name, value, selectedDate, spendingIcon);
+        name,
+        value,
+        selectedDate,
+        spendingIcon,
+      );
       emit(const AddPageState(saved: true));
     } catch (error) {
       emit(AddPageState(errorMessage: error.toString()));
@@ -38,21 +39,13 @@ class AddPageCubit extends Cubit<AddPageState> {
     DateTime selectedDate,
     var incomeIcon,
   ) async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
-    }
     try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userID)
-          .collection('incomes')
-          .add({
-        'icon': incomeIcon,
-        'income_name': name,
-        'income_value': double.parse(value),
-        'date': selectedDate,
-      });
+      await _incomesRepository.addIncome(
+        name,
+        value,
+        selectedDate,
+        incomeIcon,
+      );
       emit(const AddPageState(saved: true));
     } catch (error) {
       emit(AddPageState(errorMessage: error.toString()));

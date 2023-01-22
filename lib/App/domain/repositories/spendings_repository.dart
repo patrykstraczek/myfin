@@ -3,18 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 
 class SpendingsRepository {
+  final userID = FirebaseAuth.instance.currentUser?.uid;
   Stream<List<SpendingsModel>> getSpendingsStream() {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('User is not logged in');
-    }
     return FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .collection('spendings')
         .snapshots()
-        .map((querySnapshoit) {
-      return querySnapshoit.docs.map(
+        .map((querySnapshots) {
+      return querySnapshots.docs.map(
         (doc) {
           return SpendingsModel(
             id: doc.id,
@@ -28,11 +25,7 @@ class SpendingsRepository {
     });
   }
 
-  Future<void> delete({required String id}) async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('User is not logged in');
-    }
+  Future<void> remove({required String id}) async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
@@ -47,10 +40,6 @@ class SpendingsRepository {
     DateTime selectedDate,
     var spendingIcon,
   ) async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('User is not logged in');
-    }
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userID)

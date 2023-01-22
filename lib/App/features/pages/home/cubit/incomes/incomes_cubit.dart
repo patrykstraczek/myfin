@@ -2,78 +2,56 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myfin/App/domain/models/incomes_model.dart';
+import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 
 part 'incomes_state.dart';
 
 class IncomesCubit extends Cubit<IncomesState> {
-  IncomesCubit()
+  IncomesCubit(this._incomesRepository)
       : super(
           const IncomesState(
-            documents: [],
+            docs: [],
             errorMessage: '',
             isLoading: false,
           ),
         );
+  final IncomesRepository _incomesRepository;
   StreamSubscription? incomesSubscription;
 
   Future<void> start() async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
-    }
-    emit(
-      const IncomesState(
-        documents: [],
-        errorMessage: '',
-        isLoading: true,
-      ),
-    );
-    incomesSubscription = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('incomes')
-        .snapshots()
-        .listen((data) {
+    incomesSubscription =
+        _incomesRepository.getIncomesStream().listen((incomes) {
       emit(
         IncomesState(
-          documents: data.docs,
+          docs: incomes,
           isLoading: false,
           errorMessage: '',
         ),
       );
     })
-      ..onError((error) {
-        emit(
-          IncomesState(
-            documents: const [],
-            isLoading: false,
-            errorMessage: error.toString(),
-          ),
-        );
-      });
+          ..onError((error) {
+            emit(
+              IncomesState(
+                docs: const [],
+                isLoading: false,
+                errorMessage: error.toString(),
+              ),
+            );
+          });
   }
 
   Future<void> remove({required String documentID}) async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
-    }
     try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userID)
-          .collection('incomes')
-          .doc(documentID)
-          .delete();
+      await _incomesRepository.remove(id: documentID);
     } catch (error) {
       emit(
         IncomesState(
-            documents: const [],
-            isLoading: false,
-            errorMessage: error.toString()),
+          docs: const [],
+          isLoading: false,
+          errorMessage: error.toString(),
+        ),
       );
       start();
     }

@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 
 part 'spendings_state.dart';
@@ -22,17 +22,6 @@ class SpendingsCubit extends Cubit<SpendingsState> {
   StreamSubscription? spendingsSubscription;
 
   Future<void> start() async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
-    }
-    emit(
-      const SpendingsState(
-        docs: [],
-        isLoading: true,
-        errorMessage: '',
-      ),
-    );
     spendingsSubscription =
         _spendingsRepository.getSpendingsStream().listen((spendings) {
       emit(
@@ -55,12 +44,8 @@ class SpendingsCubit extends Cubit<SpendingsState> {
   }
 
   Future<void> remove({required String documentID}) async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
-    }
     try {
-      await _spendingsRepository.delete(id: documentID);
+      await _spendingsRepository.remove(id: documentID);
     } catch (error) {
       emit(
         SpendingsState(

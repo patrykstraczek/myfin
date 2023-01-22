@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 
 import 'package:myfin/App/features/pages/add/cubit/add_page_cubit.dart';
@@ -29,14 +30,20 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddPageCubit(SpendingsRepository()),
+      create: (context) => AddPageCubit(
+        SpendingsRepository(),
+        IncomesRepository(),
+      ),
       child: BlocBuilder<AddPageCubit, AddPageState>(
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
               actions: [
                 BlocProvider(
-                  create: (context) => AddPageCubit(SpendingsRepository()),
+                  create: (context) => AddPageCubit(
+                    SpendingsRepository(),
+                    IncomesRepository(),
+                  ),
                   child: BlocBuilder<AddPageCubit, AddPageState>(
                     builder: (context, state) {
                       return IconButton(

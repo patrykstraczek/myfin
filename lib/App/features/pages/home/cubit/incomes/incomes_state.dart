@@ -2,13 +2,13 @@ part of 'incomes_cubit.dart';
 
 @immutable
 class IncomesState {
-  final List<QueryDocumentSnapshot<Map<String, dynamic>>> documents;
-  final bool isLoading;
-  final String errorMessage;
-
   const IncomesState({
-    required this.documents,
+    required this.docs,
     required this.isLoading,
     required this.errorMessage,
   });
+
+  final List<IncomesModel> docs;
+  final bool isLoading;
+  final String errorMessage;
 }

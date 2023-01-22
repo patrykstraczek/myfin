@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/features/pages/home/cubit/incomes/incomes_cubit.dart';
 
 class IncomesPage extends StatelessWidget {
@@ -12,10 +13,10 @@ class IncomesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => IncomesCubit()..start(),
+        create: (context) => IncomesCubit(IncomesRepository())..start(),
         child: BlocBuilder<IncomesCubit, IncomesState>(
           builder: (context, state) {
-            state.documents;
+            state.docs;
 
             if (state.errorMessage.isNotEmpty) {
               return Center(
@@ -26,13 +27,13 @@ class IncomesPage extends StatelessWidget {
               return const Center(child: Text(''));
             }
 
-            final documents = state.documents;
+            final incomesModels = state.docs;
 
             return ListView(
               children: [
-                for (final document in documents) ...[
+                for (final incomeModel in incomesModels) ...[
                   Dismissible(
-                    key: ValueKey(document.id),
+                    key: ValueKey(incomeModel.id),
                     background: const DecoratedBox(
                       decoration: BoxDecoration(
                         color: Colors.black,
@@ -54,7 +55,7 @@ class IncomesPage extends StatelessWidget {
                     onDismissed: (direction) {
                       context
                           .read<IncomesCubit>()
-                          .remove(documentID: document.id);
+                          .remove(documentID: incomeModel.id);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -65,22 +66,21 @@ class IncomesPage extends StatelessWidget {
                         ),
                         child: ListTile(
                           leading: Icon(
-                            IconData(document['icon'],
+                            IconData(incomeModel.selectedIncomesIcon,
                                 fontFamily: 'materialIcons'),
                             color: Colors.white54,
                           ),
                           title: Text(
-                            document['income_name'],
+                            incomeModel.incomeName,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 15,
                             ),
                           ),
-                          subtitle: Text((document['date'] as Timestamp)
-                              .toDate()
-                              .toString()),
+                          subtitle: Text(DateFormat.yMMMEd()
+                              .format(incomeModel.incomeDate)),
                           trailing: Text(
-                            '${document['income_value']}zł',
+                            '${incomeModel.incomeValue}zł',
                             style: const TextStyle(
                               color: Colors.green,
                             ),
