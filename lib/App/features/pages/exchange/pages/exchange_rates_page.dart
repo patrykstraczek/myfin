@@ -5,6 +5,7 @@ import 'package:myfin/App/domain/models/exchange_rates_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/exchange_rates_data_source.dart';
 import 'package:myfin/App/domain/repositories/exchange_rates_repository.dart';
 import 'package:myfin/App/features/pages/exchange/cubit/exchange_rates_cubit.dart';
+import 'dart:math' as math;
 
 class ExchangeRatesPage extends StatelessWidget {
   const ExchangeRatesPage({Key? key}) : super(key: key);
@@ -73,9 +74,10 @@ class _ExchangeRateBody extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Colors.green,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
+          decoration: BoxDecoration(
+            color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                .withOpacity(.8),
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

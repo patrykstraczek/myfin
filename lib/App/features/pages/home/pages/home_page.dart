@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myfin/App/features/pages/accounts/pages/accounts_page.dart';
 
 import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 import 'package:myfin/App/features/pages/auth/pages/user_profile.dart';
@@ -243,7 +244,7 @@ class _DrawerWidget extends StatelessWidget {
               Icons.person,
               color: Colors.white54,
             ),
-            title: Text('Moje konto',
+            title: Text('Profil',
                 style: GoogleFonts.lato(
                   color: Colors.white,
                 )),
@@ -252,6 +253,24 @@ class _DrawerWidget extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => const UserProfile(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.monetization_on,
+              color: Colors.white54,
+            ),
+            title: Text('Konta',
+                style: GoogleFonts.lato(
+                  color: Colors.white,
+                )),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const AccountsPage(),
                 ),
               );
             },

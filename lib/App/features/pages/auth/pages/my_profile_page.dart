@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyAccountPage extends StatelessWidget {
-  const MyAccountPage({
+class MyProfilePage extends StatelessWidget {
+  const MyProfilePage({
     Key? key,
     required this.email,
   }) : super(key: key);

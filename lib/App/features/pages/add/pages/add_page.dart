@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
-
 import 'package:myfin/App/features/pages/add/cubit/add_page_cubit.dart';
 import 'package:myfin/App/features/pages/add/widgets/calendar.dart';
 
