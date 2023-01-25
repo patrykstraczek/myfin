@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 import 'package:myfin/App/features/pages/add/cubit/add_page_cubit.dart';
-import 'package:myfin/App/features/pages/add/widgets/calendar.dart';
+import 'package:myfin/App/features/pages/add/widgets/icons_body.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({
@@ -16,16 +16,38 @@ class AddPage extends StatefulWidget {
   State<AddPage> createState() => _AddPageState();
 }
 
-List<bool> isSelected = List.generate(5, (_) => false);
 bool spendingSelected = true;
-var incomeIcon = 0xe047;
-var spendingIcon = 0xe516;
 String? name;
 String? value;
+var spendingIcon = 0xe516;
+var incomeIcon = 0xe047;
+int iconSelected = 0;
 
 DateTime? selectedDate;
 
+List<Map<String, dynamic>> spendingsItems = <Map<String, dynamic>>[
+  <String, dynamic>{'icon': Icons.remove},
+  <String, dynamic>{'icon': Icons.drive_eta},
+  <String, dynamic>{'icon': Icons.food_bank},
+  <String, dynamic>{'icon': Icons.home},
+  <String, dynamic>{'icon': Icons.sports_esports},
+];
+
+List<Map<String, dynamic>> incomesItems = <Map<String, dynamic>>[
+  <String, dynamic>{'icon': Icons.add},
+  <String, dynamic>{'icon': Icons.work},
+  <String, dynamic>{'icon': Icons.person},
+  <String, dynamic>{'icon': Icons.card_giftcard},
+  <String, dynamic>{'icon': Icons.currency_exchange},
+];
+
 class _AddPageState extends State<AddPage> {
+  void checkOption(int index) {
+    setState(() {
+      iconSelected = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -93,6 +115,7 @@ class _AddPageState extends State<AddPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+// choose spending/income
                     TextButton(
                       onPressed: () {
                         setState(() {
@@ -124,6 +147,7 @@ class _AddPageState extends State<AddPage> {
                         )),
                   ],
                 ),
+// set name
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: TextField(
@@ -144,6 +168,7 @@ class _AddPageState extends State<AddPage> {
                     ),
                   ),
                 ),
+// set value
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: TextField(
@@ -166,6 +191,7 @@ class _AddPageState extends State<AddPage> {
                   ),
                 ),
                 const SizedBox(height: 50),
+// set date
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 10.0, horizontal: 20.0),
@@ -178,7 +204,7 @@ class _AddPageState extends State<AddPage> {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 100),
-                  child: MyCalendar(
+                  child: _MyCalendar(
                     onDateChanged: (newValue) {
                       setState(() {
                         selectedDate = newValue;
@@ -190,6 +216,7 @@ class _AddPageState extends State<AddPage> {
                   ),
                 ),
                 const SizedBox(height: 50),
+// set icon
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 10.0, horizontal: 20.0),
@@ -200,88 +227,87 @@ class _AddPageState extends State<AddPage> {
                     ),
                   ),
                 ),
-                Column(
-                  children: [
-                    spendingSelected
-                        ? ToggleButtons(
-                            color: Colors.white,
-                            splashColor: Colors.transparent,
-                            selectedColor: Colors.red,
-                            fillColor: Colors.transparent,
-                            renderBorder: false,
-                            isSelected: isSelected,
-                            onPressed: (int newIndex) {
-                              setState(() {
-                                for (int index = 0;
-                                    index < isSelected.length;
-                                    index++) {
-                                  if (index == newIndex) {
-                                    isSelected[index] = true;
-                                  } else {
-                                    isSelected[index] = false;
-                                  }
-                                }
-                              });
-                            },
-                            children: const [
-                              Icon(Icons.remove),
-                              Icon(Icons.local_gas_station),
-                              Icon(Icons.flight_takeoff),
-                              Icon(Icons.home),
-                              Icon(Icons.sports_esports),
-                            ],
-                          )
-                        : ToggleButtons(
-                            color: Colors.white,
-                            splashColor: Colors.transparent,
-                            selectedColor: Colors.green,
-                            fillColor: Colors.transparent,
-                            renderBorder: false,
-                            isSelected: isSelected,
-                            onPressed: (int newIndex) {
-                              setState(() {
-                                for (int index = 0;
-                                    index < isSelected.length;
-                                    index++) {
-                                  if (index == newIndex) {
-                                    isSelected[index] = true;
-                                  } else {
-                                    isSelected[index] = false;
-                                  }
-                                }
-                              });
-                            },
-                            children: const [
-                              Icon(Icons.add),
-                              Icon(Icons.work),
-                              Icon(Icons.local_post_office),
-                              Icon(Icons.legend_toggle),
-                              Icon(Icons.person),
-                            ],
-                          ),
-                  ],
-                ),
                 spendingSelected
-                    ? TextButton(
-                        onPressed: () {
-                          setState(() {
-                            spendingIcon = 0xe516;
-                          });
-                        },
-                        child: const Icon(Icons.remove),
+                    ? Container(
+                        padding: const EdgeInsets.all(32),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            for (int i = 0; i < spendingsItems.length; i++)
+                              IconsBody(
+                                icon: spendingsItems[i]['icon'] as IconData,
+                                onTap: () {
+                                  checkOption(i + 1);
+                                  setState(() {
+                                    spendingIcon =
+                                        (spendingsItems[i]['icon'] as IconData)
+                                            .codePoint;
+                                  });
+                                },
+                                selected: i + 1 == iconSelected,
+                              )
+                          ],
+                        ),
                       )
-                    : TextButton(
-                        onPressed: () {
-                          setState(() {
-                            incomeIcon = 0xe047;
-                          });
-                        },
-                        child: const Icon(Icons.add),
-                      ),
+                    : Container(
+                        padding: const EdgeInsets.all(32),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            for (int i = 0; i < incomesItems.length; i++)
+                              IconsBody(
+                                icon: incomesItems[i]['icon'] as IconData,
+                                onTap: () {
+                                  checkOption(i + 1);
+                                  setState(() {
+                                    incomeIcon =
+                                        (incomesItems[i]['icon'] as IconData)
+                                            .codePoint;
+                                  });
+                                },
+                                selected: i + 1 == iconSelected,
+                              )
+                          ],
+                        ),
+                      )
               ],
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _MyCalendar extends StatelessWidget {
+  const _MyCalendar({
+    Key? key,
+    required this.onDateChanged,
+    this.selectedDateFormatted,
+  }) : super(key: key);
+
+  final Function(DateTime?) onDateChanged;
+  final String? selectedDateFormatted;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        final selectedDate = await showDatePicker(
+            currentDate: DateTime.now(),
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now().subtract(
+              const Duration(days: 365),
+            ),
+            lastDate: DateTime.now());
+        onDateChanged(selectedDate);
+      },
+      child: Text(
+        selectedDateFormatted ??
+            DateFormat.yMMMEd().format(
+              DateTime.now(),
+            ),
       ),
     );
   }
