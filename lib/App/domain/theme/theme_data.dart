@@ -6,21 +6,24 @@ IconData iconLight = Icons.wb_sunny;
 IconData iconDark = Icons.nights_stay;
 
 ThemeData lightTheme = ThemeData(
-  primarySwatch: Colors.amber,
-  brightness: Brightness.light,
-  bottomAppBarColor: Colors.amber,
+  useMaterial3: true,
   splashColor: Colors.amber,
-  selectedRowColor: Colors.amber,
-  backgroundColor: Colors.grey[200],
   scaffoldBackgroundColor: Colors.grey[200],
+  bottomAppBarTheme: const BottomAppBarTheme(color: Colors.amber),
+  colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber).copyWith(
+    background: Colors.grey[200],
+    brightness: Brightness.light,
+  ),
 );
 
 ThemeData darkTheme = ThemeData(
-    primarySwatch: Colors.amber,
+  useMaterial3: true,
+  highlightColor: Colors.amber,
+  scaffoldBackgroundColor: Colors.black,
+  hintColor: Colors.amber,
+  bottomAppBarTheme: const BottomAppBarTheme(color: Colors.amber),
+  colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber).copyWith(
+    background: Colors.black,
     brightness: Brightness.dark,
-    bottomAppBarColor: Colors.amber,
-    highlightColor: Colors.amber,
-    selectedRowColor: Colors.amber,
-    backgroundColor: Colors.black,
-    scaffoldBackgroundColor: Colors.black,
-    hintColor: Colors.amber);
+  ),
+);
