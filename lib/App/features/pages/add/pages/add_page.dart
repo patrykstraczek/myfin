@@ -60,7 +60,7 @@ class _AddPageState extends State<AddPage> {
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.black,
-              foregroundColor: Colors.grey[100],
+              foregroundColor: Colors.white,
               actions: [
                 BlocProvider(
                   create: (context) => AddPageCubit(
