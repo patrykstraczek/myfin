@@ -5,6 +5,7 @@ import 'package:myfin/App/domain/models/exchange_rates_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/exchange_rates_data_source.dart';
 import 'package:myfin/App/domain/repositories/exchange_rates_repository.dart';
 import 'package:myfin/App/features/pages/exchange/cubit/exchange_rates_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:math' as math;
 
 class ExchangeRatesPage extends StatelessWidget {
@@ -16,7 +17,7 @@ class ExchangeRatesPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: const Text('Kursy walut'),
+        title: Text(AppLocalizations.of(context).exchangeRates),
         centerTitle: true,
       ),
       body: BlocProvider(

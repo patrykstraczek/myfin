@@ -6,6 +6,7 @@ import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 import 'package:myfin/App/features/pages/add/cubit/add_page_cubit.dart';
 import 'package:myfin/App/features/pages/add/widgets/icons_body.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({
@@ -104,7 +105,7 @@ class _AddPageState extends State<AddPage> {
                 ),
               ],
               title: Text(
-                'Dodaj',
+                AppLocalizations.of(context).add,
                 style: GoogleFonts.lato(),
               ),
               centerTitle: true,
@@ -123,7 +124,7 @@ class _AddPageState extends State<AddPage> {
                         });
                       },
                       child: Text(
-                        'Wydatek',
+                        AppLocalizations.of(context).spending,
                         style: GoogleFonts.lato(
                           color: spendingSelected ? Colors.amber : Colors.grey,
                           fontSize: 16,
@@ -138,7 +139,7 @@ class _AddPageState extends State<AddPage> {
                           });
                         },
                         child: Text(
-                          'Przychód',
+                          AppLocalizations.of(context).income,
                           style: GoogleFonts.lato(
                             color:
                                 spendingSelected ? Colors.grey : Colors.amber,
@@ -159,10 +160,10 @@ class _AddPageState extends State<AddPage> {
                     textCapitalization: TextCapitalization.sentences,
                     style: const TextStyle(color: Colors.white),
                     textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Nazwa',
-                      hintStyle: TextStyle(
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: AppLocalizations.of(context).hintName,
+                      hintStyle: const TextStyle(
                         color: Color.fromARGB(200, 218, 216, 216),
                       ),
                     ),
@@ -181,10 +182,10 @@ class _AddPageState extends State<AddPage> {
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) => FocusScope.of(context).unfocus(),
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Kwota',
-                      hintStyle: TextStyle(
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: AppLocalizations.of(context).hintValue,
+                      hintStyle: const TextStyle(
                         color: Color.fromARGB(200, 218, 216, 216),
                       ),
                     ),
@@ -196,7 +197,7 @@ class _AddPageState extends State<AddPage> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 10.0, horizontal: 20.0),
                   child: Text(
-                    'Data:',
+                    AppLocalizations.of(context).date,
                     style: GoogleFonts.lato(
                       color: Colors.white,
                     ),
@@ -220,7 +221,7 @@ class _AddPageState extends State<AddPage> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 10.0, horizontal: 20.0),
                   child: Text(
-                    'Oznaczenie:',
+                    AppLocalizations.of(context).icon,
                     style: GoogleFonts.lato(
                       color: Colors.white,
                     ),

@@ -10,6 +10,7 @@ import 'package:myfin/App/features/pages/home/cubit/home/home_cubit.dart';
 import 'package:myfin/App/features/pages/home/pages/incomes_page.dart';
 import 'package:myfin/App/features/pages/home/pages/spendings_page.dart';
 import 'package:myfin/App/domain/theme/theme_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -45,7 +46,178 @@ class _HomePageState extends State<HomePage> {
         },
         child: const Icon(Icons.add),
       ),
-      appBar: const _AppBarWidget(),
+      appBar: AppBar(
+          toolbarHeight: 250,
+          backgroundColor: darkMode ? Colors.black : Colors.white,
+          foregroundColor: darkMode ? Colors.white : Colors.black,
+          actions: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  darkMode = !darkMode;
+                });
+              },
+              icon: Icon(darkMode ? iconDark : iconLight),
+            )
+          ],
+          bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    color: Color.fromARGB(255, 148, 112, 4),
+                  ),
+                  alignment: Alignment.topCenter,
+                  height: 194.0,
+                  child:
+//spendings
+                      currentIndex == 0
+                          ? BlocProvider(
+                              create: (context) => HomeCubit()..start(),
+                              child: BlocBuilder<HomeCubit, HomeState>(
+                                builder: (context, state) {
+                                  state.documents;
+
+                                  if (state.errorMessage.isNotEmpty) {
+                                    return Center(
+                                        child: Text(
+                                            'Something went wrong ${state.errorMessage}'));
+                                  }
+
+                                  if (state.isLoading) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  }
+
+                                  final documents = state.documents;
+
+                                  spendingsSum = 0.0;
+                                  todaySpendings = 0.0;
+
+                                  for (final doc in documents) {
+                                    spendingsSum += (doc['spending_value']);
+                                    todaySpendings += (doc['spending_value']);
+                                  }
+                                  return Column(children: [
+                                    Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          AppLocalizations.of(context).today,
+                                          style: GoogleFonts.lato(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      '$todaySpendings zł',
+                                      style: GoogleFonts.lato(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 64, vertical: 16),
+                                      child: Column(children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(AppLocalizations.of(context)
+                                                .thisMonth),
+                                            Text('$spendingsSum zł'),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(AppLocalizations.of(context)
+                                                .previousMonth),
+                                            Text('$spendingsSum zł'),
+                                          ],
+                                        ),
+                                      ]),
+                                    )
+                                  ]);
+                                },
+                              ),
+                            )
+//incomes
+                          : BlocProvider(
+                              create: (context) => HomeIncomeCubit()..start(),
+                              child: BlocBuilder<HomeIncomeCubit, HomeState>(
+                                builder: (context, state) {
+                                  state.documents;
+
+                                  if (state.errorMessage.isNotEmpty) {
+                                    return Center(
+                                        child: Text(
+                                            'Something went wrong ${state.errorMessage}'));
+                                  }
+
+                                  if (state.isLoading) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  }
+
+                                  final documents = state.documents;
+
+                                  incomesSum = 0.0;
+
+                                  for (final doc in documents) {
+                                    incomesSum += (doc['income_value']);
+                                  }
+                                  return Column(children: [
+                                    Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          AppLocalizations.of(context).today,
+                                          style: GoogleFonts.lato(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      '$incomesSum zł',
+                                      style: GoogleFonts.lato(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 64, vertical: 16),
+                                      child: Column(children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(AppLocalizations.of(context)
+                                                .thisMonth),
+                                            Text('$incomesSum zł'),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(AppLocalizations.of(context)
+                                                .previousMonth),
+                                            Text('$incomesSum zł'),
+                                          ],
+                                        ),
+                                      ]),
+                                    )
+                                  ]);
+                                },
+                              ))))),
       drawer: const _DrawerWidget(),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
@@ -61,14 +233,14 @@ class _HomePageState extends State<HomePage> {
           });
         },
         backgroundColor: Colors.grey[850],
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.store),
-            label: 'Wydatki',
+            icon: const Icon(Icons.store),
+            label: AppLocalizations.of(context).spendings,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on),
-            label: 'Wpływy',
+            icon: const Icon(Icons.monetization_on),
+            label: AppLocalizations.of(context).incomes,
           ),
         ],
       ),
@@ -106,7 +278,7 @@ class _DrawerWidget extends StatelessWidget {
               Icons.person,
               color: Colors.white54,
             ),
-            title: Text('Profil',
+            title: Text(AppLocalizations.of(context).profile,
                 style: GoogleFonts.lato(
                   color: Colors.white,
                 )),
@@ -124,7 +296,7 @@ class _DrawerWidget extends StatelessWidget {
               Icons.moving,
               color: Colors.white54,
             ),
-            title: Text('Kursy walut',
+            title: Text(AppLocalizations.of(context).exchangeRates,
                 style: GoogleFonts.lato(
                   color: Colors.white,
                 )),
@@ -147,7 +319,7 @@ class _DrawerWidget extends StatelessWidget {
             applicationName: 'MyFin - Moje Finanse',
             applicationVersion: 'ver. 0.1',
             applicationLegalese: 'Patryk Strączek',
-            child: Text('Informacje',
+            child: Text(AppLocalizations.of(context).info,
                 style: GoogleFonts.lato(
                   color: Colors.white,
                 )),
@@ -175,7 +347,6 @@ class _AppBarWidgetState extends State<_AppBarWidget> {
     return AppBar(
         backgroundColor: darkMode ? Colors.black : Colors.white,
         foregroundColor: darkMode ? Colors.white : Colors.black,
-        toolbarHeight: 250,
         actions: [
           IconButton(
             onPressed: () {
@@ -228,7 +399,7 @@ class _AppBarWidgetState extends State<_AppBarWidget> {
                                   Padding(
                                       padding: const EdgeInsets.only(top: 10),
                                       child: Text(
-                                        'Dziś:',
+                                        AppLocalizations.of(context).today,
                                         style: GoogleFonts.lato(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -251,7 +422,8 @@ class _AppBarWidgetState extends State<_AppBarWidget> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text('Obecny miesiąc'),
+                                          Text(AppLocalizations.of(context)
+                                              .thisMonth),
                                           Text('$spendingsSum zł'),
                                         ],
                                       ),
@@ -260,7 +432,8 @@ class _AppBarWidgetState extends State<_AppBarWidget> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text('Poprzedni miesiąc'),
+                                          Text(AppLocalizations.of(context)
+                                              .previousMonth),
                                           Text('$spendingsSum zł'),
                                         ],
                                       ),
@@ -299,7 +472,7 @@ class _AppBarWidgetState extends State<_AppBarWidget> {
                                   Padding(
                                       padding: const EdgeInsets.only(top: 10),
                                       child: Text(
-                                        'Dziś:',
+                                        AppLocalizations.of(context).today,
                                         style: GoogleFonts.lato(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -322,7 +495,8 @@ class _AppBarWidgetState extends State<_AppBarWidget> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text('Obecny miesiąc'),
+                                          Text(AppLocalizations.of(context)
+                                              .thisMonth),
                                           Text('$incomesSum zł'),
                                         ],
                                       ),
@@ -331,7 +505,8 @@ class _AppBarWidgetState extends State<_AppBarWidget> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text('Poprzedni miesiąc'),
+                                          Text(AppLocalizations.of(context)
+                                              .previousMonth),
                                           Text('$incomesSum zł'),
                                         ],
                                       ),

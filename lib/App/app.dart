@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myfin/App/features/cubit/root_cubit.dart';
 import 'package:myfin/App/features/pages/auth/pages/login_page.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:myfin/App/features/pages/home/pages/home_page.dart';
 import 'package:myfin/App/domain/theme/theme_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -19,6 +20,16 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'MyFin - Moje Finanse',
       theme: darkMode ? darkTheme : lightTheme,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('pl'), // Polish
+      ],
       home: const RootPage(),
     );
   }

@@ -1,0 +1,17 @@
+{
+  "today": "Today:",
+  "thisMonth": "This month",
+  "previousMonth": "Previous month",
+  "spendings": "Spendings",
+  "incomes": "Incomes",
+  "profile": "Profile",
+  "exchangeRates": "Exchange rates",
+  "info": "About",
+  "add": "Add",
+  "spending": "Spending",
+  "income": "Income",
+  "hintName": "Name",
+  "hintValue": "Value",
+  "date": "Date:",
+  "icon": "Icon:"
+}
