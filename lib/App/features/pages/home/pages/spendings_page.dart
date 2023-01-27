@@ -78,11 +78,14 @@ class _SpendingsPageState extends State<SpendingsPage> {
                           spendingModel.spendingName,
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 15,
                           ),
                         ),
-                        subtitle: Text(DateFormat.yMMMEd()
-                            .format(spendingModel.spendingDate)),
+                        subtitle: Text(
+                          DateFormat.yMMMEd()
+                              .format(spendingModel.spendingDate),
+                          style:
+                              const TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
                         trailing: Text(
                           '${spendingModel.spendingValue}zł',
                           style: const TextStyle(

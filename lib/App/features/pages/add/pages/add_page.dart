@@ -23,7 +23,7 @@ var spendingIcon = 0xe516;
 var incomeIcon = 0xe047;
 int iconSelected = 0;
 
-DateTime? selectedDate;
+DateTime selectedDate = DateTime.now();
 
 List<Map<String, dynamic>> spendingsItems = <Map<String, dynamic>>[
   <String, dynamic>{'icon': Icons.remove},
@@ -59,6 +59,8 @@ class _AddPageState extends State<AddPage> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.grey[100],
               actions: [
                 BlocProvider(
                   create: (context) => AddPageCubit(
@@ -68,9 +70,7 @@ class _AddPageState extends State<AddPage> {
                   child: BlocBuilder<AddPageCubit, AddPageState>(
                     builder: (context, state) {
                       return IconButton(
-                        onPressed: value == null ||
-                                selectedDate == null ||
-                                name == null
+                        onPressed: value == null || name == null
                             ? null
                             : () {
                                 if (spendingSelected == true) {
@@ -78,7 +78,7 @@ class _AddPageState extends State<AddPage> {
                                     context.read<AddPageCubit>().addSpending(
                                           name!,
                                           value!,
-                                          selectedDate!,
+                                          selectedDate,
                                           spendingIcon,
                                         )
                                   ];
@@ -88,7 +88,7 @@ class _AddPageState extends State<AddPage> {
                                     context.read<AddPageCubit>().addIncome(
                                           name!,
                                           value!,
-                                          selectedDate!,
+                                          selectedDate,
                                           incomeIcon,
                                         )
                                   ];
@@ -207,12 +207,11 @@ class _AddPageState extends State<AddPage> {
                   child: _MyCalendar(
                     onDateChanged: (newValue) {
                       setState(() {
-                        selectedDate = newValue;
+                        selectedDate = newValue!;
                       });
                     },
-                    selectedDateFormatted: selectedDate == null
-                        ? null
-                        : DateFormat.yMMMEd().format(selectedDate!),
+                    selectedDateFormatted:
+                        DateFormat.yMMMEd().format(selectedDate),
                   ),
                 ),
                 const SizedBox(height: 50),

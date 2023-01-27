@@ -10,6 +10,7 @@ class IncomesRepository {
         .collection('users')
         .doc(userID)
         .collection('incomes')
+        .orderBy('date', descending: true)
         .snapshots()
         .map((querySnapshots) {
       return querySnapshots.docs.map((doc) {

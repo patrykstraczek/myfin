@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
       ),
       appBar: AppBar(
         backgroundColor: darkMode ? Colors.black : Colors.grey[200],
+        foregroundColor: darkMode ? Colors.grey[100] : Colors.black,
         toolbarHeight: 250,
         actions: [
           IconButton(

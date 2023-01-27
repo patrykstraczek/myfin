@@ -14,6 +14,8 @@ class ExchangeRatesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.grey[100],
         title: const Text('Kursy walut'),
         centerTitle: true,
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 
 class IconsBody extends StatelessWidget {
   const IconsBody({
@@ -20,8 +21,7 @@ class IconsBody extends StatelessWidget {
               onTap: onTap,
               child: Icon(
                 icon,
-                color: Colors.amber,
-                
+                color: spendingSelected ? Colors.red : Colors.green,
               ),
             )
           : InkWell(

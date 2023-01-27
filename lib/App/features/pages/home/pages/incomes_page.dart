@@ -77,8 +77,11 @@ class IncomesPage extends StatelessWidget {
                               fontSize: 15,
                             ),
                           ),
-                          subtitle: Text(DateFormat.yMMMEd()
-                              .format(incomeModel.incomeDate)),
+                          subtitle: Text(
+                            DateFormat.yMMMEd().format(incomeModel.incomeDate),
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 12),
+                          ),
                           trailing: Text(
                             '${incomeModel.incomeValue}zł',
                             style: const TextStyle(

@@ -7,7 +7,10 @@ class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProfileScreen(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.grey[100],
+      ),
       providerConfigs: const [
         EmailProviderConfiguration(),
       ],
