@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myfin/App/features/pages/accounts/pages/accounts_page.dart';
 
 import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 import 'package:myfin/App/features/pages/auth/pages/user_profile.dart';
@@ -24,9 +23,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+DateTime today = DateTime.now();
 var currentIndex = 0;
 var incomesSum = 0.0;
 var spendingsSum = 0.0;
+var todaySpendings = 0.0;
 var balanceThisMonth = incomesSum - spendingsSum;
 
 class _HomePageState extends State<HomePage> {
@@ -44,148 +45,7 @@ class _HomePageState extends State<HomePage> {
         },
         child: const Icon(Icons.add),
       ),
-      appBar: AppBar(
-        backgroundColor: darkMode ? Colors.black : Colors.white,
-        foregroundColor: darkMode ? Colors.white : Colors.black,
-        toolbarHeight: 250,
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                darkMode = !darkMode;
-              });
-            },
-            icon: Icon(darkMode ? iconDark : iconLight),
-          )
-        ],
-        bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(0),
-            child: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-                color: Color.fromARGB(255, 148, 112, 4),
-              ),
-              alignment: Alignment.topCenter,
-              height: 194.0,
-              child: Column(children: [
-                Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      'Stan:',
-                      style: GoogleFonts.lato(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-                const SizedBox(height: 10),
-                Text(
-                  '$balanceThisMonth zł',
-                  style: GoogleFonts.lato(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 40),
-                currentIndex == 0
-                    ? BlocProvider(
-                        create: (context) => HomeCubit()..start(),
-                        child: BlocBuilder<HomeCubit, HomeState>(
-                          builder: (context, state) {
-                            state.documents;
-
-                            if (state.errorMessage.isNotEmpty) {
-                              return Center(
-                                  child: Text(
-                                      'Something went wrong ${state.errorMessage}'));
-                            }
-
-                            if (state.isLoading) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            }
-
-                            final documents = state.documents;
-
-                            for (final doc in documents) {
-                              [spendingsSum += (doc['spending_value'])];
-                            }
-
-                            return DataTable(
-                                columnSpacing: 80,
-                                headingRowHeight: 25,
-                                dataRowHeight: 20,
-                                columns: const [
-                                  DataColumn(label: Text('Okres')),
-                                  DataColumn(label: Text('Suma wydatków:'))
-                                ],
-                                rows: [
-                                  DataRow(cells: [
-                                    const DataCell(Text('Obecny miesiąc')),
-                                    DataCell(
-                                      Text(
-                                        '$spendingsSum zł',
-                                      ),
-                                    )
-                                  ]),
-                                  const DataRow(cells: [
-                                    DataCell(Text('Poprzedni miesiąc')),
-                                    DataCell(Text('wydatków-1msc'))
-                                  ])
-                                ]);
-                          },
-                        ),
-                      )
-                    : BlocProvider(
-                        create: (context) => HomeIncomeCubit()..start(),
-                        child: BlocBuilder<HomeIncomeCubit, HomeState>(
-                          builder: (context, state) {
-                            state.documents;
-
-                            if (state.errorMessage.isNotEmpty) {
-                              return Center(
-                                  child: Text(
-                                      'Something went wrong ${state.errorMessage}'));
-                            }
-
-                            if (state.isLoading) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            }
-
-                            final documents = state.documents;
-
-                            for (final doc in documents) {
-                              [incomesSum += (doc['income_value'])];
-                            }
-
-                            return DataTable(
-                                columnSpacing: 80,
-                                headingRowHeight: 25,
-                                dataRowHeight: 20,
-                                columns: const [
-                                  DataColumn(label: Text('Okres')),
-                                  DataColumn(label: Text('Suma przychodów:'))
-                                ],
-                                rows: [
-                                  DataRow(cells: [
-                                    const DataCell(Text('Obecny miesiąc')),
-                                    DataCell(
-                                      Text(
-                                        '$incomesSum',
-                                      ),
-                                    )
-                                  ]),
-                                  const DataRow(cells: [
-                                    DataCell(Text('Poprzedni miesiąc')),
-                                    DataCell(Text('przychodów-1msc'))
-                                  ])
-                                ]);
-                          },
-                        ),
-                      )
-              ]),
-            )),
-      ),
+      appBar: const _AppBarWidget(),
       drawer: const _DrawerWidget(),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
@@ -216,6 +76,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+// Drawer
 class _DrawerWidget extends StatelessWidget {
   const _DrawerWidget({Key? key}) : super(key: key);
 
@@ -260,24 +121,6 @@ class _DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(
-              Icons.monetization_on,
-              color: Colors.white54,
-            ),
-            title: Text('Konta',
-                style: GoogleFonts.lato(
-                  color: Colors.white,
-                )),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const AccountsPage(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(
               Icons.moving,
               color: Colors.white54,
             ),
@@ -312,5 +155,190 @@ class _DrawerWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+//AppBar
+class _AppBarWidget extends StatefulWidget with PreferredSizeWidget {
+  const _AppBarWidget({Key? key}) : super(key: key);
+
+  @override
+  State<_AppBarWidget> createState() => _AppBarWidgetState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(250);
+}
+
+class _AppBarWidgetState extends State<_AppBarWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+        backgroundColor: darkMode ? Colors.black : Colors.white,
+        foregroundColor: darkMode ? Colors.white : Colors.black,
+        toolbarHeight: 250,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                darkMode = !darkMode;
+              });
+            },
+            icon: Icon(darkMode ? iconDark : iconLight),
+          )
+        ],
+        bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(0),
+            child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  color: Color.fromARGB(255, 148, 112, 4),
+                ),
+                alignment: Alignment.topCenter,
+                height: 194.0,
+                child:
+//spendings
+                    currentIndex == 0
+                        ? BlocProvider(
+                            create: (context) => HomeCubit()..start(),
+                            child: BlocBuilder<HomeCubit, HomeState>(
+                              builder: (context, state) {
+                                state.documents;
+
+                                if (state.errorMessage.isNotEmpty) {
+                                  return Center(
+                                      child: Text(
+                                          'Something went wrong ${state.errorMessage}'));
+                                }
+
+                                if (state.isLoading) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+
+                                final documents = state.documents;
+
+                                spendingsSum = 0.0;
+                                todaySpendings = 0.0;
+
+                                for (final doc in documents) {
+                                  spendingsSum += (doc['spending_value']);
+                                  todaySpendings += (doc['spending_value']);
+                                }
+                                return Column(children: [
+                                  Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        'Dziś:',
+                                        style: GoogleFonts.lato(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    '$todaySpendings zł',
+                                    style: GoogleFonts.lato(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 64, vertical: 16),
+                                    child: Column(children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text('Obecny miesiąc'),
+                                          Text('$spendingsSum zł'),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text('Poprzedni miesiąc'),
+                                          Text('$spendingsSum zł'),
+                                        ],
+                                      ),
+                                    ]),
+                                  )
+                                ]);
+                              },
+                            ),
+                          )
+//incomes
+                        : BlocProvider(
+                            create: (context) => HomeIncomeCubit()..start(),
+                            child: BlocBuilder<HomeIncomeCubit, HomeState>(
+                              builder: (context, state) {
+                                state.documents;
+
+                                if (state.errorMessage.isNotEmpty) {
+                                  return Center(
+                                      child: Text(
+                                          'Something went wrong ${state.errorMessage}'));
+                                }
+
+                                if (state.isLoading) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+
+                                final documents = state.documents;
+
+                                incomesSum = 0.0;
+
+                                for (final doc in documents) {
+                                  incomesSum += (doc['income_value']);
+                                }
+                                return Column(children: [
+                                  Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        'Dziś:',
+                                        style: GoogleFonts.lato(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    '$incomesSum zł',
+                                    style: GoogleFonts.lato(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 64, vertical: 16),
+                                    child: Column(children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text('Obecny miesiąc'),
+                                          Text('$incomesSum zł'),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text('Poprzedni miesiąc'),
+                                          Text('$incomesSum zł'),
+                                        ],
+                                      ),
+                                    ]),
+                                  )
+                                ]);
+                              },
+                            )))));
   }
 }

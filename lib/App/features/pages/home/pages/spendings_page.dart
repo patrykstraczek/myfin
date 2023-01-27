@@ -4,16 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 import 'package:myfin/App/features/pages/home/cubit/spendings/spendings_cubit.dart';
 
-class SpendingsPage extends StatefulWidget {
+class SpendingsPage extends StatelessWidget {
   const SpendingsPage({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<SpendingsPage> createState() => _SpendingsPageState();
-}
-
-class _SpendingsPageState extends State<SpendingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
