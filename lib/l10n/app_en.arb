@@ -13,5 +13,6 @@
   "hintName": "Name",
   "hintValue": "Value",
   "date": "Date:",
-  "icon": "Icon:"
+  "icon": "Icon:",
+  "dateFormat": "en_EN:"
 }

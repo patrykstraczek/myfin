@@ -211,8 +211,9 @@ class _AddPageState extends State<AddPage> {
                         selectedDate = newValue!;
                       });
                     },
-                    selectedDateFormatted:
-                        DateFormat.yMMMEd().format(selectedDate),
+                    selectedDateFormatted: DateFormat.yMMMEd(
+                            AppLocalizations.of(context).dateFormat)
+                        .format(selectedDate),
                   ),
                 ),
                 const SizedBox(height: 50),
@@ -305,7 +306,7 @@ class _MyCalendar extends StatelessWidget {
       },
       child: Text(
         selectedDateFormatted ??
-            DateFormat.yMMMEd().format(
+            DateFormat.yMMMEd(AppLocalizations.of(context).dateFormat).format(
               DateTime.now(),
             ),
       ),

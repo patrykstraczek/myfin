@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 import 'package:myfin/App/features/pages/home/cubit/spendings/spendings_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SpendingsPage extends StatelessWidget {
   const SpendingsPage({
@@ -76,7 +77,8 @@ class SpendingsPage extends StatelessWidget {
                           ),
                         ),
                         subtitle: Text(
-                          DateFormat.yMMMEd()
+                          DateFormat.yMMMEd(
+                                  AppLocalizations.of(context).dateFormat)
                               .format(spendingModel.spendingDate),
                           style:
                               const TextStyle(color: Colors.grey, fontSize: 12),

@@ -92,11 +92,9 @@ class _HomePageState extends State<HomePage> {
                                   final documents = state.documents;
 
                                   spendingsSum = 0.0;
-                                  todaySpendings = 0.0;
 
                                   for (final doc in documents) {
                                     spendingsSum += (doc['spending_value']);
-                                    todaySpendings += (doc['spending_value']);
                                   }
                                   return Column(children: [
                                     Padding(

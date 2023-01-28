@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/features/pages/home/cubit/incomes/incomes_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IncomesPage extends StatelessWidget {
   const IncomesPage({
@@ -78,7 +79,9 @@ class IncomesPage extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            DateFormat.yMMMEd().format(incomeModel.incomeDate),
+                            DateFormat.yMMMEd(
+                                    AppLocalizations.of(context).dateFormat)
+                                .format(incomeModel.incomeDate),
                             style: const TextStyle(
                                 color: Colors.grey, fontSize: 12),
                           ),

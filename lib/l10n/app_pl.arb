@@ -1,5 +1,5 @@
 {
-  "today": "Dziś:",
+  "today": "Dzisiaj:",
   "thisMonth": "W tym miesiącu",
   "previousMonth": "W poprzednim miesiącu",
   "spendings": "Wydatki",
@@ -13,5 +13,7 @@
   "hintName": "Nazwa",
   "hintValue": "Kwota",
   "date": "Data:",
-  "icon": "Oznaczenie:"
+  "icon": "Oznaczenie:",
+  "dateFormat": "pl_PL:"
+
 }
