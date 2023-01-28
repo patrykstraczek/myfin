@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                                         )),
                                     const SizedBox(height: 10),
                                     Text(
-                                      '$todaySpendings zł',
+                                      'TBD',
                                       style: GoogleFonts.lato(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                                           children: [
                                             Text(AppLocalizations.of(context)
                                                 .previousMonth),
-                                            Text('$spendingsSum zł'),
+                                            const Text('TBD'),
                                           ],
                                         ),
                                       ]),
@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                                         )),
                                     const SizedBox(height: 10),
                                     Text(
-                                      '$incomesSum zł',
+                                      'TBD',
                                       style: GoogleFonts.lato(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -208,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                                           children: [
                                             Text(AppLocalizations.of(context)
                                                 .previousMonth),
-                                            Text('$incomesSum zł'),
+                                            const Text('TBD'),
                                           ],
                                         ),
                                       ]),

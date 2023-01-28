@@ -23,6 +23,7 @@ String? value;
 var spendingIcon = 0xe516;
 var incomeIcon = 0xe047;
 int iconSelected = 0;
+String text = text.replaceAll(",", ".");
 
 DateTime selectedDate = DateTime.now();
 
@@ -78,7 +79,7 @@ class _AddPageState extends State<AddPage> {
                                   [
                                     context.read<AddPageCubit>().addSpending(
                                           name!,
-                                          value!,
+                                          value!.replaceAll(",", "."),
                                           selectedDate,
                                           spendingIcon,
                                         )
@@ -88,7 +89,7 @@ class _AddPageState extends State<AddPage> {
                                   [
                                     context.read<AddPageCubit>().addIncome(
                                           name!,
-                                          value!,
+                                          value!.replaceAll(",", "."),
                                           selectedDate,
                                           incomeIcon,
                                         )
@@ -181,7 +182,9 @@ class _AddPageState extends State<AddPage> {
                     style: const TextStyle(color: Colors.white),
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.done,
-                    onSubmitted: (_) => FocusScope.of(context).unfocus(),
+                    onSubmitted: (text) {
+                      FocusScope.of(context).unfocus();
+                    },
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       hintText: AppLocalizations.of(context).hintValue,
