@@ -66,11 +66,15 @@ class IncomesPage extends StatelessWidget {
                           color: Colors.white12,
                         ),
                         child: ListTile(
-                          leading: Icon(
-                            IconData(incomeModel.selectedIncomesIcon,
-                                fontFamily: 'materialIcons'),
-                            color: Colors.white54,
-                          ),
+                          leading: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  IconData(incomeModel.selectedIncomesIcon,
+                                      fontFamily: 'materialIcons'),
+                                  color: Colors.white54,
+                                ),
+                              ]),
                           title: Text(
                             incomeModel.incomeName,
                             style: const TextStyle(

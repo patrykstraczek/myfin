@@ -65,11 +65,15 @@ class SpendingsPage extends StatelessWidget {
                         color: Colors.white12,
                       ),
                       child: ListTile(
-                        leading: Icon(
-                          IconData(spendingModel.selectedSpendingIcon,
-                              fontFamily: 'materialIcons'),
-                          color: Colors.white54,
-                        ),
+                        leading: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                IconData(spendingModel.selectedSpendingIcon,
+                                    fontFamily: 'materialIcons'),
+                                color: Colors.white54,
+                              ),
+                            ]),
                         title: Text(
                           spendingModel.spendingName,
                           style: const TextStyle(
