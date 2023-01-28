@@ -38,11 +38,14 @@ class ExchangeRatesPage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               case Status.success:
-                return ListView(
-                  children: [
-                    for (final exchangeRate in state.results)
-                      _ExchangeRateBody(exchangeRatesModel: exchangeRate),
-                  ],
+                return SafeArea(
+                  child: ListView(
+                    children: [
+                      for (final exchangeRate in state.results)
+                        _ExchangeRateBody(exchangeRatesModel: exchangeRate),
+                      const SizedBox(height: 16)
+                    ],
+                  ),
                 );
               case Status.error:
                 return Center(
