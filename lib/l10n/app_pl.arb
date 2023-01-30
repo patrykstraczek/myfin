@@ -14,6 +14,6 @@
   "hintValue": "Kwota",
   "date": "Data:",
   "icon": "Oznaczenie:",
-  "dateFormat": "pl_PL:"
-
+  "dateFormat": "pl_PL:",
+  "avgRate": "Średni kurs:"
 }

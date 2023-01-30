@@ -1,15 +1,12 @@
 class ExchangeRatesModel {
   ExchangeRatesModel({
     required this.code,
-    required this.purchaseRate,
-    required this.sellingRate,
+    required this.averageRate,
   });
   final String code;
-  final double purchaseRate;
-  final double sellingRate;
+  final double averageRate;
 
   ExchangeRatesModel.fromJson(Map<String, dynamic> json)
       : code = json['code'],
-        purchaseRate = json['bid'],
-        sellingRate = json['ask'];
+        averageRate = json['mid'];
 }

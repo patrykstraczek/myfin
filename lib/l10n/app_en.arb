@@ -14,5 +14,6 @@
   "hintValue": "Value",
   "date": "Date:",
   "icon": "Icon:",
-  "dateFormat": "en_EN:"
+  "dateFormat": "en_EN:",
+  "avgRate": "Average exchange rate:"
 }
