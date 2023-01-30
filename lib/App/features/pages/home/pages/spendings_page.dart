@@ -15,7 +15,9 @@ class SpendingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => SpendingsCubit(SpendingsRepository(FirebaseSpendingsDataSource()))..start(),
+        create: (context) =>
+            SpendingsCubit(SpendingsRepository(FirebaseSpendingsDataSource()))
+              ..start(),
         child: BlocBuilder<SpendingsCubit, SpendingsState>(
             builder: (context, state) {
           state.docs;
@@ -89,7 +91,7 @@ class SpendingsPage extends StatelessWidget {
                               const TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                         trailing: Text(
-                          '${spendingModel.spendingValue}zł',
+                          '${spendingModel.spendingValue}  PLN',
                           style: const TextStyle(
                             color: Colors.red,
                           ),

@@ -90,7 +90,7 @@ class IncomesPage extends StatelessWidget {
                                 color: Colors.grey, fontSize: 12),
                           ),
                           trailing: Text(
-                            '${incomeModel.incomeValue}zł',
+                            '${incomeModel.incomeValue}  PLN',
                             style: const TextStyle(
                               color: Colors.green,
                             ),

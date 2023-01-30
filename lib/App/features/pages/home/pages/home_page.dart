@@ -79,7 +79,6 @@ class _HomePageState extends State<HomePage> {
                                     AppLocalizations.of(context).today,
                                     style: GoogleFonts.lato(
                                       fontSize: 20,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   )),
                               const SizedBox(height: 10),
@@ -95,10 +94,11 @@ class _HomePageState extends State<HomePage> {
                                       todaySpendings += (doc['spending_value']);
                                     }
                                     return Text(
-                                      '$todaySpendings',
+                                      '$todaySpendings PLN',
                                       style: GoogleFonts.lato(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 20,
                                       ),
                                     );
                                   },
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                                                   (doc['spending_value']);
                                             }
                                             return Text(
-                                                '$thisMonthSpending zł');
+                                                '$thisMonthSpending PLN');
                                           },
                                         ),
                                       ),
@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                                           children: [
                                             Text(AppLocalizations.of(context)
                                                 .previousMonth),
-                                            Text('$previousMonthSpending'),
+                                            Text('$previousMonthSpending PLN'),
                                           ],
                                         );
                                       },
@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                                     AppLocalizations.of(context).today,
                                     style: GoogleFonts.lato(
                                       fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                      //fontWeight: FontWeight.bold,
                                     ),
                                   )),
                               const SizedBox(height: 10),
@@ -189,10 +189,11 @@ class _HomePageState extends State<HomePage> {
                                       todayIncome += (doc['income_value']);
                                     }
                                     return Text(
-                                      '$todayIncome',
+                                      '$todayIncome PLN',
                                       style: GoogleFonts.lato(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 20,
                                       ),
                                     );
                                   },
@@ -223,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                                               thisMonthIncome +=
                                                   (doc['income_value']);
                                             }
-                                            return Text('$thisMonthIncome zł');
+                                            return Text('$thisMonthIncome PLN');
                                           },
                                         ),
                                       ),
@@ -250,7 +251,7 @@ class _HomePageState extends State<HomePage> {
                                           children: [
                                             Text(AppLocalizations.of(context)
                                                 .previousMonth),
-                                            Text('$previousMonthIncome'),
+                                            Text('$previousMonthIncome PLN'),
                                           ],
                                         );
                                       },
