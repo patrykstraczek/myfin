@@ -1,38 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
+import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 
 class SpendingsRepository {
-  final userID = FirebaseAuth.instance.currentUser?.uid;
+  final FirebaseSpendingsDataSource _firebaseSpendingsDataSource;
+
+  SpendingsRepository(FirebaseSpendingsDataSource dataSource)
+      : _firebaseSpendingsDataSource = dataSource;
+
   Stream<List<SpendingsModel>> getSpendingsStream() {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('spendings')
-        .orderBy('date', descending: true)
-        .snapshots()
-        .map((querySnapshots) {
-      return querySnapshots.docs.map(
-        (doc) {
-          return SpendingsModel(
-            id: doc.id,
-            spendingName: doc['spending_name'],
-            spendingValue: doc['spending_value'],
-            spendingDate: (doc['date'] as Timestamp).toDate(),
-            selectedSpendingIcon: doc['icon'],
-          );
-        },
-      ).toList();
-    });
+    return _firebaseSpendingsDataSource.getSpendingsStream();
   }
 
   Future<void> remove({required String id}) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('spendings')
-        .doc(id)
-        .delete();
+    return _firebaseSpendingsDataSource.remove(id: id);
   }
 
   Future<void> addSpending(
@@ -41,17 +21,11 @@ class SpendingsRepository {
     DateTime selectedDate,
     var spendingIcon,
   ) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('spendings')
-        .add(
-      {
-        'icon': spendingIcon,
-        'spending_name': name,
-        'spending_value': double.parse(value),
-        'date': selectedDate,
-      },
+    return _firebaseSpendingsDataSource.addSpending(
+      name,
+      value,
+      selectedDate,
+      spendingIcon,
     );
   }
 }

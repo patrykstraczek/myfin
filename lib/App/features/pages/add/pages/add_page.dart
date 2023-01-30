@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 import 'package:myfin/App/features/pages/add/cubit/add_page_cubit.dart';
 import 'package:myfin/App/features/pages/add/widgets/icons_body.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myfin/App/widgets/calendar_widget.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({
@@ -54,7 +56,7 @@ class _AddPageState extends State<AddPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddPageCubit(
-        SpendingsRepository(),
+        SpendingsRepository(FirebaseSpendingsDataSource()),
         IncomesRepository(),
       ),
       child: BlocBuilder<AddPageCubit, AddPageState>(
@@ -66,7 +68,7 @@ class _AddPageState extends State<AddPage> {
               actions: [
                 BlocProvider(
                   create: (context) => AddPageCubit(
-                    SpendingsRepository(),
+                    SpendingsRepository(FirebaseSpendingsDataSource()),
                     IncomesRepository(),
                   ),
                   child: BlocBuilder<AddPageCubit, AddPageState>(
@@ -208,7 +210,7 @@ class _AddPageState extends State<AddPage> {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 100),
-                  child: _MyCalendar(
+                  child: MyCalendar(
                     onDateChanged: (newValue) {
                       setState(() {
                         selectedDate = newValue!;
@@ -278,40 +280,6 @@ class _AddPageState extends State<AddPage> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class _MyCalendar extends StatelessWidget {
-  const _MyCalendar({
-    Key? key,
-    required this.onDateChanged,
-    this.selectedDateFormatted,
-  }) : super(key: key);
-
-  final Function(DateTime?) onDateChanged;
-  final String? selectedDateFormatted;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () async {
-        final selectedDate = await showDatePicker(
-            currentDate: DateTime.now(),
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime.now().subtract(
-              const Duration(days: 365),
-            ),
-            lastDate: DateTime.now());
-        onDateChanged(selectedDate);
-      },
-      child: Text(
-        selectedDateFormatted ??
-            DateFormat.yMMMEd(AppLocalizations.of(context).dateFormat).format(
-              DateTime.now(),
-            ),
       ),
     );
   }
