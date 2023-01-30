@@ -65,12 +65,13 @@ class ExchangeRatesPage extends StatelessWidget {
 }
 
 class _ExchangeRateBody extends StatelessWidget {
-  const _ExchangeRateBody({
+  _ExchangeRateBody({
     Key? key,
     required this.exchangeRatesModel,
   }) : super(key: key);
 
   final ExchangeRatesModel exchangeRatesModel;
+  final exchangeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -85,27 +86,74 @@ class _ExchangeRateBody extends StatelessWidget {
                 .withOpacity(.8),
             borderRadius: const BorderRadius.all(Radius.circular(16)),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    exchangeRatesModel.code,
-                    style: const TextStyle(fontSize: 36),
+          child: InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Przelicz'),
+                  content: TextField(
+                    keyboardType: TextInputType.number,
+                    controller: exchangeController,
+                    decoration: const InputDecoration(hintText: 'Podaj ilość'),
                   ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    '${exchangeRatesModel.averageRate}  PLN',
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
-            ],
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          double value = double.parse(exchangeController.text) *
+                              exchangeRatesModel.averageRate;
+                          value = double.parse(value.toStringAsFixed(2));
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text('$value PLN'),
+                                  ));
+                        },
+                        child: Text('${exchangeRatesModel.code} na PLN')),
+                    TextButton(
+                        onPressed: () {
+                          double value = double.parse(exchangeController.text) /
+                              exchangeRatesModel.averageRate;
+                          value = double.parse(value.toStringAsFixed(2));
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text(
+                                        '$value ${exchangeRatesModel.code}'),
+                                  ));
+                        },
+                        child: Text('PLN Na ${exchangeRatesModel.code}')),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Anuluj'))
+                  ],
+                ),
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      exchangeRatesModel.code,
+                      style: const TextStyle(fontSize: 36),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '${exchangeRatesModel.averageRate}  PLN',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ],
