@@ -10,7 +10,7 @@ class ExchangeRatesRepository {
 
   Future<List<ExchangeRatesModel>> getExchangeRatesModel() async {
     final exchangeRatesResponse =
-        await remoteDataSource.getExchangeRates();
+        await remoteDataSource.getDataFromApi();
 
     final exchangeRates =
         exchangeRatesResponse.expand((e) => e.rates).toList();

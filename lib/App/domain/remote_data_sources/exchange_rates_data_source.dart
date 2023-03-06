@@ -10,14 +10,8 @@ abstract class ExchangeRatesDTO {
   factory ExchangeRatesDTO(Dio dio, {String baseUrl}) = _ExchangeRatesDTO;
 
   @GET('/A')
-  Future<List<ApiModel>> getExchangeRates();
+  Future<List<ApiModel>> getDataFromApi();
 }
-
-
-
-
-
-
 
 
 

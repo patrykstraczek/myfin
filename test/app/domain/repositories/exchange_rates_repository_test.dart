@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:myfin/App/domain/models/api_model.dart';
 import 'package:myfin/App/domain/models/exchange_rates_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/exchange_rates_data_source.dart';
 import 'package:myfin/App/domain/repositories/exchange_rates_repository.dart';
 
-class MockExchangeRatesDataSource extends Mock
-    implements ExchangeRatesDTO {}
+class MockExchangeRatesDataSource extends Mock implements ExchangeRatesDTO {}
 
 void main() {
   late ExchangeRatesRepository sut;
@@ -15,37 +15,49 @@ void main() {
     dataSource = MockExchangeRatesDataSource();
     sut = ExchangeRatesRepository(remoteDataSource: dataSource);
   });
+
   group('getExchangeRatesModel', () {
-    test('should call remoteDataSource.getExchangeRatesModel() method',
-        () async {
-      //1
-      when(() => dataSource.getExchangeRates()).thenAnswer(
-        (_) async => [],
+    test('should call remoteDataSource.getExchangeRates() method', () async {
+      // arrange
+      when(() => dataSource.getDataFromApi()).thenAnswer(
+        (_) => Future.value([ApiModel('', '', '', [])]),
       );
-      //2
+
+      // act
       await sut.getExchangeRatesModel();
-      //3
-      verify(() => dataSource.getExchangeRates());
+
+      // assert
+      verify(() => dataSource.getDataFromApi()).called(1);
     });
 
-    test('should display all exchange rates', () async {
-      //1
-      when(() => dataSource.getExchangeRates()).thenAnswer(
+    test('should return list of ExchangeRatesModel', () async {
+      // arrange
+      when(() => dataSource.getDataFromApi()).thenAnswer(
         (_) async => [
-          ExchangeRatesModel('code1', 1),
-          ExchangeRatesModel('code2', 2),
-          ExchangeRatesModel('code3', 3),
+          ApiModel(
+            'A',
+            'no',
+            'effectiveDate',
+            [
+              ExchangeRatesModel('USD', 3.8),
+              ExchangeRatesModel('EUR', 4.5),
+              ExchangeRatesModel('GBP', 5.2),
+            ],
+          ),
         ],
       );
-      //2
-      final results = await sut.getExchangeRatesModel();
-      //3
+
+      // act
+      final result = await sut.getExchangeRatesModel();
+
+      // assert
+      expect(result.length, 3);
       expect(
-        results,
+        result,
         [
-          ExchangeRatesModel('code1', 1),
-          ExchangeRatesModel('code2', 2),
-          ExchangeRatesModel('code3', 3),
+          ExchangeRatesModel('USD', 3.8),
+          ExchangeRatesModel('EUR', 4.5),
+          ExchangeRatesModel('GBP', 5.2),
         ],
       );
     });

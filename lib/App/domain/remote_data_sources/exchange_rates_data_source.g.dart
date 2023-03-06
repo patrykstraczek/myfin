@@ -21,7 +21,7 @@ class _ExchangeRatesDTO implements ExchangeRatesDTO {
   String? baseUrl;
 
   @override
-  Future<List<ApiModel>> getExchangeRates() async {
+  Future<List<ApiModel>> getDataFromApi() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
