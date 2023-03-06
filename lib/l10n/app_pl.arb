@@ -1,5 +1,6 @@
 {
-  "today": "Dzisiaj:",
+  "todaySpendings": "Dzisiejsze wydatki:",
+  "todayIncome": "Dzisiejsze wpływy:",
   "thisMonth": "W tym miesiącu",
   "previousMonth": "W poprzednim miesiącu",
   "spendings": "Wydatki",
@@ -15,5 +16,9 @@
   "date": "Data:",
   "icon": "Oznaczenie:",
   "dateFormat": "pl_PL:",
-  "avgRate": "Średni kurs:"
+  "avgRate": "Średni kurs:",
+  "convert": "Przelicz",
+  "specifyAmount": "Podaj ilość",
+  "to": "na",
+  "cancel": "Anuluj"
 }

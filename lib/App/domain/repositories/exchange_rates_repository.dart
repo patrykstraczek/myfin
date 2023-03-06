@@ -6,11 +6,18 @@ class ExchangeRatesRepository {
     required this.remoteDataSource,
   });
 
-  final ExchangeRatesDioDataSource remoteDataSource;
+  final ExchangeRatesDTO remoteDataSource;
 
   Future<List<ExchangeRatesModel>> getExchangeRatesModel() async {
-    final json = await remoteDataSource.getExchangeRatesModel();
+    final exchangeRatesResponse =
+        await remoteDataSource.getExchangeRates();
 
-    return json.map((rates) => ExchangeRatesModel.fromJson(rates)).toList();
+    final exchangeRates =
+        exchangeRatesResponse.expand((e) => e.rates).toList();
+
+    return exchangeRates.map((rate) => ExchangeRatesModel(
+          rate.code,
+          rate.averageRate,
+        )).toList();
   }
 }

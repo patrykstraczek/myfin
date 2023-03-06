@@ -1,12 +1,16 @@
-class ExchangeRatesModel {
-  ExchangeRatesModel({
-    required this.code,
-    required this.averageRate,
-  });
-  final String code;
-  final double averageRate;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  ExchangeRatesModel.fromJson(Map<String, dynamic> json)
-      : code = json['code'],
-        averageRate = json['mid'];
+part 'exchange_rates_model.g.dart';
+part 'exchange_rates_model.freezed.dart';
+
+@freezed
+class ExchangeRatesModel with _$ExchangeRatesModel {
+  factory ExchangeRatesModel(
+    String code,
+    @JsonKey(name: 'mid') double averageRate,
+  ) = _ExchangeRatesModel;
+
+  factory ExchangeRatesModel.fromJson(Map<String, dynamic> json) =>
+      _$ExchangeRatesModelFromJson(json);
 }
+

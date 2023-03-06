@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myfin/App/core/enums.dart';
@@ -23,7 +24,7 @@ class ExchangeRatesPage extends StatelessWidget {
       body: BlocProvider(
         create: (context) => ExchangeRatesCubit(
           exchangeRatesRepository: ExchangeRatesRepository(
-            remoteDataSource: ExchangeRatesDioDataSource(),
+            remoteDataSource: ExchangeRatesDTO(Dio()),
           ),
         )..getExchangeRatesModel(),
         child: BlocBuilder<ExchangeRatesCubit, ExchangeRatesState>(
@@ -91,11 +92,12 @@ class _ExchangeRateBody extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Przelicz'),
+                  title: Text(AppLocalizations.of(context).convert),
                   content: TextField(
                     keyboardType: TextInputType.number,
                     controller: exchangeController,
-                    decoration: const InputDecoration(hintText: 'Podaj ilość'),
+                    decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context).specifyAmount),
                   ),
                   actions: [
                     TextButton(
@@ -109,7 +111,8 @@ class _ExchangeRateBody extends StatelessWidget {
                                     title: Text('$value PLN'),
                                   ));
                         },
-                        child: Text('${exchangeRatesModel.code} na PLN')),
+                        child: Text(
+                            '${exchangeRatesModel.code} ${AppLocalizations.of(context).to} PLN')),
                     TextButton(
                         onPressed: () {
                           double value = double.parse(exchangeController.text) /
@@ -122,12 +125,13 @@ class _ExchangeRateBody extends StatelessWidget {
                                         '$value ${exchangeRatesModel.code}'),
                                   ));
                         },
-                        child: Text('PLN Na ${exchangeRatesModel.code}')),
+                        child: Text(
+                            'PLN ${AppLocalizations.of(context).to} ${exchangeRatesModel.code}')),
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: const Text('Anuluj'))
+                        child: Text(AppLocalizations.of(context).cancel))
                   ],
                 ),
               );

@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                               Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: Text(
-                                    AppLocalizations.of(context).today,
+                                    AppLocalizations.of(context).todaySpendings,
                                     style: GoogleFonts.lato(
                                       fontSize: 20,
                                     ),
@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                               Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: Text(
-                                    AppLocalizations.of(context).today,
+                                    AppLocalizations.of(context).todayIncome,
                                     style: GoogleFonts.lato(
                                       fontSize: 20,
                                       //fontWeight: FontWeight.bold,
@@ -290,5 +290,5 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// Drawer
+
 

@@ -1,5 +1,6 @@
 {
-  "today": "Today:",
+  "todaySpendings": "Today spendings:",
+  "todayIncome": "Today income:",
   "thisMonth": "This month",
   "previousMonth": "Previous month",
   "spendings": "Spendings",
@@ -11,9 +12,13 @@
   "spending": "Spending",
   "income": "Income",
   "hintName": "Name",
-  "hintValue": "Value",
+  "hintValue": "Amount",
   "date": "Date:",
   "icon": "Icon:",
   "dateFormat": "en_EN:",
-  "avgRate": "Average exchange rate:"
+  "avgRate": "Average exchange rate:",
+  "convert": "Convert currency",
+  "specifyAmount": "Amount",
+  "to": "to",
+  "cancel": "Cancel"
 }

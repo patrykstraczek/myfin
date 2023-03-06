@@ -11,6 +11,8 @@ import 'package:myfin/App/domain/models/spendings_model.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
+  final userID = FirebaseAuth.instance.currentUser?.uid;
+  final now = DateTime.now();
   HomeCubit()
       : super(
           const HomeState(
@@ -23,10 +25,8 @@ class HomeCubit extends Cubit<HomeState> {
   StreamSubscription? _homeSpendingsSubscription;
 
   Future<void> getTodaySpendings() async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    final now = DateTime.now();
     if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
+      throw Exception('User is not logged in');
     }
     emit(
       const HomeState(
@@ -67,10 +67,8 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getThisMonthSpendings() async {
-    final now = DateTime.now();
-    final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
+      throw Exception('User is not logged in');
     }
     emit(
       const HomeState(
@@ -110,12 +108,10 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getPreviousMonthSpendings() async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    final now = DateTime.now();
     var previousMonthStart = DateTime(now.year, now.month - 1, 1);
     var previousMonthEnd = DateTime(now.year, now.month, 0, 23, 59, 59);
     if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
+      throw Exception('User is not logged in');
     }
     emit(
       const HomeState(
@@ -160,6 +156,8 @@ class HomeCubit extends Cubit<HomeState> {
 }
 
 class HomeIncomeCubit extends Cubit<HomeState> {
+  final now = DateTime.now();
+  final userID = FirebaseAuth.instance.currentUser?.uid;
   HomeIncomeCubit()
       : super(
           const HomeState(
@@ -172,10 +170,8 @@ class HomeIncomeCubit extends Cubit<HomeState> {
   StreamSubscription? _homeIncomesSubscription;
 
   Future<void> getTodayIncome() async {
-    final now = DateTime.now();
-    final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
+      throw Exception('User is not logged in');
     }
     emit(
       const HomeState(
@@ -216,10 +212,8 @@ class HomeIncomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getThisMonthIncome() async {
-    final now = DateTime.now();
-    final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
+      throw Exception('User is not logged in');
     }
     emit(
       const HomeState(
@@ -259,12 +253,10 @@ class HomeIncomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getPreviousMonthIncome() async {
-    final now = DateTime.now();
     var previousMonthStart = DateTime(now.year, now.month - 1, 1);
     var previousMonthEnd = DateTime(now.year, now.month, 0, 23, 59, 59);
-    final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
-      throw Exception('Użytkownik niezalogowany');
+      throw Exception('User is not logged in');
     }
     emit(
       const HomeState(
