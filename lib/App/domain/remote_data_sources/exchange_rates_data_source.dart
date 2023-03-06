@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:myfin/App/domain/models/api_model.dart';
-import 'package:myfin/App/domain/models/exchange_rates_model.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'exchange_rates_data_source.g.dart';

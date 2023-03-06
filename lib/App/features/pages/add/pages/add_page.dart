@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
@@ -57,7 +58,7 @@ class _AddPageState extends State<AddPage> {
     return BlocProvider(
       create: (context) => AddPageCubit(
         SpendingsRepository(FirebaseSpendingsDataSource()),
-        IncomesRepository(),
+        IncomesRepository(FirebaseIncomeDataSource()),
       ),
       child: BlocBuilder<AddPageCubit, AddPageState>(
         builder: (context, state) {
@@ -69,7 +70,7 @@ class _AddPageState extends State<AddPage> {
                 BlocProvider(
                   create: (context) => AddPageCubit(
                     SpendingsRepository(FirebaseSpendingsDataSource()),
-                    IncomesRepository(),
+                    IncomesRepository(FirebaseIncomeDataSource()),
                   ),
                   child: BlocBuilder<AddPageCubit, AddPageState>(
                     builder: (context, state) {

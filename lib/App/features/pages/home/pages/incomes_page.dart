@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/features/pages/home/cubit/incomes/incomes_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,7 +15,7 @@ class IncomesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => IncomesCubit(IncomesRepository())..start(),
+        create: (context) => IncomesCubit(IncomesRepository(FirebaseIncomeDataSource()))..start(),
         child: BlocBuilder<IncomesCubit, IncomesState>(
           builder: (context, state) {
             state.docs;
