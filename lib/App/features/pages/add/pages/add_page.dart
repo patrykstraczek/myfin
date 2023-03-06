@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:myfin/App/domain/icons.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
@@ -29,22 +30,6 @@ int iconSelected = 0;
 String text = text.replaceAll(",", ".");
 
 DateTime selectedDate = DateTime.now();
-
-List<Map<String, dynamic>> spendingsItems = <Map<String, dynamic>>[
-  <String, dynamic>{'icon': Icons.remove},
-  <String, dynamic>{'icon': Icons.drive_eta},
-  <String, dynamic>{'icon': Icons.food_bank},
-  <String, dynamic>{'icon': Icons.home},
-  <String, dynamic>{'icon': Icons.sports_esports},
-];
-
-List<Map<String, dynamic>> incomesItems = <Map<String, dynamic>>[
-  <String, dynamic>{'icon': Icons.add},
-  <String, dynamic>{'icon': Icons.work},
-  <String, dynamic>{'icon': Icons.person},
-  <String, dynamic>{'icon': Icons.card_giftcard},
-  <String, dynamic>{'icon': Icons.currency_exchange},
-];
 
 class _AddPageState extends State<AddPage> {
   void checkOption(int index) {
@@ -240,14 +225,14 @@ class _AddPageState extends State<AddPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            for (int i = 0; i < spendingsItems.length; i++)
+                            for (int i = 0; i < spendingIcons.length; i++)
                               IconsBody(
-                                icon: spendingsItems[i]['icon'] as IconData,
+                                icon: spendingIcons[i]['icon'] as IconData,
                                 onTap: () {
                                   checkOption(i + 1);
                                   setState(() {
                                     spendingIcon =
-                                        (spendingsItems[i]['icon'] as IconData)
+                                        (spendingIcons[i]['icon'] as IconData)
                                             .codePoint;
                                   });
                                 },
@@ -261,14 +246,14 @@ class _AddPageState extends State<AddPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            for (int i = 0; i < incomesItems.length; i++)
+                            for (int i = 0; i < incomeIcons.length; i++)
                               IconsBody(
-                                icon: incomesItems[i]['icon'] as IconData,
+                                icon: incomeIcons[i]['icon'] as IconData,
                                 onTap: () {
                                   checkOption(i + 1);
                                   setState(() {
                                     incomeIcon =
-                                        (incomesItems[i]['icon'] as IconData)
+                                        (incomeIcons[i]['icon'] as IconData)
                                             .codePoint;
                                   });
                                 },

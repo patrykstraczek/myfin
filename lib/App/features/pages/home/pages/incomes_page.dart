@@ -15,7 +15,10 @@ class IncomesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => IncomesCubit(IncomesRepository(FirebaseIncomeDataSource()))..start(),
+        create: (context) => IncomesCubit(IncomesRepository(
+          FirebaseIncomeDataSource(),
+        ))
+          ..start(),
         child: BlocBuilder<IncomesCubit, IncomesState>(
           builder: (context, state) {
             state.docs;
