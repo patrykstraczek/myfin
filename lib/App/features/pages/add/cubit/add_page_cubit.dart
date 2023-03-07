@@ -1,15 +1,17 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 
 part 'add_page_state.dart';
+part 'add_page_cubit.freezed.dart';
 
 class AddPageCubit extends Cubit<AddPageState> {
   AddPageCubit(this._spendingsRepository, this._incomesRepository)
-      : super(const AddPageState());
+      : super( AddPageState());
 
   final SpendingsRepository _spendingsRepository;
   final IncomesRepository _incomesRepository;
@@ -27,7 +29,7 @@ class AddPageCubit extends Cubit<AddPageState> {
         selectedDate,
         spendingIcon,
       );
-      emit(const AddPageState(saved: true));
+      emit( AddPageState(saved: true));
     } catch (error) {
       emit(AddPageState(errorMessage: error.toString()));
     }
@@ -46,7 +48,7 @@ class AddPageCubit extends Cubit<AddPageState> {
         selectedDate,
         incomeIcon,
       );
-      emit(const AddPageState(saved: true));
+      emit( AddPageState(saved: true));
     } catch (error) {
       emit(AddPageState(errorMessage: error.toString()));
     }

@@ -1,14 +1,10 @@
 part of 'root_cubit.dart';
 
-@immutable
-class RootState {
-  final User? user;
-  final bool isLoading;
-  final String errorMessage;
-
-  const RootState({
-    required this.user,
-    required this.isLoading,
-    required this.errorMessage,
-  });
+@freezed
+class RootState with _$RootState {
+  factory RootState({
+    @Default(null)User? user,
+    @Default(Status.initial) Status status,
+    String? errorMessage,
+  }) = _RootState;
 }

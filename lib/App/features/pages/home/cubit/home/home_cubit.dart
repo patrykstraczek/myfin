@@ -4,148 +4,76 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 
 part 'home_state.dart';
+part 'home_cubit.freezed.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final userID = FirebaseAuth.instance.currentUser?.uid;
   final now = DateTime.now();
-  HomeCubit()
-      : super(
-          const HomeState(
-            documents: [],
-            errorMessage: '',
-            isLoading: false,
-          ),
-        );
+
+  HomeCubit() : super(HomeState());
 
   StreamSubscription? _homeSpendingsSubscription;
 
-  Future<void> getTodaySpendings() async {
-    if (userID == null) {
-      throw Exception('User is not logged in');
-    }
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>
+      _handleSpendingsStream(
+          Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
     emit(
-      const HomeState(
-        documents: [],
-        errorMessage: '',
-        isLoading: true,
-      ),
+      HomeState(status: Status.loading),
     );
-
-    _homeSpendingsSubscription = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('spendings')
-        .where("date",
-            isGreaterThanOrEqualTo: DateTime(now.year, now.month, now.day))
-        .where("date",
-            isLessThanOrEqualTo:
-                DateTime(now.year, now.month, now.day, 23, 59, 59))
-        .snapshots()
-        .listen((data) {
-      emit(
-        HomeState(
+    return stream.listen((data) {
+      try {
+        emit(HomeState(
+          status: Status.success,
           documents: data.docs,
-          isLoading: false,
-          errorMessage: '',
-        ),
-      );
-    })
-      ..onError((error) {
-        emit(
-          HomeState(
-            documents: const [],
-            isLoading: false,
-            errorMessage: error.toString(),
-          ),
-        );
-      });
+        ));
+      } catch (error) {
+        emit(HomeState(
+          status: Status.error,
+          errorMessage: error.toString(),
+        ));
+      }
+    });
   }
 
-  Future<void> getThisMonthSpendings() async {
-    if (userID == null) {
-      throw Exception('User is not logged in');
-    }
-    emit(
-      const HomeState(
-        documents: [],
-        errorMessage: '',
-        isLoading: true,
-      ),
-    );
-
-    _homeSpendingsSubscription = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('spendings')
-        .where("date", isGreaterThanOrEqualTo: DateTime(now.year, now.month, 1))
-        .where("date",
-            isLessThanOrEqualTo:
-                DateTime(now.year, now.month + 1, 0, 23, 59, 59))
-        .snapshots()
-        .listen((data) {
-      emit(
-        HomeState(
-          documents: data.docs,
-          isLoading: false,
-          errorMessage: '',
-        ),
-      );
-    })
-      ..onError((error) {
-        emit(
-          HomeState(
-            documents: const [],
-            isLoading: false,
-            errorMessage: error.toString(),
-          ),
-        );
-      });
+  void getTodaySpendings() {
+    final start = DateTime(now.year, now.month, now.day);
+    final end = DateTime(now.year, now.month, now.day, 23, 59, 59);
+    final stream = _getSpendings(start, end);
+    _homeSpendingsSubscription = _handleSpendingsStream(stream);
   }
 
-  Future<void> getPreviousMonthSpendings() async {
-    var previousMonthStart = DateTime(now.year, now.month - 1, 1);
-    var previousMonthEnd = DateTime(now.year, now.month, 0, 23, 59, 59);
+  void getThisMonthSpendings() {
+    final start = DateTime(now.year, now.month, 1);
+    final end = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
+    final stream = _getSpendings(start, end);
+    _homeSpendingsSubscription = _handleSpendingsStream(stream);
+  }
+
+  void getPreviousMonthSpendings() {
+    final start = DateTime(now.year, now.month - 1, 1);
+    final end = DateTime(now.year, now.month, 0, 23, 59, 59);
+    final stream = _getSpendings(start, end);
+    _homeSpendingsSubscription = _handleSpendingsStream(stream);
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> _getSpendings(
+      DateTime start, DateTime end) {
     if (userID == null) {
       throw Exception('User is not logged in');
     }
-    emit(
-      const HomeState(
-        documents: [],
-        errorMessage: '',
-        isLoading: true,
-      ),
-    );
-
-    _homeSpendingsSubscription = FirebaseFirestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .collection('spendings')
-        .where("date", isGreaterThanOrEqualTo: previousMonthStart)
-        .where("date", isLessThanOrEqualTo: previousMonthEnd)
-        .snapshots()
-        .listen((data) {
-      emit(
-        HomeState(
-          documents: data.docs,
-          isLoading: false,
-          errorMessage: '',
-        ),
-      );
-    })
-      ..onError((error) {
-        emit(
-          HomeState(
-            documents: const [],
-            isLoading: false,
-            errorMessage: error.toString(),
-          ),
-        );
-      });
+        .where("date", isGreaterThanOrEqualTo: start)
+        .where("date", isLessThanOrEqualTo: end)
+        .snapshots();
   }
 
   @override
@@ -158,139 +86,66 @@ class HomeCubit extends Cubit<HomeState> {
 class HomeIncomeCubit extends Cubit<HomeState> {
   final now = DateTime.now();
   final userID = FirebaseAuth.instance.currentUser?.uid;
-  HomeIncomeCubit()
-      : super(
-          const HomeState(
-            documents: [],
-            errorMessage: '',
-            isLoading: false,
-          ),
-        );
+
+  HomeIncomeCubit() : super(HomeState());
 
   StreamSubscription? _homeIncomesSubscription;
 
-  Future<void> getTodayIncome() async {
-    if (userID == null) {
-      throw Exception('User is not logged in');
-    }
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _handleIncomesStream(
+      Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
     emit(
-      const HomeState(
-        documents: [],
-        errorMessage: '',
-        isLoading: true,
+      HomeState(
+        status: Status.loading,
       ),
     );
-
-    _homeIncomesSubscription = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('incomes')
-        .where("date",
-            isGreaterThanOrEqualTo: DateTime(now.year, now.month, now.day))
-        .where("date",
-            isLessThanOrEqualTo:
-                DateTime(now.year, now.month, now.day, 23, 59, 59))
-        .snapshots()
-        .listen((data) {
-      emit(
-        HomeState(
+    return stream.listen((data) {
+      try {
+        emit(HomeState(
+          status: Status.success,
           documents: data.docs,
-          isLoading: false,
-          errorMessage: '',
-        ),
-      );
-    })
-      ..onError((error) {
-        emit(
-          HomeState(
-            documents: const [],
-            isLoading: false,
-            errorMessage: error.toString(),
-          ),
-        );
-      });
+        ));
+      } catch (error) {
+        emit(HomeState(
+          status: Status.error,
+          errorMessage: error.toString(),
+        ));
+      }
+    });
+  }
+
+  Future<void> getTodayIncome() async {
+    final start = DateTime(now.year, now.month, now.day);
+    final end = DateTime(now.year, now.month, now.day, 23, 59, 59);
+    final stream = _getIncomes(start, end);
+    _homeIncomesSubscription = _handleIncomesStream(stream);
   }
 
   Future<void> getThisMonthIncome() async {
-    if (userID == null) {
-      throw Exception('User is not logged in');
-    }
-    emit(
-      const HomeState(
-        documents: [],
-        errorMessage: '',
-        isLoading: true,
-      ),
-    );
-
-    _homeIncomesSubscription = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('incomes')
-        .where("date", isGreaterThanOrEqualTo: DateTime(now.year, now.month, 1))
-        .where("date",
-            isLessThanOrEqualTo:
-                DateTime(now.year, now.month + 1, 0, 23, 59, 59))
-        .snapshots()
-        .listen((data) {
-      emit(
-        HomeState(
-          documents: data.docs,
-          isLoading: false,
-          errorMessage: '',
-        ),
-      );
-    })
-      ..onError((error) {
-        emit(
-          HomeState(
-            documents: const [],
-            isLoading: false,
-            errorMessage: error.toString(),
-          ),
-        );
-      });
+    final start = DateTime(now.year, now.month, 1);
+    final end = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
+    final stream = _getIncomes(start, end);
+    _homeIncomesSubscription = _handleIncomesStream(stream);
   }
 
   Future<void> getPreviousMonthIncome() async {
-    var previousMonthStart = DateTime(now.year, now.month - 1, 1);
-    var previousMonthEnd = DateTime(now.year, now.month, 0, 23, 59, 59);
+    final start = DateTime(now.year, now.month - 1, 1);
+    final end = DateTime(now.year, now.month, 0, 23, 59, 59);
+    final stream = _getIncomes(start, end);
+    _homeIncomesSubscription = _handleIncomesStream(stream);
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> _getIncomes(
+      DateTime start, DateTime end) {
     if (userID == null) {
       throw Exception('User is not logged in');
     }
-    emit(
-      const HomeState(
-        documents: [],
-        errorMessage: '',
-        isLoading: true,
-      ),
-    );
-
-    _homeIncomesSubscription = FirebaseFirestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .collection('incomes')
-        .where("date", isGreaterThanOrEqualTo: previousMonthStart)
-        .where("date", isLessThanOrEqualTo: previousMonthEnd)
-        .snapshots()
-        .listen((data) {
-      emit(
-        HomeState(
-          documents: data.docs,
-          isLoading: false,
-          errorMessage: '',
-        ),
-      );
-    })
-      ..onError((error) {
-        emit(
-          HomeState(
-            documents: const [],
-            isLoading: false,
-            errorMessage: error.toString(),
-          ),
-        );
-      });
+        .where("date", isGreaterThanOrEqualTo: start)
+        .where("date", isLessThanOrEqualTo: end)
+        .snapshots();
   }
 
   @override

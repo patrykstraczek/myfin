@@ -2,22 +2,19 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/incomes_model.dart';
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 
 part 'incomes_state.dart';
+part 'incomes_cubit.freezed.dart';
 
 class IncomesCubit extends Cubit<IncomesState> {
-  IncomesCubit(this._incomesRepository)
-      : super(
-          const IncomesState(
-            docs: [],
-            errorMessage: '',
-            isLoading: false,
-          ),
-        );
+  IncomesCubit(this._incomesRepository) : super(IncomesState());
+
   final IncomesRepository _incomesRepository;
+
   StreamSubscription? incomesSubscription;
 
   Future<void> start() async {
@@ -25,21 +22,25 @@ class IncomesCubit extends Cubit<IncomesState> {
         _incomesRepository.getIncomesStream().listen((incomes) {
       emit(
         IncomesState(
-          docs: incomes,
-          isLoading: false,
-          errorMessage: '',
+          status: Status.loading,
         ),
       );
-    })
-          ..onError((error) {
-            emit(
-              IncomesState(
-                docs: const [],
-                isLoading: false,
-                errorMessage: error.toString(),
-              ),
-            );
-          });
+      try {
+        emit(
+          IncomesState(
+            status: Status.success,
+            docs: incomes,
+          ),
+        );
+      } catch (error) {
+        emit(
+          IncomesState(
+            status: Status.error,
+            errorMessage: error.toString(),
+          ),
+        );
+      }
+    });
   }
 
   Future<void> remove({required String documentID}) async {
@@ -48,8 +49,7 @@ class IncomesCubit extends Cubit<IncomesState> {
     } catch (error) {
       emit(
         IncomesState(
-          docs: const [],
-          isLoading: false,
+          status: Status.error,
           errorMessage: error.toString(),
         ),
       );

@@ -1,14 +1,12 @@
 part of 'home_cubit.dart';
 
-@immutable
-class HomeState {
-  final List<QueryDocumentSnapshot<Object?>> documents;
-  final bool isLoading;
-  final String errorMessage;
 
-  const HomeState({
-    required this.documents,
-    required this.isLoading,
-    required this.errorMessage,
-  });
+@freezed
+class HomeState with _$HomeState {
+  factory HomeState({
+    @Default([]) List<QueryDocumentSnapshot<Object?>> documents,
+    @Default(Status.initial) Status status,
+    String? errorMessage,
+  }) = _HomeState;
 }
+

@@ -1,14 +1,11 @@
 part of 'incomes_cubit.dart';
 
-@immutable
-class IncomesState {
-  const IncomesState({
-    required this.docs,
-    required this.isLoading,
-    required this.errorMessage,
-  });
 
-  final List<IncomesModel> docs;
-  final bool isLoading;
-  final String errorMessage;
+@freezed
+class IncomesState with _$IncomesState {
+  factory IncomesState({
+    @Default([]) List<IncomesModel> docs,
+    @Default(Status.initial) Status status,
+    String? errorMessage,
+  }) = _IncomesState;
 }
