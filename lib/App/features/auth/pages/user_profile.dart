@@ -13,6 +13,13 @@ class UserProfile extends StatelessWidget {
       ),
       providerConfigs: const [
         EmailProviderConfiguration(),
+        GoogleProviderConfiguration(
+          clientId: '...',
+        ),
+        FacebookProviderConfiguration(
+          clientId: '...',
+        ),
+        AppleProviderConfiguration(),
       ],
       actions: [
         SignedOutAction(

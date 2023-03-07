@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,10 +13,7 @@ import 'package:myfin/App/widgets/drawer_widget.dart';
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
-    required this.user,
   }) : super(key: key);
-
-  final User user;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -289,6 +285,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-

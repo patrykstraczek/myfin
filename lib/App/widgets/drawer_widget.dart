@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myfin/App/features/pages/auth/pages/user_profile.dart';
+import 'package:myfin/App/features/auth/pages/user_profile.dart';
 import 'package:myfin/App/features/pages/exchange/pages/exchange_rates_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
