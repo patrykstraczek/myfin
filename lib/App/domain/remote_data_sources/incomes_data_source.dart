@@ -51,7 +51,14 @@ class FirebaseIncomeDataSource {
       },
     );
   }
-
-
-
+  Stream<QuerySnapshot<Map<String, dynamic>>> getIncomes(
+      DateTime start, DateTime end) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('incomes')
+        .where("date", isGreaterThanOrEqualTo: start)
+        .where("date", isLessThanOrEqualTo: end)
+        .snapshots();
+  }
 }

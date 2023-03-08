@@ -54,4 +54,15 @@ class FirebaseSpendingsDataSource {
       },
     );
   }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getSpendings(
+      DateTime start, DateTime end) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('spendings')
+        .where("date", isGreaterThanOrEqualTo: start)
+        .where("date", isLessThanOrEqualTo: end)
+        .snapshots();
+  }
 }

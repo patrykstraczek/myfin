@@ -25,7 +25,7 @@ class SpendingsPage extends StatelessWidget {
             switch (state.status) {
               case Status.initial:
                 return const Center(
-                  child: Text('Initial state'),
+                  child: Text(''),
                 );
               case Status.loading:
                 return const Center(

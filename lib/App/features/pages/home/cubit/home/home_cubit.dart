@@ -8,6 +8,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
+import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
+import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 
 part 'home_state.dart';
 part 'home_cubit.freezed.dart';
@@ -15,6 +17,7 @@ part 'home_cubit.freezed.dart';
 class HomeCubit extends Cubit<HomeState> {
   final userID = FirebaseAuth.instance.currentUser?.uid;
   final now = DateTime.now();
+  final spendingDataSource = FirebaseSpendingsDataSource();
 
   HomeCubit() : super(HomeState());
 
@@ -41,39 +44,25 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  void getTodaySpendings() {
+  Future<void> getTodaySpendings() async {
     final start = DateTime(now.year, now.month, now.day);
     final end = DateTime(now.year, now.month, now.day, 23, 59, 59);
-    final stream = _getSpendings(start, end);
+    final stream = spendingDataSource.getSpendings(start, end);
     _homeSpendingsSubscription = _handleSpendingsStream(stream);
   }
 
-  void getThisMonthSpendings() {
+  Future<void> getThisMonthSpendings() async {
     final start = DateTime(now.year, now.month, 1);
     final end = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
-    final stream = _getSpendings(start, end);
+    final stream = spendingDataSource.getSpendings(start, end);
     _homeSpendingsSubscription = _handleSpendingsStream(stream);
   }
 
-  void getPreviousMonthSpendings() {
+  Future<void> getPreviousMonthSpendings() async {
     final start = DateTime(now.year, now.month - 1, 1);
     final end = DateTime(now.year, now.month, 0, 23, 59, 59);
-    final stream = _getSpendings(start, end);
+    final stream = spendingDataSource.getSpendings(start, end);
     _homeSpendingsSubscription = _handleSpendingsStream(stream);
-  }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> _getSpendings(
-      DateTime start, DateTime end) {
-    if (userID == null) {
-      throw Exception('User is not logged in');
-    }
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('spendings')
-        .where("date", isGreaterThanOrEqualTo: start)
-        .where("date", isLessThanOrEqualTo: end)
-        .snapshots();
   }
 
   @override
@@ -86,6 +75,7 @@ class HomeCubit extends Cubit<HomeState> {
 class HomeIncomeCubit extends Cubit<HomeState> {
   final now = DateTime.now();
   final userID = FirebaseAuth.instance.currentUser?.uid;
+  final incomeDataSource = FirebaseIncomeDataSource();
 
   HomeIncomeCubit() : super(HomeState());
 
@@ -116,36 +106,22 @@ class HomeIncomeCubit extends Cubit<HomeState> {
   Future<void> getTodayIncome() async {
     final start = DateTime(now.year, now.month, now.day);
     final end = DateTime(now.year, now.month, now.day, 23, 59, 59);
-    final stream = _getIncomes(start, end);
+    final stream = incomeDataSource.getIncomes(start, end);
     _homeIncomesSubscription = _handleIncomesStream(stream);
   }
 
   Future<void> getThisMonthIncome() async {
     final start = DateTime(now.year, now.month, 1);
     final end = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
-    final stream = _getIncomes(start, end);
+    final stream = incomeDataSource.getIncomes(start, end);
     _homeIncomesSubscription = _handleIncomesStream(stream);
   }
 
   Future<void> getPreviousMonthIncome() async {
     final start = DateTime(now.year, now.month - 1, 1);
     final end = DateTime(now.year, now.month, 0, 23, 59, 59);
-    final stream = _getIncomes(start, end);
+    final stream = incomeDataSource.getIncomes(start, end);
     _homeIncomesSubscription = _handleIncomesStream(stream);
-  }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> _getIncomes(
-      DateTime start, DateTime end) {
-    if (userID == null) {
-      throw Exception('User is not logged in');
-    }
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('incomes')
-        .where("date", isGreaterThanOrEqualTo: start)
-        .where("date", isLessThanOrEqualTo: end)
-        .snapshots();
   }
 
   @override

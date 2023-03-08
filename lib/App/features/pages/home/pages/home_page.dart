@@ -59,203 +59,16 @@ class _HomePageState extends State<HomePage> {
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(0),
               child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    color: Color.fromARGB(255, 148, 112, 4),
-                  ),
-                  alignment: Alignment.topCenter,
-                  height: 194.0,
-                  child:
-//spendings
-                      currentIndex == 0
-                          ? Column(children: [
-                              Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    AppLocalizations.of(context).todaySpendings,
-                                    style: GoogleFonts.lato(
-                                      fontSize: 20,
-                                    ),
-                                  )),
-                              const SizedBox(height: 10),
-                              BlocProvider(
-                                create: (context) =>
-                                    HomeCubit()..getTodaySpendings(),
-                                child: BlocBuilder<HomeCubit, HomeState>(
-                                  builder: (context, state) {
-                                    final documents = state.documents;
-                                    todaySpendings = 0.0;
-
-                                    for (final doc in documents) {
-                                      todaySpendings += (doc['spending_value']);
-                                    }
-                                    return Text(
-                                      '$todaySpendings PLN',
-                                      style: GoogleFonts.lato(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 64, vertical: 16),
-                                child: Column(children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(AppLocalizations.of(context)
-                                          .thisMonth),
-                                      BlocProvider(
-                                        create: (context) => HomeCubit()
-                                          ..getThisMonthSpendings(),
-                                        child:
-                                            BlocBuilder<HomeCubit, HomeState>(
-                                          builder: (context, state) {
-                                            final documents = state.documents;
-
-                                            thisMonthSpending = 0.0;
-
-                                            for (final doc in documents) {
-                                              thisMonthSpending +=
-                                                  (doc['spending_value']);
-                                            }
-                                            return Text(
-                                                '$thisMonthSpending PLN');
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                  BlocProvider(
-                                    create: (context) => HomeCubit()
-                                      ..getPreviousMonthSpendings(),
-                                    child: BlocBuilder<HomeCubit, HomeState>(
-                                      builder: (context, state) {
-                                        final documents = state.documents;
-
-                                        previousMonthSpending = 0.0;
-
-                                        for (final doc in documents) {
-                                          previousMonthSpending +=
-                                              (doc['spending_value']);
-                                        }
-                                        return Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(AppLocalizations.of(context)
-                                                .previousMonth),
-                                            Text('$previousMonthSpending PLN'),
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ]),
-                              )
-                            ])
-//incomes
-                          : Column(children: [
-                              Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    AppLocalizations.of(context).todayIncome,
-                                    style: GoogleFonts.lato(
-                                      fontSize: 20,
-                                      //fontWeight: FontWeight.bold,
-                                    ),
-                                  )),
-                              const SizedBox(height: 10),
-                              BlocProvider(
-                                create: (context) =>
-                                    HomeIncomeCubit()..getTodayIncome(),
-                                child: BlocBuilder<HomeIncomeCubit, HomeState>(
-                                  builder: (context, state) {
-                                    final documents = state.documents;
-                                    todayIncome = 0.0;
-
-                                    for (final doc in documents) {
-                                      todayIncome += (doc['income_value']);
-                                    }
-                                    return Text(
-                                      '$todayIncome PLN',
-                                      style: GoogleFonts.lato(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 64, vertical: 16),
-                                child: Column(children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(AppLocalizations.of(context)
-                                          .thisMonth),
-                                      BlocProvider(
-                                        create: (context) => HomeIncomeCubit()
-                                          ..getThisMonthIncome(),
-                                        child: BlocBuilder<HomeIncomeCubit,
-                                            HomeState>(
-                                          builder: (context, state) {
-                                            final documents = state.documents;
-
-                                            thisMonthIncome = 0.0;
-
-                                            for (final doc in documents) {
-                                              thisMonthIncome +=
-                                                  (doc['income_value']);
-                                            }
-                                            return Text('$thisMonthIncome PLN');
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                  BlocProvider(
-                                    create: (context) => HomeIncomeCubit()
-                                      ..getPreviousMonthIncome(),
-                                    child:
-                                        BlocBuilder<HomeIncomeCubit, HomeState>(
-                                      builder: (context, state) {
-                                        final documents = state.documents;
-
-                                        previousMonthIncome = 0.0;
-
-                                        for (final doc in documents) {
-                                          previousMonthIncome +=
-                                              (doc['income_value']);
-                                        }
-                                        return Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(AppLocalizations.of(context)
-                                                .previousMonth),
-                                            Text('$previousMonthIncome PLN'),
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ]),
-                              )
-                            ])))),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  color: Color.fromARGB(255, 148, 112, 4),
+                ),
+                alignment: Alignment.topCenter,
+                height: 194.0,
+                child: currentIndex == 0
+                    ? const _SpendingHeaderBody()
+                    : const _IncomeHeaderBody(),
+              ))),
       drawer: const DrawerWidget(),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
@@ -283,5 +96,183 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+}
+
+class _SpendingHeaderBody extends StatelessWidget {
+  const _SpendingHeaderBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+            AppLocalizations.of(context).todaySpendings,
+            style: GoogleFonts.lato(
+              fontSize: 20,
+            ),
+          )),
+      const SizedBox(height: 10),
+      BlocProvider(
+        create: (context) => HomeCubit()..getTodaySpendings(),
+        child: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            final documents = state.documents;
+            todaySpendings = 0.0;
+
+            for (final doc in documents) {
+              todaySpendings += (doc['spending_value']);
+            }
+            return Text(
+              '$todaySpendings PLN',
+              style: GoogleFonts.lato(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            );
+          },
+        ),
+      ),
+      const SizedBox(height: 20),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(AppLocalizations.of(context).thisMonth),
+              BlocProvider(
+                create: (context) => HomeCubit()..getThisMonthSpendings(),
+                child: BlocBuilder<HomeCubit, HomeState>(
+                  builder: (context, state) {
+                    final documents = state.documents;
+
+                    thisMonthSpending = 0.0;
+
+                    for (final doc in documents) {
+                      thisMonthSpending += (doc['spending_value']);
+                    }
+                    return Text('$thisMonthSpending PLN');
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          BlocProvider(
+            create: (context) => HomeCubit()..getPreviousMonthSpendings(),
+            child: BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                final documents = state.documents;
+
+                previousMonthSpending = 0.0;
+
+                for (final doc in documents) {
+                  previousMonthSpending += (doc['spending_value']);
+                }
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(AppLocalizations.of(context).previousMonth),
+                    Text('$previousMonthSpending PLN'),
+                  ],
+                );
+              },
+            ),
+          ),
+        ]),
+      )
+    ]);
+  }
+}
+
+class _IncomeHeaderBody extends StatelessWidget {
+  const _IncomeHeaderBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+            AppLocalizations.of(context).todayIncome,
+            style: GoogleFonts.lato(
+              fontSize: 20,
+            ),
+          )),
+      const SizedBox(height: 10),
+      BlocProvider(
+        create: (context) => HomeIncomeCubit()..getTodayIncome(),
+        child: BlocBuilder<HomeIncomeCubit, HomeState>(
+          builder: (context, state) {
+            final documents = state.documents;
+            todayIncome = 0.0;
+
+            for (final doc in documents) {
+              todayIncome += (doc['income_value']);
+            }
+            return Text(
+              '$todayIncome PLN',
+              style: GoogleFonts.lato(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            );
+          },
+        ),
+      ),
+      const SizedBox(height: 20),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(AppLocalizations.of(context).thisMonth),
+              BlocProvider(
+                create: (context) => HomeIncomeCubit()..getThisMonthIncome(),
+                child: BlocBuilder<HomeIncomeCubit, HomeState>(
+                  builder: (context, state) {
+                    final documents = state.documents;
+
+                    thisMonthIncome = 0.0;
+
+                    for (final doc in documents) {
+                      thisMonthIncome += (doc['income_value']);
+                    }
+                    return Text('$thisMonthIncome PLN');
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          BlocProvider(
+            create: (context) => HomeIncomeCubit()..getPreviousMonthIncome(),
+            child: BlocBuilder<HomeIncomeCubit, HomeState>(
+              builder: (context, state) {
+                final documents = state.documents;
+
+                previousMonthIncome = 0.0;
+
+                for (final doc in documents) {
+                  previousMonthIncome += (doc['income_value']);
+                }
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(AppLocalizations.of(context).previousMonth),
+                    Text('$previousMonthIncome PLN'),
+                  ],
+                );
+              },
+            ),
+          ),
+        ]),
+      )
+    ]);
   }
 }

@@ -1,15 +1,14 @@
-class IncomesModel {
-  IncomesModel({
-    required this.id,
-    required this.incomeName,
-    required this.incomeValue,
-    required this.incomeDate,
-    required this.selectedIncomesIcon,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String id;
-  final String incomeName;
-  final double incomeValue;
-  final DateTime incomeDate;
-  final int selectedIncomesIcon;
+part 'incomes_model.freezed.dart';
+
+@freezed
+class IncomesModel with _$IncomesModel {
+  factory IncomesModel({
+    required String id,
+    required String incomeName,
+    required double incomeValue,
+    required DateTime incomeDate,
+    required int selectedIncomesIcon,
+  }) = _IncomesModel;
 }
