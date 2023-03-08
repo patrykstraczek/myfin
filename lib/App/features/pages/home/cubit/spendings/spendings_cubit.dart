@@ -12,14 +12,14 @@ part 'spendings_state.dart';
 part 'spendings_cubit.freezed.dart';
 
 class SpendingsCubit extends Cubit<SpendingsState> {
-  SpendingsCubit(this._spendingsRepository) : super(SpendingsState());
+  SpendingsCubit({required this.spendingsRepository}) : super(SpendingsState());
 
-  final SpendingsRepository _spendingsRepository;
+  final SpendingsRepository spendingsRepository;
   StreamSubscription? spendingsSubscription;
 
   Future<void> start() async {
     spendingsSubscription =
-        _spendingsRepository.getSpendingsStream().listen((spendings) {
+        spendingsRepository.getSpendingsStream().listen((spendings) {
       emit(
         SpendingsState(status: Status.loading),
       );
@@ -43,7 +43,7 @@ class SpendingsCubit extends Cubit<SpendingsState> {
 
   Future<void> remove({required String documentID}) async {
     try {
-      await _spendingsRepository.remove(id: documentID);
+      await spendingsRepository.remove(id: documentID);
     } catch (error) {
       emit(
         SpendingsState(
@@ -53,4 +53,10 @@ class SpendingsCubit extends Cubit<SpendingsState> {
       );
     }
   }
+  @override
+  Future<void> close() {
+    spendingsSubscription?.cancel();
+    return super.close();
+  }
 }
+

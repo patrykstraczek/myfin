@@ -2,17 +2,17 @@ import 'package:myfin/App/domain/models/incomes_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 
 class IncomesRepository {
-  final FirebaseIncomeDataSource _firebaseIncomeDataSource;
-
-  IncomesRepository(FirebaseIncomeDataSource dataSource)
-      : _firebaseIncomeDataSource = dataSource;
+  IncomesRepository({
+    required this.firebaseIncomeDataSource,
+  });
+  final FirebaseIncomeDataSource firebaseIncomeDataSource;
 
   Stream<List<IncomesModel>> getIncomesStream() {
-    return _firebaseIncomeDataSource.getIncomesStream();
+    return firebaseIncomeDataSource.getIncomesStream();
   }
 
   Future<void> remove({required String id}) async {
-    return _firebaseIncomeDataSource.remove(id: id);
+    return firebaseIncomeDataSource.remove(id: id);
   }
 
   Future<void> addIncome(
@@ -21,7 +21,7 @@ class IncomesRepository {
     DateTime selectedDate,
     var incomeIcon,
   ) async {
-    return _firebaseIncomeDataSource.addIncome(
+    return firebaseIncomeDataSource.addIncome(
       name,
       value,
       selectedDate,

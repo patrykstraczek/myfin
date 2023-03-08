@@ -2,17 +2,17 @@ import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 
 class SpendingsRepository {
-  final FirebaseSpendingsDataSource _firebaseSpendingsDataSource;
-
-  SpendingsRepository(FirebaseSpendingsDataSource dataSource)
-      : _firebaseSpendingsDataSource = dataSource;
+  SpendingsRepository({
+    required this.firebaseSpendingsDataSource,
+  });
+  final FirebaseSpendingsDataSource firebaseSpendingsDataSource;
 
   Stream<List<SpendingsModel>> getSpendingsStream() {
-    return _firebaseSpendingsDataSource.getSpendingsStream();
+    return firebaseSpendingsDataSource.getSpendingsStream();
   }
 
   Future<void> remove({required String id}) async {
-    return _firebaseSpendingsDataSource.remove(id: id);
+    return firebaseSpendingsDataSource.remove(id: id);
   }
 
   Future<void> addSpending(
@@ -21,7 +21,7 @@ class SpendingsRepository {
     DateTime selectedDate,
     var spendingIcon,
   ) async {
-    return _firebaseSpendingsDataSource.addSpending(
+    return firebaseSpendingsDataSource.addSpending(
       name,
       value,
       selectedDate,

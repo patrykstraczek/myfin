@@ -10,11 +10,11 @@ part 'add_page_state.dart';
 part 'add_page_cubit.freezed.dart';
 
 class AddPageCubit extends Cubit<AddPageState> {
-  AddPageCubit(this._spendingsRepository, this._incomesRepository)
+  AddPageCubit({required this.spendingsRepository, required this.incomesRepository})
       : super( AddPageState());
 
-  final SpendingsRepository _spendingsRepository;
-  final IncomesRepository _incomesRepository;
+  final SpendingsRepository spendingsRepository;
+  final IncomesRepository incomesRepository;
 
   Future<void> addSpending(
     String name,
@@ -23,7 +23,7 @@ class AddPageCubit extends Cubit<AddPageState> {
     var spendingIcon,
   ) async {
     try {
-      await _spendingsRepository.addSpending(
+      await spendingsRepository.addSpending(
         name,
         value,
         selectedDate,
@@ -42,7 +42,7 @@ class AddPageCubit extends Cubit<AddPageState> {
     var incomeIcon,
   ) async {
     try {
-      await _incomesRepository.addIncome(
+      await incomesRepository.addIncome(
         name,
         value,
         selectedDate,

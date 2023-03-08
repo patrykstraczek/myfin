@@ -3,14 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/domain/icons.dart';
-import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
-import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
-import 'package:myfin/App/domain/repositories/incomes_repository.dart';
-import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 import 'package:myfin/App/features/pages/add/cubit/add_page_cubit.dart';
 import 'package:myfin/App/features/pages/add/widgets/icons_body.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/widgets/calendar_widget.dart';
+import 'package:myfin/app/injection_container.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({
@@ -41,10 +38,9 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddPageCubit(
-        SpendingsRepository(FirebaseSpendingsDataSource()),
-        IncomesRepository(FirebaseIncomeDataSource()),
-      ),
+      create: (context) {
+        return getIt<AddPageCubit>();
+      },
       child: BlocBuilder<AddPageCubit, AddPageState>(
         builder: (context, state) {
           return Scaffold(
@@ -53,10 +49,9 @@ class _AddPageState extends State<AddPage> {
               foregroundColor: Colors.white,
               actions: [
                 BlocProvider(
-                  create: (context) => AddPageCubit(
-                    SpendingsRepository(FirebaseSpendingsDataSource()),
-                    IncomesRepository(FirebaseIncomeDataSource()),
-                  ),
+                  create: (context) {
+                    return getIt<AddPageCubit>();
+                  },
                   child: BlocBuilder<AddPageCubit, AddPageState>(
                     builder: (context, state) {
                       return IconButton(

@@ -11,15 +11,15 @@ part 'incomes_state.dart';
 part 'incomes_cubit.freezed.dart';
 
 class IncomesCubit extends Cubit<IncomesState> {
-  IncomesCubit(this._incomesRepository) : super(IncomesState());
+  IncomesCubit({required this.incomesRepository}) : super(IncomesState());
 
-  final IncomesRepository _incomesRepository;
+  final IncomesRepository incomesRepository;
 
   StreamSubscription? incomesSubscription;
 
   Future<void> start() async {
     incomesSubscription =
-        _incomesRepository.getIncomesStream().listen((incomes) {
+        incomesRepository.getIncomesStream().listen((incomes) {
       emit(
         IncomesState(
           status: Status.loading,
@@ -45,7 +45,7 @@ class IncomesCubit extends Cubit<IncomesState> {
 
   Future<void> remove({required String documentID}) async {
     try {
-      await _incomesRepository.remove(id: documentID);
+      await incomesRepository.remove(id: documentID);
     } catch (error) {
       emit(
         IncomesState(

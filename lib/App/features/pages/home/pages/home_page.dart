@@ -9,6 +9,7 @@ import 'package:myfin/App/features/pages/home/pages/spendings_page.dart';
 import 'package:myfin/App/domain/theme/theme_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/widgets/drawer_widget.dart';
+import 'package:myfin/app/injection_container.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -115,7 +116,9 @@ class _SpendingHeaderBody extends StatelessWidget {
           )),
       const SizedBox(height: 10),
       BlocProvider(
-        create: (context) => HomeCubit()..getTodaySpendings(),
+        create: (context) {
+          return getIt<HomeCubit>()..getTodaySpendings();
+        },
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             final documents = state.documents;
@@ -144,7 +147,9 @@ class _SpendingHeaderBody extends StatelessWidget {
             children: [
               Text(AppLocalizations.of(context).thisMonth),
               BlocProvider(
-                create: (context) => HomeCubit()..getThisMonthSpendings(),
+                create: (context) {
+                  return getIt<HomeCubit>()..getThisMonthSpendings();
+                },
                 child: BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
                     final documents = state.documents;
@@ -162,7 +167,9 @@ class _SpendingHeaderBody extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           BlocProvider(
-            create: (context) => HomeCubit()..getPreviousMonthSpendings(),
+            create: (context) {
+              return getIt<HomeCubit>()..getPreviousMonthSpendings();
+            },
             child: BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
                 final documents = state.documents;
@@ -204,7 +211,9 @@ class _IncomeHeaderBody extends StatelessWidget {
           )),
       const SizedBox(height: 10),
       BlocProvider(
-        create: (context) => HomeIncomeCubit()..getTodayIncome(),
+        create: (context) {
+          return getIt<HomeIncomeCubit>()..getTodayIncome();
+        },
         child: BlocBuilder<HomeIncomeCubit, HomeState>(
           builder: (context, state) {
             final documents = state.documents;
@@ -233,7 +242,9 @@ class _IncomeHeaderBody extends StatelessWidget {
             children: [
               Text(AppLocalizations.of(context).thisMonth),
               BlocProvider(
-                create: (context) => HomeIncomeCubit()..getThisMonthIncome(),
+                create: (context) {
+                  return getIt<HomeIncomeCubit>()..getThisMonthIncome();
+                },
                 child: BlocBuilder<HomeIncomeCubit, HomeState>(
                   builder: (context, state) {
                     final documents = state.documents;
@@ -251,7 +262,9 @@ class _IncomeHeaderBody extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           BlocProvider(
-            create: (context) => HomeIncomeCubit()..getPreviousMonthIncome(),
+            create: (context) {
+              return getIt<HomeIncomeCubit>()..getPreviousMonthIncome();
+            },
             child: BlocBuilder<HomeIncomeCubit, HomeState>(
               builder: (context, state) {
                 final documents = state.documents;
