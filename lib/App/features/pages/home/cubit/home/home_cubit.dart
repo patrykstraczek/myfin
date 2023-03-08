@@ -18,16 +18,40 @@ class HomeCubit extends Cubit<HomeState> {
   final userID = FirebaseAuth.instance.currentUser?.uid;
   final now = DateTime.now();
   final spendingDataSource = FirebaseSpendingsDataSource();
+  final incomeDataSource = FirebaseIncomeDataSource();
 
   HomeCubit() : super(HomeState());
 
   StreamSubscription? _homeSpendingsSubscription;
+  StreamSubscription? _homeIncomesSubscription;
 
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>
       _handleSpendingsStream(
           Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
     emit(
       HomeState(status: Status.loading),
+    );
+    return stream.listen((data) {
+      try {
+        emit(HomeState(
+          status: Status.success,
+          documents: data.docs,
+        ));
+      } catch (error) {
+        emit(HomeState(
+          status: Status.error,
+          errorMessage: error.toString(),
+        ));
+      }
+    });
+  }
+
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _handleIncomesStream(
+      Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
+    emit(
+      HomeState(
+        status: Status.loading,
+      ),
     );
     return stream.listen((data) {
       try {
@@ -65,44 +89,6 @@ class HomeCubit extends Cubit<HomeState> {
     _homeSpendingsSubscription = _handleSpendingsStream(stream);
   }
 
-  @override
-  Future<void> close() {
-    _homeSpendingsSubscription?.cancel();
-    return super.close();
-  }
-}
-
-class HomeIncomeCubit extends Cubit<HomeState> {
-  final now = DateTime.now();
-  final userID = FirebaseAuth.instance.currentUser?.uid;
-  final incomeDataSource = FirebaseIncomeDataSource();
-
-  HomeIncomeCubit() : super(HomeState());
-
-  StreamSubscription? _homeIncomesSubscription;
-
-  StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _handleIncomesStream(
-      Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
-    emit(
-      HomeState(
-        status: Status.loading,
-      ),
-    );
-    return stream.listen((data) {
-      try {
-        emit(HomeState(
-          status: Status.success,
-          documents: data.docs,
-        ));
-      } catch (error) {
-        emit(HomeState(
-          status: Status.error,
-          errorMessage: error.toString(),
-        ));
-      }
-    });
-  }
-
   Future<void> getTodayIncome() async {
     final start = DateTime(now.year, now.month, now.day);
     final end = DateTime(now.year, now.month, now.day, 23, 59, 59);
@@ -126,7 +112,73 @@ class HomeIncomeCubit extends Cubit<HomeState> {
 
   @override
   Future<void> close() {
+    _homeSpendingsSubscription?.cancel();
     _homeIncomesSubscription?.cancel();
     return super.close();
   }
 }
+
+
+
+
+
+
+
+// class HomeIncomeCubit extends Cubit<HomeState> {
+//   final now = DateTime.now();
+//   final userID = FirebaseAuth.instance.currentUser?.uid;
+//   final incomeDataSource = FirebaseIncomeDataSource();
+
+//   HomeIncomeCubit() : super(HomeState());
+
+//   StreamSubscription? _homeIncomesSubscription;
+
+//   StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _handleIncomesStream(
+//       Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
+//     emit(
+//       HomeState(
+//         status: Status.loading,
+//       ),
+//     );
+//     return stream.listen((data) {
+//       try {
+//         emit(HomeState(
+//           status: Status.success,
+//           documents: data.docs,
+//         ));
+//       } catch (error) {
+//         emit(HomeState(
+//           status: Status.error,
+//           errorMessage: error.toString(),
+//         ));
+//       }
+//     });
+//   }
+
+//   Future<void> getTodayIncome() async {
+//     final start = DateTime(now.year, now.month, now.day);
+//     final end = DateTime(now.year, now.month, now.day, 23, 59, 59);
+//     final stream = incomeDataSource.getIncomes(start, end);
+//     _homeIncomesSubscription = _handleIncomesStream(stream);
+//   }
+
+//   Future<void> getThisMonthIncome() async {
+//     final start = DateTime(now.year, now.month, 1);
+//     final end = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
+//     final stream = incomeDataSource.getIncomes(start, end);
+//     _homeIncomesSubscription = _handleIncomesStream(stream);
+//   }
+
+//   Future<void> getPreviousMonthIncome() async {
+//     final start = DateTime(now.year, now.month - 1, 1);
+//     final end = DateTime(now.year, now.month, 0, 23, 59, 59);
+//     final stream = incomeDataSource.getIncomes(start, end);
+//     _homeIncomesSubscription = _handleIncomesStream(stream);
+//   }
+
+//   @override
+//   Future<void> close() {
+//     _homeIncomesSubscription?.cancel();
+//     return super.close();
+//   }
+// }

@@ -19,7 +19,6 @@ void configureDependencies() {
   getIt.registerFactory(() =>
       AddPageCubit(spendingsRepository: getIt(), incomesRepository: getIt()));
   getIt.registerFactory(() => HomeCubit());
-  getIt.registerFactory(() => HomeIncomeCubit());
   getIt.registerFactory(() => SpendingsCubit(spendingsRepository: getIt()));
   getIt.registerFactory(() => IncomesCubit(incomesRepository: getIt()));
   getIt.registerFactory(

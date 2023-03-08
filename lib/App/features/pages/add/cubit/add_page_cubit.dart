@@ -10,8 +10,10 @@ part 'add_page_state.dart';
 part 'add_page_cubit.freezed.dart';
 
 class AddPageCubit extends Cubit<AddPageState> {
-  AddPageCubit({required this.spendingsRepository, required this.incomesRepository})
-      : super( AddPageState());
+  AddPageCubit({
+    required this.spendingsRepository,
+    required this.incomesRepository,
+  }) : super(AddPageState());
 
   final SpendingsRepository spendingsRepository;
   final IncomesRepository incomesRepository;
@@ -29,7 +31,7 @@ class AddPageCubit extends Cubit<AddPageState> {
         selectedDate,
         spendingIcon,
       );
-      emit( AddPageState(saved: true));
+      emit(AddPageState(saved: true));
     } catch (error) {
       emit(AddPageState(errorMessage: error.toString()));
     }
@@ -48,7 +50,7 @@ class AddPageCubit extends Cubit<AddPageState> {
         selectedDate,
         incomeIcon,
       );
-      emit( AddPageState(saved: true));
+      emit(AddPageState(saved: true));
     } catch (error) {
       emit(AddPageState(errorMessage: error.toString()));
     }
