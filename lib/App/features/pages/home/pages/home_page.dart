@@ -44,7 +44,8 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
-          toolbarHeight: 250,
+          toolbarHeight: 200,
+          //toolbarHeight: 250,
           backgroundColor: darkMode ? Colors.black : Colors.white,
           foregroundColor: darkMode ? Colors.white : Colors.black,
           actions: [
@@ -65,7 +66,8 @@ class _HomePageState extends State<HomePage> {
                   color: Color.fromARGB(255, 148, 112, 4),
                 ),
                 alignment: Alignment.topCenter,
-                height: 194.0,
+                height: 144.0,
+                //height: 194.0,
                 child: currentIndex == 0
                     ? const _SpendingHeaderBody()
                     : const _IncomeHeaderBody(),
@@ -114,7 +116,6 @@ class _SpendingHeaderBody extends StatelessWidget {
               fontSize: 20,
             ),
           )),
-      const SizedBox(height: 10),
       BlocProvider(
         create: (context) {
           return getIt<HomeCubit>()..getTodaySpendings();
@@ -138,7 +139,6 @@ class _SpendingHeaderBody extends StatelessWidget {
           },
         ),
       ),
-      const SizedBox(height: 20),
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
         child: Column(children: [
@@ -165,7 +165,6 @@ class _SpendingHeaderBody extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
           BlocProvider(
             create: (context) {
               return getIt<HomeCubit>()..getPreviousMonthSpendings();
@@ -209,7 +208,6 @@ class _IncomeHeaderBody extends StatelessWidget {
               fontSize: 20,
             ),
           )),
-      const SizedBox(height: 10),
       BlocProvider(
         create: (context) {
           return getIt<HomeCubit>()..getTodayIncome();
@@ -233,7 +231,6 @@ class _IncomeHeaderBody extends StatelessWidget {
           },
         ),
       ),
-      const SizedBox(height: 20),
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
         child: Column(children: [
@@ -260,7 +257,6 @@ class _IncomeHeaderBody extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
           BlocProvider(
             create: (context) {
               return getIt<HomeCubit>()..getPreviousMonthIncome();

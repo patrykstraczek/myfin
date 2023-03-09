@@ -92,6 +92,7 @@ class _SpendingItemWidget extends StatelessWidget {
             color: Colors.white12,
           ),
           child: ListTile(
+            dense: true,
             leading:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Icon(
