@@ -16,34 +16,3 @@ class ApiModel with _$ApiModel {
   factory ApiModel.fromJson(Map<String, dynamic> json) =>
       _$ApiModelFromJson(json);
 }
-
-
-
-
-
-// class ApiModel {
-//   final String table;
-//   final String no;
-//   final String effectiveDate;
-//   final List<ExchangeRatesModel> rates;
-
-//   ApiModel({
-//     required this.table,
-//     required this.no,
-//     required this.effectiveDate,
-//     required this.rates,
-//   });
-
-//   factory ApiModel.fromJson(Map<String, dynamic> json) {
-//     final ratesJson = json['rates'] as List<dynamic>;
-//     final rates = ratesJson
-//         .map((rateJson) => ExchangeRatesModel.fromJson(rateJson))
-//         .toList();
-//     return ApiModel(
-//       table: json['table'] as String,
-//       no: json['no'] as String,
-//       effectiveDate: json['effectiveDate'] as String,
-//       rates: rates,
-//     );
-//   }
-// }

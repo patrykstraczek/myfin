@@ -84,7 +84,10 @@ class _IncomeItemWidget extends StatelessWidget {
         context.read<IncomesCubit>().remove(documentID: model.id);
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8.0,
+          vertical: 4.0,
+        ),
         child: Container(
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),

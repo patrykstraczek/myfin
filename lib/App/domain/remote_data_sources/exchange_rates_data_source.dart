@@ -13,23 +13,3 @@ abstract class ExchangeRatesDTO {
 }
 
 
-
-
-
-
-
-
-
-
-// class ExchangeRatesDioDataSource {
-//   Future<List<ExchangeRatesApiResponse>> getExchangeRates() async {
-//     final response =
-//         await Dio().get('http://api.nbp.pl/api/exchangerates/tables/A/');
-//     final responseData = response.data as List<dynamic>;
-//     final exchangeRatesData = responseData
-//         .map((json) => ExchangeRatesApiResponse.fromJson(json))
-//         .toList();
-
-//     return exchangeRatesData;
-//   }
-// }

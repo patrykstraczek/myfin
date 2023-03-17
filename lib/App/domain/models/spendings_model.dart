@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'spendings_model.freezed.dart';
 
+
 @freezed
 class SpendingsModel with _$SpendingsModel {
   factory SpendingsModel({
