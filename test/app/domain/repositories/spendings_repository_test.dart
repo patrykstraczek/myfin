@@ -28,7 +28,7 @@ void main() {
       verify(() => dataSource.getSpendingsStream());
     });
 
-    test('description', () async {
+    test('should emit list of spendings', () async {
       //arrange
       when(() => dataSource.getSpendingsStream())
           .thenAnswer((_) => Stream.value([
@@ -55,31 +55,35 @@ void main() {
                 ),
               ]));
       //act
-final results = await sut.getSpendingsStream().toList();
-//assert
-expect(results, [
-  SpendingsModel(
-    id: '1',
-    spendingName: 'spendingName1',
-    spendingValue: 1,
-    spendingDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
-    selectedSpendingIcon: 1,
-  ),
-  SpendingsModel(
-    id: '2',
-    spendingName: 'spendingName2',
-    spendingValue: 2,
-    spendingDate: DateTime(2022, 4, 2, 12, 30, 0, 0),
-    selectedSpendingIcon: 2,
-  ),
-  SpendingsModel(
-    id: '3',
-    spendingName: 'spendingName3',
-    spendingValue: 3,
-    spendingDate: DateTime(2022, 4, 3, 12, 30, 0, 0),
-    selectedSpendingIcon: 3,
-  ),
-]);
+      final results = sut.getSpendingsStream();
+      //assert
+      await expectLater(
+          results,
+          emitsInOrder([
+            [
+              SpendingsModel(
+                id: '1',
+                spendingName: 'spendingName1',
+                spendingValue: 1,
+                spendingDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
+                selectedSpendingIcon: 1,
+              ),
+              SpendingsModel(
+                id: '2',
+                spendingName: 'spendingName2',
+                spendingValue: 2,
+                spendingDate: DateTime(2022, 4, 2, 12, 30, 0, 0),
+                selectedSpendingIcon: 2,
+              ),
+              SpendingsModel(
+                id: '3',
+                spendingName: 'spendingName3',
+                spendingValue: 3,
+                spendingDate: DateTime(2022, 4, 3, 12, 30, 0, 0),
+                selectedSpendingIcon: 3,
+              ),
+            ]
+          ]));
     });
   });
 }

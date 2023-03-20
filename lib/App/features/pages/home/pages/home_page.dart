@@ -9,7 +9,9 @@ import 'package:myfin/App/features/pages/home/pages/spendings_page.dart';
 import 'package:myfin/App/domain/theme/theme_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/widgets/drawer_widget.dart';
+import 'package:myfin/app/domain/theme/theme_provider.dart';
 import 'package:myfin/app/injection_container.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -20,6 +22,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+bool isDarkMode = true;
 int currentIndex = 0;
 double todaySpendings = 0.0;
 double thisMonthSpending = 0.0;
@@ -46,17 +49,28 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
           toolbarHeight: 200,
           //toolbarHeight: 250,
-          backgroundColor: darkMode ? Colors.black : Colors.white,
-          foregroundColor: darkMode ? Colors.white : Colors.black,
+          //backgroundColor: darkMode ? Colors.black : Colors.white,
+
           actions: [
             IconButton(
+              icon: isDarkMode
+                  ? const Icon(Icons.dark_mode)
+                  : const Icon(Icons.light_mode),
               onPressed: () {
                 setState(() {
-                  darkMode = !darkMode;
+                  isDarkMode = !isDarkMode;
                 });
+                if (isDarkMode) {
+                  // switch to dark theme
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .setDarkMode();
+                } else {
+                  // switch to light theme
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .setLightMode();
+                }
               },
-              icon: Icon(darkMode ? iconDark : iconLight),
-            )
+            ),
           ],
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(0),
