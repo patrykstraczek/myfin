@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myfin/app/domain/theme/theme_data.dart';
 
-
 class ThemeProvider with ChangeNotifier {
   late ThemeData _themeData;
 
   ThemeProvider() {
-    _themeData = lightTheme;
+    _themeData = darkTheme;
   }
 
   ThemeData getTheme() => _themeData;

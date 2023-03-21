@@ -85,5 +85,15 @@ void main() {
             ]
           ]));
     });
+    test('remove calls remove method of FirebaseSpendingsDataSource', () async {
+      //arrange
+      const id = '1';
+
+      //act
+      await sut.remove(id: id);
+
+      //assert
+      verifyNever(() => dataSource.remove(id: id));
+    });
   });
 }

@@ -16,8 +16,6 @@ class ExchangeRatesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
         title: Text(AppLocalizations.of(context).exchangeRates),
         centerTitle: true,
       ),

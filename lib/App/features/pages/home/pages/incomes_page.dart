@@ -64,7 +64,7 @@ class _IncomeItemWidget extends StatelessWidget {
       key: ValueKey(model.id),
       background: const DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: Colors.red,
         ),
         child: Align(
           alignment: Alignment.centerLeft,
@@ -72,7 +72,7 @@ class _IncomeItemWidget extends StatelessWidget {
             padding: EdgeInsets.only(left: 32.0),
             child: Icon(
               Icons.delete,
-              color: Colors.red,
+              color: Colors.black,
             ),
           ),
         ),
@@ -100,14 +100,12 @@ class _IncomeItemWidget extends StatelessWidget {
               Icon(
                 IconData(model.selectedIncomesIcon,
                     fontFamily: 'materialIcons'),
-                color: Colors.white54,
               ),
             ]),
             title: Text(
               model.incomeName,
               style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
+                fontSize: 14,
               ),
             ),
             subtitle: Text(

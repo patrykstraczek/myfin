@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 import 'package:myfin/App/features/pages/home/cubit/home/home_cubit.dart';
 import 'package:myfin/App/features/pages/home/pages/incomes_page.dart';
 import 'package:myfin/App/features/pages/home/pages/spendings_page.dart';
-import 'package:myfin/App/domain/theme/theme_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/widgets/drawer_widget.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
@@ -36,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white12,
+        backgroundColor: isDarkMode ? Colors.white12 : Colors.grey[300],
         foregroundColor: Colors.teal,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
@@ -54,8 +52,8 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
               icon: isDarkMode
-                  ? const Icon(Icons.dark_mode)
-                  : const Icon(Icons.light_mode),
+                  ? const Icon(Icons.nights_stay)
+                  : const Icon(Icons.wb_sunny),
               onPressed: () {
                 setState(() {
                   isDarkMode = !isDarkMode;
@@ -75,9 +73,11 @@ class _HomePageState extends State<HomePage> {
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(0),
               child: Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  color: Color.fromARGB(255, 148, 112, 4),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  color: isDarkMode
+                      ? const Color.fromARGB(255, 148, 112, 4)
+                      : Colors.amber,
                 ),
                 alignment: Alignment.topCenter,
                 height: 144.0,
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             currentIndex = newIndex;
           });
         },
-        backgroundColor: Colors.grey[850],
+        //backgroundColor: Colors.grey[850],
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.store),
@@ -145,7 +145,6 @@ class _SpendingHeaderBody extends StatelessWidget {
             return Text(
               '$todaySpendings PLN',
               style: GoogleFonts.lato(
-                color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
@@ -237,7 +236,6 @@ class _IncomeHeaderBody extends StatelessWidget {
             return Text(
               '$todayIncome PLN',
               style: GoogleFonts.lato(
-                color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),

@@ -5,6 +5,7 @@ import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/features/pages/home/cubit/spendings/spendings_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:myfin/app/injection_container.dart';
 
 class SpendingsPage extends StatelessWidget {
@@ -54,18 +55,23 @@ class SpendingsPage extends StatelessWidget {
   }
 }
 
-class _SpendingItemWidget extends StatelessWidget {
+class _SpendingItemWidget extends StatefulWidget {
   const _SpendingItemWidget({Key? key, required this.model}) : super(key: key);
 
   final SpendingsModel model;
 
   @override
+  State<_SpendingItemWidget> createState() => _SpendingItemWidgetState();
+}
+
+class _SpendingItemWidgetState extends State<_SpendingItemWidget> {
+  @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(model.id),
+      key: ValueKey(widget.model.id),
       background: const DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: Colors.red,
         ),
         child: Align(
           alignment: Alignment.centerLeft,
@@ -73,7 +79,7 @@ class _SpendingItemWidget extends StatelessWidget {
             padding: EdgeInsets.only(left: 32.0),
             child: Icon(
               Icons.delete,
-              color: Colors.red,
+              color: Colors.black,
             ),
           ),
         ),
@@ -82,7 +88,7 @@ class _SpendingItemWidget extends StatelessWidget {
         return direction == DismissDirection.startToEnd;
       },
       onDismissed: (direction) {
-        context.read<SpendingsCubit>().remove(documentID: model.id);
+        context.read<SpendingsCubit>().remove(documentID: widget.model.id);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -90,33 +96,32 @@ class _SpendingItemWidget extends StatelessWidget {
           vertical: 4.0,
         ),
         child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: Colors.white12,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: isDarkMode ? Colors.white12 : Colors.green,
           ),
           child: ListTile(
             dense: true,
             leading:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Icon(
-                IconData(model.selectedSpendingIcon,
+                IconData(widget.model.selectedSpendingIcon,
                     fontFamily: 'materialIcons'),
-                color: Colors.white54,
               ),
             ]),
             title: Text(
-              model.spendingName,
+              widget.model.spendingName,
               style: const TextStyle(
-                color: Colors.white,
+                fontSize: 14,
               ),
             ),
             subtitle: Text(
               DateFormat.yMMMEd(AppLocalizations.of(context).dateFormat)
-                  .format(model.spendingDate),
+                  .format(widget.model.spendingDate),
               style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
             trailing: Text(
-              '${model.spendingValue}  PLN',
+              '${widget.model.spendingValue}  PLN',
               style: const TextStyle(
                 color: Colors.red,
               ),
