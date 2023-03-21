@@ -45,8 +45,6 @@ class _AddPageState extends State<AddPage> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.black,
-              foregroundColor: Colors.white,
               actions: [
                 BlocProvider(
                   create: (context) {
@@ -112,6 +110,7 @@ class _AddPageState extends State<AddPage> {
                         style: GoogleFonts.lato(
                           color: spendingSelected ? Colors.amber : Colors.grey,
                           fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -128,6 +127,7 @@ class _AddPageState extends State<AddPage> {
                             color:
                                 spendingSelected ? Colors.grey : Colors.amber,
                             fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         )),
                   ],
@@ -142,14 +142,11 @@ class _AddPageState extends State<AddPage> {
                       });
                     },
                     textCapitalization: TextCapitalization.sentences,
-                    style: const TextStyle(color: Colors.white),
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       hintText: AppLocalizations.of(context).hintName,
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(200, 218, 216, 216),
-                      ),
+                      hintStyle: const TextStyle(),
                     ),
                   ),
                 ),
@@ -162,7 +159,6 @@ class _AddPageState extends State<AddPage> {
                         value = newValue;
                       });
                     },
-                    style: const TextStyle(color: Colors.white),
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (text) {
@@ -171,9 +167,7 @@ class _AddPageState extends State<AddPage> {
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       hintText: AppLocalizations.of(context).hintValue,
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(200, 218, 216, 216),
-                      ),
+                      hintStyle: const TextStyle(),
                     ),
                   ),
                 ),
@@ -184,9 +178,7 @@ class _AddPageState extends State<AddPage> {
                       vertical: 10.0, horizontal: 20.0),
                   child: Text(
                     AppLocalizations.of(context).date,
-                    style: GoogleFonts.lato(
-                      color: Colors.white,
-                    ),
+                    style: GoogleFonts.lato(),
                   ),
                 ),
                 Container(
@@ -209,14 +201,12 @@ class _AddPageState extends State<AddPage> {
                       vertical: 10.0, horizontal: 20.0),
                   child: Text(
                     AppLocalizations.of(context).icon,
-                    style: GoogleFonts.lato(
-                      color: Colors.white,
-                    ),
+                    style: GoogleFonts.lato(),
                   ),
                 ),
                 spendingSelected
                     ? Container(
-                        padding: const EdgeInsets.all(32),
+                        padding: const EdgeInsets.all(20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -237,7 +227,7 @@ class _AddPageState extends State<AddPage> {
                         ),
                       )
                     : Container(
-                        padding: const EdgeInsets.all(32),
+                        padding: const EdgeInsets.all(20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
