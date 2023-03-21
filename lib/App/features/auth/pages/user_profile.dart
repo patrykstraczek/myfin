@@ -7,19 +7,12 @@ class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProfileScreen(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.grey[100],
-      ),
+      appBar: AppBar(),
       providerConfigs: const [
         EmailProviderConfiguration(),
         GoogleProviderConfiguration(
           clientId: '...',
         ),
-        FacebookProviderConfiguration(
-          clientId: '...',
-        ),
-        AppleProviderConfiguration(),
       ],
       actions: [
         SignedOutAction(
