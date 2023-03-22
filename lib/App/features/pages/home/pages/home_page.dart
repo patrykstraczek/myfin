@@ -1,38 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/features/pages/add/pages/add_page.dart';
-import 'package:myfin/App/features/pages/home/cubit/home/home_cubit.dart';
-import 'package:myfin/App/features/pages/home/pages/incomes_page.dart';
-import 'package:myfin/App/features/pages/home/pages/spendings_page.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/widgets/drawer_widget.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
-import 'package:myfin/app/injection_container.dart';
+import 'package:myfin/app/features/pages/home/pages/details_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({
-    Key? key,
-  }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 bool isDarkMode = true;
-int currentIndex = 0;
-double todaySpendings = 0.0;
-double thisMonthSpending = 0.0;
-double previousMonthSpending = 0.0;
-double todayIncome = 0.0;
-double thisMonthIncome = 0.0;
-double previousMonthIncome = 0.0;
 
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const DrawerWidget(),
+      appBar: AppBar(
+        title: const Text('Raporty'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: isDarkMode
+                ? const Icon(Icons.nights_stay)
+                : const Icon(Icons.wb_sunny),
+            onPressed: () {
+              setState(() {
+                isDarkMode = !isDarkMode;
+              });
+              if (isDarkMode) {
+                // switch to dark theme
+                Provider.of<ThemeProvider>(context, listen: false)
+                    .setDarkMode();
+              } else {
+                // switch to light theme
+                Provider.of<ThemeProvider>(context, listen: false)
+                    .setLightMode();
+              }
+            },
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: isDarkMode ? Colors.white12 : Colors.grey[300],
         foregroundColor: Colors.teal,
@@ -44,255 +55,66 @@ class _HomePageState extends State<HomePage> {
         },
         child: const Icon(Icons.add),
       ),
-      appBar: AppBar(
-          toolbarHeight: 200,
-          //toolbarHeight: 250,
-          //backgroundColor: darkMode ? Colors.black : Colors.white,
-
-          actions: [
-            IconButton(
-              icon: isDarkMode
-                  ? const Icon(Icons.nights_stay)
-                  : const Icon(Icons.wb_sunny),
-              onPressed: () {
-                setState(() {
-                  isDarkMode = !isDarkMode;
-                });
-                if (isDarkMode) {
-                  // switch to dark theme
-                  Provider.of<ThemeProvider>(context, listen: false)
-                      .setDarkMode();
-                } else {
-                  // switch to light theme
-                  Provider.of<ThemeProvider>(context, listen: false)
-                      .setLightMode();
-                }
-              },
-            ),
-          ],
-          bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  color: isDarkMode
-                      ? const Color.fromARGB(255, 148, 112, 4)
-                      : Colors.amber,
-                ),
-                alignment: Alignment.topCenter,
-                height: 144.0,
-                //height: 194.0,
-                child: currentIndex == 0
-                    ? const _SpendingHeaderBody()
-                    : const _IncomeHeaderBody(),
-              ))),
-      drawer: const DrawerWidget(),
-      body: Builder(builder: (context) {
-        if (currentIndex == 0) {
-          return const SpendingsPage();
-        }
-        return const IncomesPage();
-      }),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (newIndex) {
-          setState(() {
-            currentIndex = newIndex;
-          });
-        },
-        //backgroundColor: Colors.grey[850],
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.store),
-            label: AppLocalizations.of(context).spendings,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.monetization_on),
-            label: AppLocalizations.of(context).incomes,
-          ),
-        ],
-      ),
+      body: ListView(children: const [
+        _HomePageBody(),
+        _HomePageBody(),
+        _HomePageBody(),
+        _HomePageBody(),
+        _HomePageBody(),
+      ]),
     );
   }
 }
 
-class _SpendingHeaderBody extends StatelessWidget {
-  const _SpendingHeaderBody({Key? key}) : super(key: key);
+class _HomePageBody extends StatelessWidget {
+  const _HomePageBody({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Text(
-            AppLocalizations.of(context).todaySpendings,
-            style: GoogleFonts.lato(
-              fontSize: 20,
-            ),
-          )),
-      BlocProvider(
-        create: (context) {
-          return getIt<HomeCubit>()..getTodaySpendings();
-        },
-        child: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            final documents = state.documents;
-            todaySpendings = 0.0;
-
-            for (final doc in documents) {
-              todaySpendings += (doc['spending_value']);
-            }
-            return Text(
-              '$todaySpendings PLN',
-              style: GoogleFonts.lato(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            );
-          },
-        ),
-      ),
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
-        child: Column(children: [
-          Row(
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: isDarkMode
+              ? const Color.fromARGB(255, 148, 112, 4)
+              : Colors.amber,
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+        ),
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const DetailsPage()));
+          },
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(AppLocalizations.of(context).thisMonth),
-              BlocProvider(
-                create: (context) {
-                  return getIt<HomeCubit>()..getThisMonthSpendings();
-                },
-                child: BlocBuilder<HomeCubit, HomeState>(
-                  builder: (context, state) {
-                    final documents = state.documents;
-
-                    thisMonthSpending = 0.0;
-
-                    for (final doc in documents) {
-                      thisMonthSpending += (doc['spending_value']);
-                    }
-                    return Text('$thisMonthSpending PLN');
-                  },
-                ),
+              Column(
+                children: const [
+                  Text(
+                    '10/10/2022',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: const [
+                  Text(
+                    '-120 PLN',
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    '+25 PLN',
+                  ),
+                ],
               ),
             ],
           ),
-          BlocProvider(
-            create: (context) {
-              return getIt<HomeCubit>()..getPreviousMonthSpendings();
-            },
-            child: BlocBuilder<HomeCubit, HomeState>(
-              builder: (context, state) {
-                final documents = state.documents;
-
-                previousMonthSpending = 0.0;
-
-                for (final doc in documents) {
-                  previousMonthSpending += (doc['spending_value']);
-                }
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(AppLocalizations.of(context).previousMonth),
-                    Text('$previousMonthSpending PLN'),
-                  ],
-                );
-              },
-            ),
-          ),
-        ]),
-      )
-    ]);
-  }
-}
-
-class _IncomeHeaderBody extends StatelessWidget {
-  const _IncomeHeaderBody({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Text(
-            AppLocalizations.of(context).todayIncome,
-            style: GoogleFonts.lato(
-              fontSize: 20,
-            ),
-          )),
-      BlocProvider(
-        create: (context) {
-          return getIt<HomeCubit>()..getTodayIncome();
-        },
-        child: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            final documents = state.documents;
-            todayIncome = 0.0;
-
-            for (final doc in documents) {
-              todayIncome += (doc['income_value']);
-            }
-            return Text(
-              '$todayIncome PLN',
-              style: GoogleFonts.lato(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            );
-          },
         ),
-      ),
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(AppLocalizations.of(context).thisMonth),
-              BlocProvider(
-                create: (context) {
-                  return getIt<HomeCubit>()..getThisMonthIncome();
-                },
-                child: BlocBuilder<HomeCubit, HomeState>(
-                  builder: (context, state) {
-                    final documents = state.documents;
-
-                    thisMonthIncome = 0.0;
-
-                    for (final doc in documents) {
-                      thisMonthIncome += (doc['income_value']);
-                    }
-                    return Text('$thisMonthIncome PLN');
-                  },
-                ),
-              ),
-            ],
-          ),
-          BlocProvider(
-            create: (context) {
-              return getIt<HomeCubit>()..getPreviousMonthIncome();
-            },
-            child: BlocBuilder<HomeCubit, HomeState>(
-              builder: (context, state) {
-                final documents = state.documents;
-
-                previousMonthIncome = 0.0;
-
-                for (final doc in documents) {
-                  previousMonthIncome += (doc['income_value']);
-                }
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(AppLocalizations.of(context).previousMonth),
-                    Text('$previousMonthIncome PLN'),
-                  ],
-                );
-              },
-            ),
-          ),
-        ]),
       )
     ]);
   }
