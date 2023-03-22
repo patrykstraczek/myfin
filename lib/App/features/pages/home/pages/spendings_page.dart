@@ -5,7 +5,7 @@ import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/features/pages/home/cubit/spendings/spendings_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:myfin/app/features/pages/home/pages/home_page.dart';
+
 import 'package:myfin/app/injection_container.dart';
 
 class SpendingsPage extends StatelessWidget {
@@ -96,9 +96,9 @@ class _SpendingItemWidgetState extends State<_SpendingItemWidget> {
           vertical: 4.0,
         ),
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            color: isDarkMode ? Colors.white12 : Colors.green,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: Colors.white12,
           ),
           child: ListTile(
             dense: true,

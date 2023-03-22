@@ -3,15 +3,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/features/auth/pages/user_profile.dart';
 import 'package:myfin/App/features/pages/exchange/pages/exchange_rates_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:myfin/app/features/pages/home/pages/home_page.dart';
+import 'package:myfin/App/features/pages/home/pages/home_page.dart';
 
-class DrawerWidget extends StatelessWidget {
+
+class DrawerWidget extends StatefulWidget {
   const DrawerWidget({Key? key}) : super(key: key);
 
   @override
+  State<DrawerWidget> createState() => _DrawerWidgetState();
+}
+
+
+
+class _DrawerWidgetState extends State<DrawerWidget> {
+  @override
   Widget build(BuildContext context) {
     return Drawer(
-      //backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
