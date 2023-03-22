@@ -6,7 +6,6 @@ import 'package:myfin/App/features/pages/home/cubit/home/home_cubit.dart';
 import 'package:myfin/App/features/pages/home/pages/incomes_page.dart';
 import 'package:myfin/App/features/pages/home/pages/spendings_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:myfin/app/injection_container.dart';
 

@@ -11,16 +11,16 @@ import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 
-part 'home_state.dart';
-part 'home_cubit.freezed.dart';
+part 'details_state.dart';
+part 'details_cubit.freezed.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+class DetailsCubit extends Cubit<DetailsState> {
   final userID = FirebaseAuth.instance.currentUser?.uid;
   final now = DateTime.now();
   final spendingDataSource = FirebaseSpendingsDataSource();
   final incomeDataSource = FirebaseIncomeDataSource();
 
-  HomeCubit() : super(HomeState());
+  DetailsCubit() : super(DetailsState());
 
   StreamSubscription? _homeSpendingsSubscription;
   StreamSubscription? _homeIncomesSubscription;
@@ -29,16 +29,16 @@ class HomeCubit extends Cubit<HomeState> {
       _handleSpendingsStream(
           Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
     emit(
-      HomeState(status: Status.loading),
+      DetailsState(status: Status.loading),
     );
     return stream.listen((data) {
       try {
-        emit(HomeState(
+        emit(DetailsState(
           status: Status.success,
           documents: data.docs,
         ));
       } catch (error) {
-        emit(HomeState(
+        emit(DetailsState(
           status: Status.error,
           errorMessage: error.toString(),
         ));
@@ -49,18 +49,18 @@ class HomeCubit extends Cubit<HomeState> {
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _handleIncomesStream(
       Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
     emit(
-      HomeState(
+      DetailsState(
         status: Status.loading,
       ),
     );
     return stream.listen((data) {
       try {
-        emit(HomeState(
+        emit(DetailsState(
           status: Status.success,
           documents: data.docs,
         ));
       } catch (error) {
-        emit(HomeState(
+        emit(DetailsState(
           status: Status.error,
           errorMessage: error.toString(),
         ));
@@ -111,7 +111,7 @@ class HomeCubit extends Cubit<HomeState> {
     final stream = incomeDataSource.getIncomes(start, end);
     _homeIncomesSubscription = _handleIncomesStream(stream);
   }
-  
+
 //close
   @override
   Future<void> close() {

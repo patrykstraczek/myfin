@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 import 'package:myfin/App/widgets/drawer_widget.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
-import 'package:myfin/app/features/pages/home/pages/details_page.dart';
+import 'package:myfin/app/features/pages/details/pages/details_page.dart';
+
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {

@@ -1,12 +1,12 @@
-part of 'home_cubit.dart';
+part of 'details_cubit.dart';
 
 
 @freezed
-class HomeState with _$HomeState {
-  factory HomeState({
+class DetailsState with _$DetailsState {
+  factory DetailsState({
     @Default([]) List<QueryDocumentSnapshot<Object?>> documents,
     @Default(Status.initial) Status status,
     String? errorMessage,
-  }) = _HomeState;
+  }) = _DetailsState;
 }
 
