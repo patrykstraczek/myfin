@@ -7,10 +7,10 @@ import 'package:myfin/App/domain/repositories/exchange_rates_repository.dart';
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 import 'package:myfin/App/features/pages/add/cubit/add_page_cubit.dart';
+import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
+import 'package:myfin/App/features/pages/all_items/cubit/spendings/spendings_cubit.dart';
 import 'package:myfin/App/features/pages/exchange/cubit/exchange_rates_cubit.dart';
-import 'package:myfin/App/features/pages/home/cubit/home/home_cubit.dart';
-import 'package:myfin/App/features/pages/home/cubit/incomes/incomes_cubit.dart';
-import 'package:myfin/App/features/pages/home/cubit/spendings/spendings_cubit.dart';
+import 'package:myfin/App/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -18,7 +18,7 @@ void configureDependencies() {
   //Bloc
   getIt.registerFactory(() =>
       AddPageCubit(spendingsRepository: getIt(), incomesRepository: getIt()));
-  getIt.registerFactory(() => HomeCubit());
+  getIt.registerFactory(() => AllItemsCubit());
   getIt.registerFactory(() => SpendingsCubit(spendingsRepository: getIt()));
   getIt.registerFactory(() => IncomesCubit(incomesRepository: getIt()));
   getIt.registerFactory(

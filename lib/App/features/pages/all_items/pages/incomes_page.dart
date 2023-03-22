@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/incomes_model.dart';
-import 'package:myfin/App/features/pages/home/cubit/incomes/incomes_cubit.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:myfin/app/injection_container.dart';
+import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
+import 'package:myfin/App/injection_container.dart';
 
 class IncomesPage extends StatelessWidget {
   const IncomesPage({

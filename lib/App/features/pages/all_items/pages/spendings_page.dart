@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
-import 'package:myfin/App/features/pages/home/cubit/spendings/spendings_cubit.dart';
+import 'package:myfin/App/features/pages/all_items/cubit/spendings/spendings_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:myfin/app/injection_container.dart';

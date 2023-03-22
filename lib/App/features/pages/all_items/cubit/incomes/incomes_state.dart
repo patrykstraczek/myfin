@@ -1,6 +1,5 @@
 part of 'incomes_cubit.dart';
 
-
 @freezed
 class IncomesState with _$IncomesState {
   factory IncomesState({

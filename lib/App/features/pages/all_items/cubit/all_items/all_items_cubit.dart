@@ -11,16 +11,16 @@ import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 
-part 'details_state.dart';
-part 'details_cubit.freezed.dart';
+part 'all_items_state.dart';
+part 'all_items_cubit.freezed.dart';
 
-class DetailsCubit extends Cubit<DetailsState> {
+class AllItemsCubit extends Cubit<AllItemsState> {
   final userID = FirebaseAuth.instance.currentUser?.uid;
   final now = DateTime.now();
   final spendingDataSource = FirebaseSpendingsDataSource();
   final incomeDataSource = FirebaseIncomeDataSource();
 
-  DetailsCubit() : super(DetailsState());
+  AllItemsCubit() : super(AllItemsState());
 
   StreamSubscription? _homeSpendingsSubscription;
   StreamSubscription? _homeIncomesSubscription;
@@ -29,16 +29,16 @@ class DetailsCubit extends Cubit<DetailsState> {
       _handleSpendingsStream(
           Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
     emit(
-      DetailsState(status: Status.loading),
+      AllItemsState(status: Status.loading),
     );
     return stream.listen((data) {
       try {
-        emit(DetailsState(
+        emit(AllItemsState(
           status: Status.success,
           documents: data.docs,
         ));
       } catch (error) {
-        emit(DetailsState(
+        emit(AllItemsState(
           status: Status.error,
           errorMessage: error.toString(),
         ));
@@ -49,18 +49,18 @@ class DetailsCubit extends Cubit<DetailsState> {
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _handleIncomesStream(
       Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
     emit(
-      DetailsState(
+      AllItemsState(
         status: Status.loading,
       ),
     );
     return stream.listen((data) {
       try {
-        emit(DetailsState(
+        emit(AllItemsState(
           status: Status.success,
           documents: data.docs,
         ));
       } catch (error) {
-        emit(DetailsState(
+        emit(AllItemsState(
           status: Status.error,
           errorMessage: error.toString(),
         ));

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'details_cubit.dart';
+part of 'all_items_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,22 +15,22 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$DetailsState {
+mixin _$AllItemsState {
   List<QueryDocumentSnapshot<Object?>> get documents =>
       throw _privateConstructorUsedError;
   Status get status => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $DetailsStateCopyWith<DetailsState> get copyWith =>
+  $AllItemsStateCopyWith<AllItemsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DetailsStateCopyWith<$Res> {
-  factory $DetailsStateCopyWith(
-          DetailsState value, $Res Function(DetailsState) then) =
-      _$DetailsStateCopyWithImpl<$Res, DetailsState>;
+abstract class $AllItemsStateCopyWith<$Res> {
+  factory $AllItemsStateCopyWith(
+          AllItemsState value, $Res Function(AllItemsState) then) =
+      _$AllItemsStateCopyWithImpl<$Res, AllItemsState>;
   @useResult
   $Res call(
       {List<QueryDocumentSnapshot<Object?>> documents,
@@ -39,9 +39,9 @@ abstract class $DetailsStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DetailsStateCopyWithImpl<$Res, $Val extends DetailsState>
-    implements $DetailsStateCopyWith<$Res> {
-  _$DetailsStateCopyWithImpl(this._value, this._then);
+class _$AllItemsStateCopyWithImpl<$Res, $Val extends AllItemsState>
+    implements $AllItemsStateCopyWith<$Res> {
+  _$AllItemsStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -73,11 +73,11 @@ class _$DetailsStateCopyWithImpl<$Res, $Val extends DetailsState>
 }
 
 /// @nodoc
-abstract class _$$_DetailsStateCopyWith<$Res>
-    implements $DetailsStateCopyWith<$Res> {
-  factory _$$_DetailsStateCopyWith(
-          _$_DetailsState value, $Res Function(_$_DetailsState) then) =
-      __$$_DetailsStateCopyWithImpl<$Res>;
+abstract class _$$_AllItemsStateCopyWith<$Res>
+    implements $AllItemsStateCopyWith<$Res> {
+  factory _$$_AllItemsStateCopyWith(
+          _$_AllItemsState value, $Res Function(_$_AllItemsState) then) =
+      __$$_AllItemsStateCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -87,11 +87,11 @@ abstract class _$$_DetailsStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DetailsStateCopyWithImpl<$Res>
-    extends _$DetailsStateCopyWithImpl<$Res, _$_DetailsState>
-    implements _$$_DetailsStateCopyWith<$Res> {
-  __$$_DetailsStateCopyWithImpl(
-      _$_DetailsState _value, $Res Function(_$_DetailsState) _then)
+class __$$_AllItemsStateCopyWithImpl<$Res>
+    extends _$AllItemsStateCopyWithImpl<$Res, _$_AllItemsState>
+    implements _$$_AllItemsStateCopyWith<$Res> {
+  __$$_AllItemsStateCopyWithImpl(
+      _$_AllItemsState _value, $Res Function(_$_AllItemsState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ class __$$_DetailsStateCopyWithImpl<$Res>
     Object? status = freezed,
     Object? errorMessage = freezed,
   }) {
-    return _then(_$_DetailsState(
+    return _then(_$_AllItemsState(
       documents: null == documents
           ? _value._documents
           : documents // ignore: cast_nullable_to_non_nullable
@@ -120,8 +120,8 @@ class __$$_DetailsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_DetailsState implements _DetailsState {
-  _$_DetailsState(
+class _$_AllItemsState implements _AllItemsState {
+  _$_AllItemsState(
       {final List<QueryDocumentSnapshot<Object?>> documents = const [],
       this.status = Status.initial,
       this.errorMessage})
@@ -144,14 +144,14 @@ class _$_DetailsState implements _DetailsState {
 
   @override
   String toString() {
-    return 'DetailsState(documents: $documents, status: $status, errorMessage: $errorMessage)';
+    return 'AllItemsState(documents: $documents, status: $status, errorMessage: $errorMessage)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DetailsState &&
+            other is _$_AllItemsState &&
             const DeepCollectionEquality()
                 .equals(other._documents, _documents) &&
             const DeepCollectionEquality().equals(other.status, status) &&
@@ -169,15 +169,15 @@ class _$_DetailsState implements _DetailsState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DetailsStateCopyWith<_$_DetailsState> get copyWith =>
-      __$$_DetailsStateCopyWithImpl<_$_DetailsState>(this, _$identity);
+  _$$_AllItemsStateCopyWith<_$_AllItemsState> get copyWith =>
+      __$$_AllItemsStateCopyWithImpl<_$_AllItemsState>(this, _$identity);
 }
 
-abstract class _DetailsState implements DetailsState {
-  factory _DetailsState(
+abstract class _AllItemsState implements AllItemsState {
+  factory _AllItemsState(
       {final List<QueryDocumentSnapshot<Object?>> documents,
       final Status status,
-      final String? errorMessage}) = _$_DetailsState;
+      final String? errorMessage}) = _$_AllItemsState;
 
   @override
   List<QueryDocumentSnapshot<Object?>> get documents;
@@ -187,6 +187,6 @@ abstract class _DetailsState implements DetailsState {
   String? get errorMessage;
   @override
   @JsonKey(ignore: true)
-  _$$_DetailsStateCopyWith<_$_DetailsState> get copyWith =>
+  _$$_AllItemsStateCopyWith<_$_AllItemsState> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,12 +1,12 @@
-part of 'details_cubit.dart';
+part of 'all_items_cubit.dart';
 
 
 @freezed
-class DetailsState with _$DetailsState {
-  factory DetailsState({
+class AllItemsState with _$AllItemsState {
+  factory AllItemsState({
     @Default([]) List<QueryDocumentSnapshot<Object?>> documents,
     @Default(Status.initial) Status status,
     String? errorMessage,
-  }) = _DetailsState;
+  }) = _AllItemsState;
 }
 

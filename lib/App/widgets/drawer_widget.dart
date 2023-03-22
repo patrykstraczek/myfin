@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myfin/App/features/auth/pages/user_profile.dart';
+
 import 'package:myfin/App/features/pages/exchange/pages/exchange_rates_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/features/pages/home/pages/home_page.dart';
-
+import 'package:myfin/App/features/auth/pages/user_profile.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -12,8 +12,6 @@ class DrawerWidget extends StatefulWidget {
   @override
   State<DrawerWidget> createState() => _DrawerWidgetState();
 }
-
-
 
 class _DrawerWidgetState extends State<DrawerWidget> {
   @override
@@ -74,7 +72,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             applicationIcon: const Icon(Icons.info),
             applicationName: 'MyFin - Moje Finanse',
-            applicationVersion: 'ver. 0.1',
+            applicationVersion: '',
             applicationLegalese: 'Patryk Strączek',
             child: Text(AppLocalizations.of(context).info,
                 style: GoogleFonts.lato()),

@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/features/pages/add/pages/add_page.dart';
-import 'package:myfin/App/features/pages/home/cubit/home/home_cubit.dart';
-import 'package:myfin/App/features/pages/home/pages/incomes_page.dart';
-import 'package:myfin/App/features/pages/home/pages/spendings_page.dart';
+import 'package:myfin/App/features/pages/home/pages/home_page.dart';
+import 'package:myfin/App/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
+import 'package:myfin/App/features/pages/all_items/pages/incomes_page.dart';
+import 'package:myfin/App/features/pages/all_items/pages/spendings_page.dart';
+import 'package:myfin/App/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:myfin/app/features/pages/home/pages/home_page.dart';
-import 'package:myfin/app/injection_container.dart';
 
-class DetailsPage extends StatefulWidget {
-  const DetailsPage({
+class AllItemsPage extends StatefulWidget {
+  const AllItemsPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<DetailsPage> createState() => _DetailsPageState();
+  State<AllItemsPage> createState() => _AllItemsPageState();
 }
 
 int currentIndex = 0;
@@ -26,13 +26,13 @@ double todayIncome = 0.0;
 double thisMonthIncome = 0.0;
 double previousMonthIncome = 0.0;
 
-class _DetailsPageState extends State<DetailsPage> {
+class _AllItemsPageState extends State<AllItemsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: isDarkMode ? Colors.white12 : Colors.grey[300],
-        foregroundColor: Colors.teal,
+        backgroundColor: Colors.grey[300],
+        foregroundColor: Colors.black,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             fullscreenDialog: true,
@@ -107,9 +107,9 @@ class _SpendingHeaderBody extends StatelessWidget {
           )),
       BlocProvider(
         create: (context) {
-          return getIt<HomeCubit>()..getTodaySpendings();
+          return getIt<AllItemsCubit>()..getTodaySpendings();
         },
-        child: BlocBuilder<HomeCubit, HomeState>(
+        child: BlocBuilder<AllItemsCubit, AllItemsState>(
           builder: (context, state) {
             final documents = state.documents;
             todaySpendings = 0.0;
@@ -136,9 +136,9 @@ class _SpendingHeaderBody extends StatelessWidget {
               Text(AppLocalizations.of(context).thisMonth),
               BlocProvider(
                 create: (context) {
-                  return getIt<HomeCubit>()..getThisMonthSpendings();
+                  return getIt<AllItemsCubit>()..getThisMonthSpendings();
                 },
-                child: BlocBuilder<HomeCubit, HomeState>(
+                child: BlocBuilder<AllItemsCubit, AllItemsState>(
                   builder: (context, state) {
                     final documents = state.documents;
 
@@ -155,9 +155,9 @@ class _SpendingHeaderBody extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) {
-              return getIt<HomeCubit>()..getPreviousMonthSpendings();
+              return getIt<AllItemsCubit>()..getPreviousMonthSpendings();
             },
-            child: BlocBuilder<HomeCubit, HomeState>(
+            child: BlocBuilder<AllItemsCubit, AllItemsState>(
               builder: (context, state) {
                 final documents = state.documents;
 
@@ -198,9 +198,9 @@ class _IncomeHeaderBody extends StatelessWidget {
           )),
       BlocProvider(
         create: (context) {
-          return getIt<HomeCubit>()..getTodayIncome();
+          return getIt<AllItemsCubit>()..getTodayIncome();
         },
-        child: BlocBuilder<HomeCubit, HomeState>(
+        child: BlocBuilder<AllItemsCubit, AllItemsState>(
           builder: (context, state) {
             final documents = state.documents;
             todayIncome = 0.0;
@@ -227,9 +227,9 @@ class _IncomeHeaderBody extends StatelessWidget {
               Text(AppLocalizations.of(context).thisMonth),
               BlocProvider(
                 create: (context) {
-                  return getIt<HomeCubit>()..getThisMonthIncome();
+                  return getIt<AllItemsCubit>()..getThisMonthIncome();
                 },
-                child: BlocBuilder<HomeCubit, HomeState>(
+                child: BlocBuilder<AllItemsCubit, AllItemsState>(
                   builder: (context, state) {
                     final documents = state.documents;
 
@@ -246,9 +246,9 @@ class _IncomeHeaderBody extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) {
-              return getIt<HomeCubit>()..getPreviousMonthIncome();
+              return getIt<AllItemsCubit>()..getPreviousMonthIncome();
             },
-            child: BlocBuilder<HomeCubit, HomeState>(
+            child: BlocBuilder<AllItemsCubit, AllItemsState>(
               builder: (context, state) {
                 final documents = state.documents;
 

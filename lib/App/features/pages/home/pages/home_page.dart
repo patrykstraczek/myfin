@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 import 'package:myfin/App/widgets/drawer_widget.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
-import 'package:myfin/app/features/pages/details/pages/details_page.dart';
+import 'package:myfin/App/features/pages/all_items/pages/all_items_page.dart';
+import 'package:myfin/App/features/pages/details/details_page.dart';
 
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: const DrawerWidget(),
       appBar: AppBar(
+        backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
         title: const Text('Raporty'),
         centerTitle: true,
         actions: [
@@ -46,8 +48,8 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: isDarkMode ? Colors.white12 : Colors.grey[300],
-        foregroundColor: Colors.teal,
+        backgroundColor: Colors.grey[300],
+        foregroundColor: Colors.black,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             fullscreenDialog: true,
@@ -56,12 +58,20 @@ class _HomePageState extends State<HomePage> {
         },
         child: const Icon(Icons.add),
       ),
-      body: ListView(children: const [
-        _HomePageBody(),
-        _HomePageBody(),
-        _HomePageBody(),
-        _HomePageBody(),
-        _HomePageBody(),
+      body: Column(children: [
+        const _AllHistoryItem(),
+        Expanded(
+          child: ListView(children: const [
+            _HomePageBody(),
+            _HomePageBody(),
+            _HomePageBody(),
+            _HomePageBody(),
+            _HomePageBody(),
+            _HomePageBody(),
+            _HomePageBody(),
+            _HomePageBody(),
+          ]),
+        )
       ]),
     );
   }
@@ -112,6 +122,45 @@ class _HomePageBody extends StatelessWidget {
                     '+25 PLN',
                   ),
                 ],
+              ),
+            ],
+          ),
+        ),
+      )
+    ]);
+  }
+}
+
+class _AllHistoryItem extends StatelessWidget {
+  const _AllHistoryItem({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        height: 60,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20)),
+          color: isDarkMode ? Colors.grey[900] : Colors.white,
+        ),
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const AllItemsPage()));
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text(
+                'Sprawdź całą historię',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
             ],
           ),
