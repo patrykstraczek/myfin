@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'all_items_cubit.dart';
+part of 'home_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,33 +15,28 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$AllItemsState {
-  List<QueryDocumentSnapshot<Object?>> get documents =>
-      throw _privateConstructorUsedError;
+mixin _$HomeState {
+  List<SpendingsModel> get docs => throw _privateConstructorUsedError;
   Status get status => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $AllItemsStateCopyWith<AllItemsState> get copyWith =>
+  $HomeStateCopyWith<HomeState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AllItemsStateCopyWith<$Res> {
-  factory $AllItemsStateCopyWith(
-          AllItemsState value, $Res Function(AllItemsState) then) =
-      _$AllItemsStateCopyWithImpl<$Res, AllItemsState>;
+abstract class $HomeStateCopyWith<$Res> {
+  factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
+      _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call(
-      {List<QueryDocumentSnapshot<Object?>> documents,
-      Status status,
-      String? errorMessage});
+  $Res call({List<SpendingsModel> docs, Status status, String? errorMessage});
 }
 
 /// @nodoc
-class _$AllItemsStateCopyWithImpl<$Res, $Val extends AllItemsState>
-    implements $AllItemsStateCopyWith<$Res> {
-  _$AllItemsStateCopyWithImpl(this._value, this._then);
+class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
+    implements $HomeStateCopyWith<$Res> {
+  _$HomeStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -51,15 +46,15 @@ class _$AllItemsStateCopyWithImpl<$Res, $Val extends AllItemsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? documents = null,
+    Object? docs = null,
     Object? status = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
-      documents: null == documents
-          ? _value.documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<QueryDocumentSnapshot<Object?>>,
+      docs: null == docs
+          ? _value.docs
+          : docs // ignore: cast_nullable_to_non_nullable
+              as List<SpendingsModel>,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -73,39 +68,35 @@ class _$AllItemsStateCopyWithImpl<$Res, $Val extends AllItemsState>
 }
 
 /// @nodoc
-abstract class _$$_AllItemsStateCopyWith<$Res>
-    implements $AllItemsStateCopyWith<$Res> {
-  factory _$$_AllItemsStateCopyWith(
-          _$_AllItemsState value, $Res Function(_$_AllItemsState) then) =
-      __$$_AllItemsStateCopyWithImpl<$Res>;
+abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
+  factory _$$_HomeStateCopyWith(
+          _$_HomeState value, $Res Function(_$_HomeState) then) =
+      __$$_HomeStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {List<QueryDocumentSnapshot<Object?>> documents,
-      Status status,
-      String? errorMessage});
+  $Res call({List<SpendingsModel> docs, Status status, String? errorMessage});
 }
 
 /// @nodoc
-class __$$_AllItemsStateCopyWithImpl<$Res>
-    extends _$AllItemsStateCopyWithImpl<$Res, _$_AllItemsState>
-    implements _$$_AllItemsStateCopyWith<$Res> {
-  __$$_AllItemsStateCopyWithImpl(
-      _$_AllItemsState _value, $Res Function(_$_AllItemsState) _then)
+class __$$_HomeStateCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$_HomeState>
+    implements _$$_HomeStateCopyWith<$Res> {
+  __$$_HomeStateCopyWithImpl(
+      _$_HomeState _value, $Res Function(_$_HomeState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? documents = null,
+    Object? docs = null,
     Object? status = freezed,
     Object? errorMessage = freezed,
   }) {
-    return _then(_$_AllItemsState(
-      documents: null == documents
-          ? _value._documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<QueryDocumentSnapshot<Object?>>,
+    return _then(_$_HomeState(
+      docs: null == docs
+          ? _value._docs
+          : docs // ignore: cast_nullable_to_non_nullable
+              as List<SpendingsModel>,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -120,20 +111,20 @@ class __$$_AllItemsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AllItemsState implements _AllItemsState {
-  const _$_AllItemsState(
-      {final List<QueryDocumentSnapshot<Object?>> documents = const [],
+class _$_HomeState implements _HomeState {
+  const _$_HomeState(
+      {final List<SpendingsModel> docs = const [],
       this.status = Status.initial,
       this.errorMessage})
-      : _documents = documents;
+      : _docs = docs;
 
-  final List<QueryDocumentSnapshot<Object?>> _documents;
+  final List<SpendingsModel> _docs;
   @override
   @JsonKey()
-  List<QueryDocumentSnapshot<Object?>> get documents {
-    if (_documents is EqualUnmodifiableListView) return _documents;
+  List<SpendingsModel> get docs {
+    if (_docs is EqualUnmodifiableListView) return _docs;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_documents);
+    return EqualUnmodifiableListView(_docs);
   }
 
   @override
@@ -144,16 +135,15 @@ class _$_AllItemsState implements _AllItemsState {
 
   @override
   String toString() {
-    return 'AllItemsState(documents: $documents, status: $status, errorMessage: $errorMessage)';
+    return 'HomeState(docs: $docs, status: $status, errorMessage: $errorMessage)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AllItemsState &&
-            const DeepCollectionEquality()
-                .equals(other._documents, _documents) &&
+            other is _$_HomeState &&
+            const DeepCollectionEquality().equals(other._docs, _docs) &&
             const DeepCollectionEquality().equals(other.status, status) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
@@ -162,31 +152,31 @@ class _$_AllItemsState implements _AllItemsState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_documents),
+      const DeepCollectionEquality().hash(_docs),
       const DeepCollectionEquality().hash(status),
       errorMessage);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AllItemsStateCopyWith<_$_AllItemsState> get copyWith =>
-      __$$_AllItemsStateCopyWithImpl<_$_AllItemsState>(this, _$identity);
+  _$$_HomeStateCopyWith<_$_HomeState> get copyWith =>
+      __$$_HomeStateCopyWithImpl<_$_HomeState>(this, _$identity);
 }
 
-abstract class _AllItemsState implements AllItemsState {
-  const factory _AllItemsState(
-      {final List<QueryDocumentSnapshot<Object?>> documents,
+abstract class _HomeState implements HomeState {
+  const factory _HomeState(
+      {final List<SpendingsModel> docs,
       final Status status,
-      final String? errorMessage}) = _$_AllItemsState;
+      final String? errorMessage}) = _$_HomeState;
 
   @override
-  List<QueryDocumentSnapshot<Object?>> get documents;
+  List<SpendingsModel> get docs;
   @override
   Status get status;
   @override
   String? get errorMessage;
   @override
   @JsonKey(ignore: true)
-  _$$_AllItemsStateCopyWith<_$_AllItemsState> get copyWith =>
+  _$$_HomeStateCopyWith<_$_HomeState> get copyWith =>
       throw _privateConstructorUsedError;
 }

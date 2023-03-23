@@ -4,15 +4,23 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myfin/App/core/enums.dart';
+import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
+import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 
-part 'spendings_cubit.freezed.dart';
-part 'spendings_state.dart';
+part 'home_state.dart';
+part 'home_cubit.freezed.dart';
 
-class SpendingsCubit extends Cubit<SpendingsState> {
-  SpendingsCubit({required this.spendingsRepository}) : super(SpendingsState());
+class HomeCubit extends Cubit<HomeState> {
+  final userID = FirebaseAuth.instance.currentUser?.uid;
+  final now = DateTime.now();
+  final spendingDataSource = FirebaseSpendingsDataSource();
+  final incomeDataSource = FirebaseIncomeDataSource();
+
+  HomeCubit({required this.spendingsRepository}) : super(const HomeState());
 
   final SpendingsRepository spendingsRepository;
   StreamSubscription? spendingsSubscription;
@@ -21,18 +29,18 @@ class SpendingsCubit extends Cubit<SpendingsState> {
     spendingsSubscription =
         spendingsRepository.getSpendingsStream().listen((spendings) {
       emit(
-        SpendingsState(status: Status.loading),
+        const HomeState(status: Status.loading),
       );
       try {
         emit(
-          SpendingsState(
+          HomeState(
             status: Status.success,
             docs: spendings,
           ),
         );
       } catch (error) {
         emit(
-          SpendingsState(
+          HomeState(
             status: Status.error,
             errorMessage: error.toString(),
           ),
@@ -41,22 +49,9 @@ class SpendingsCubit extends Cubit<SpendingsState> {
     });
   }
 
-  Future<void> remove({required String documentID}) async {
-    try {
-      await spendingsRepository.remove(id: documentID);
-    } catch (error) {
-      emit(
-        SpendingsState(
-          docs: const [],
-          errorMessage: error.toString(),
-        ),
-      );
-    }
-  }
   @override
   Future<void> close() {
     spendingsSubscription?.cancel();
     return super.close();
   }
 }
-
