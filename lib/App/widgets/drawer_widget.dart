@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:myfin/App/features/pages/exchange/pages/exchange_rates_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:myfin/App/features/pages/home/pages/home_page.dart';
 import 'package:myfin/App/features/auth/pages/user_profile.dart';
 
-class DrawerWidget extends StatefulWidget {
-  const DrawerWidget({Key? key}) : super(key: key);
+class DrawerWidget extends StatelessWidget {
+  const DrawerWidget({Key? key, required this.isDarkMode}) : super(key: key);
 
-  @override
-  State<DrawerWidget> createState() => _DrawerWidgetState();
-}
+  final bool isDarkMode;
 
-class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(

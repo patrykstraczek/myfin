@@ -6,6 +6,7 @@ import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/incomes_model.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
 import 'package:myfin/App/injection_container.dart';
+import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 
 class IncomesPage extends StatelessWidget {
   const IncomesPage({
@@ -34,7 +35,7 @@ class IncomesPage extends StatelessWidget {
               case Status.success:
                 return ListView(children: [
                   for (final income in state.docs)
-                    _IncomeItemWidget(model: income)
+                    _IncomeItemWidget(model: income, isDarkMode: isDarkMode)
                 ]);
               case Status.error:
                 return Center(
@@ -54,9 +55,12 @@ class IncomesPage extends StatelessWidget {
 }
 
 class _IncomeItemWidget extends StatelessWidget {
-  const _IncomeItemWidget({Key? key, required this.model}) : super(key: key);
+  const _IncomeItemWidget(
+      {Key? key, required this.model, required this.isDarkMode})
+      : super(key: key);
 
   final IncomesModel model;
+  final bool isDarkMode;
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +93,9 @@ class _IncomeItemWidget extends StatelessWidget {
           vertical: 4.0,
         ),
         child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: Colors.white12,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: isDarkMode ? Colors.grey[900] : Colors.white,
           ),
           child: ListTile(
             dense: true,

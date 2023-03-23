@@ -43,7 +43,7 @@ class _DetailsPageState extends State<DetailsPage> {
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: Text('Data'),
+        title: const Text('Data'),
         centerTitle: true,
       ),
       body: Builder(builder: (context) {

@@ -5,6 +5,7 @@ import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/spendings/spendings_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myfin/App/features/pages/home/pages/home_page.dart';
 
 import 'package:myfin/app/injection_container.dart';
 
@@ -35,7 +36,10 @@ class SpendingsPage extends StatelessWidget {
                 return ListView(
                   children: [
                     for (final spending in state.docs)
-                      _SpendingItemWidget(model: spending)
+                      _SpendingItemWidget(
+                        model: spending,
+                        isDarkMode: isDarkMode,
+                      )
                   ],
                 );
               case Status.error:
@@ -56,9 +60,12 @@ class SpendingsPage extends StatelessWidget {
 }
 
 class _SpendingItemWidget extends StatefulWidget {
-  const _SpendingItemWidget({Key? key, required this.model}) : super(key: key);
+  const _SpendingItemWidget(
+      {Key? key, required this.model, required this.isDarkMode})
+      : super(key: key);
 
   final SpendingsModel model;
+  final bool isDarkMode;
 
   @override
   State<_SpendingItemWidget> createState() => _SpendingItemWidgetState();
@@ -96,9 +103,9 @@ class _SpendingItemWidgetState extends State<_SpendingItemWidget> {
           vertical: 4.0,
         ),
         child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: Colors.white12,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: isDarkMode ? Colors.grey[900] : Colors.white,
           ),
           child: ListTile(
             dense: true,
