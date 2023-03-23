@@ -20,7 +20,7 @@ class AllItemsCubit extends Cubit<AllItemsState> {
   final spendingDataSource = FirebaseSpendingsDataSource();
   final incomeDataSource = FirebaseIncomeDataSource();
 
-  AllItemsCubit() : super(AllItemsState());
+  AllItemsCubit() : super(const AllItemsState());
 
   StreamSubscription? _homeSpendingsSubscription;
   StreamSubscription? _homeIncomesSubscription;
@@ -29,7 +29,7 @@ class AllItemsCubit extends Cubit<AllItemsState> {
       _handleSpendingsStream(
           Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
     emit(
-      AllItemsState(status: Status.loading),
+      const AllItemsState(status: Status.loading),
     );
     return stream.listen((data) {
       try {
@@ -49,7 +49,7 @@ class AllItemsCubit extends Cubit<AllItemsState> {
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _handleIncomesStream(
       Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
     emit(
-      AllItemsState(
+      const AllItemsState(
         status: Status.loading,
       ),
     );

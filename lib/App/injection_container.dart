@@ -11,6 +11,7 @@ import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.d
 import 'package:myfin/App/features/pages/all_items/cubit/spendings/spendings_cubit.dart';
 import 'package:myfin/App/features/pages/exchange/cubit/exchange_rates_cubit.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
+import 'package:myfin/App/features/pages/home/cubit/home_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -23,6 +24,7 @@ void configureDependencies() {
   getIt.registerFactory(() => IncomesCubit(incomesRepository: getIt()));
   getIt.registerFactory(
       () => ExchangeRatesCubit(exchangeRatesRepository: getIt()));
+  getIt.registerFactory(() => HomeCubit(spendingsRepository: getIt()));
 
   //Repositories
   getIt.registerFactory(
