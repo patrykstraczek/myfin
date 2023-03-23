@@ -10,9 +10,6 @@ class UserProfile extends StatelessWidget {
       appBar: AppBar(),
       providerConfigs: const [
         EmailProviderConfiguration(),
-        GoogleProviderConfiguration(
-          clientId: '...',
-        ),
       ],
       actions: [
         SignedOutAction(

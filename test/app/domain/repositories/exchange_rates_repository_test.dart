@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myfin/App/domain/models/api_model.dart';
+import 'package:myfin/app/domain/models/api_model.dart';
 import 'package:myfin/App/domain/models/exchange_rates_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/exchange_rates_data_source.dart';
 import 'package:myfin/App/domain/repositories/exchange_rates_repository.dart';

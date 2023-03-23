@@ -9,6 +9,7 @@ import 'package:myfin/App/features/pages/all_items/cubit/spendings/spendings_cub
 import 'package:myfin/App/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
+import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
@@ -102,7 +103,10 @@ class SpendingsDetailsPage extends StatelessWidget {
                 return ListView(
                   children: [
                     for (final spending in state.docs)
-                      _SpendingDetailsItemWidget(model: spending)
+                      _SpendingDetailsItemWidget(
+                        model: spending,
+                        isDarkMode: isDarkMode,
+                      )
                   ],
                 );
               case Status.error:
@@ -123,10 +127,12 @@ class SpendingsDetailsPage extends StatelessWidget {
 }
 
 class _SpendingDetailsItemWidget extends StatefulWidget {
-  const _SpendingDetailsItemWidget({Key? key, required this.model})
+  const _SpendingDetailsItemWidget(
+      {Key? key, required this.model, required this.isDarkMode})
       : super(key: key);
 
   final SpendingsModel model;
+  final bool isDarkMode;
 
   @override
   State<_SpendingDetailsItemWidget> createState() =>
@@ -166,9 +172,9 @@ class _SpendingDetailsItemWidgetState
           vertical: 4.0,
         ),
         child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: Colors.white12,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: isDarkMode ? Colors.grey[900] : Colors.white,
           ),
           child: ListTile(
             dense: true,
@@ -230,7 +236,10 @@ class IncomesDetailsPage extends StatelessWidget {
               case Status.success:
                 return ListView(children: [
                   for (final income in state.docs)
-                    _IncomeDetailsItemWidget(model: income)
+                    _IncomeDetailsItemWidget(
+                      model: income,
+                      isDarkMode: isDarkMode,
+                    )
                 ]);
               case Status.error:
                 return Center(
@@ -250,10 +259,12 @@ class IncomesDetailsPage extends StatelessWidget {
 }
 
 class _IncomeDetailsItemWidget extends StatelessWidget {
-  const _IncomeDetailsItemWidget({Key? key, required this.model})
+  const _IncomeDetailsItemWidget(
+      {Key? key, required this.model, required this.isDarkMode})
       : super(key: key);
 
   final IncomesModel model;
+  final bool isDarkMode;
 
   @override
   Widget build(BuildContext context) {
@@ -286,9 +297,9 @@ class _IncomeDetailsItemWidget extends StatelessWidget {
           vertical: 4.0,
         ),
         child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: Colors.white12,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: isDarkMode ? Colors.grey[900] : Colors.white,
           ),
           child: ListTile(
             dense: true,
