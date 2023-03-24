@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myfin/App/features/pages/details/details_page.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
-import 'package:myfin/App/features/pages/add/pages/add_page.dart';
+
+import 'package:myfin/app/widgets/floating_action_button.dart';
 
 class DailyReportsPage extends StatelessWidget {
   const DailyReportsPage({Key? key}) : super(key: key);
@@ -14,17 +15,7 @@ class DailyReportsPage extends StatelessWidget {
         title: const Text('Marzec 2023'),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.grey[300],
-        foregroundColor: Colors.black,
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (_) => const AddPage(),
-          ));
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: MyFloatingActionButton(context),
       body: ListView(children: [
         Column(children: [
           Container(
@@ -103,4 +94,6 @@ class DailyReportsPage extends StatelessWidget {
       ]),
     );
   }
+
+  
 }

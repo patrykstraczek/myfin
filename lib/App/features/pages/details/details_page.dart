@@ -10,6 +10,7 @@ import 'package:myfin/App/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
+import 'package:myfin/app/widgets/floating_action_button.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
@@ -32,17 +33,7 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.grey[300],
-        foregroundColor: Colors.black,
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (_) => const AddPage(),
-          ));
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: MyFloatingActionButton(context),
       appBar: AppBar(
         title: const Text('Data'),
         centerTitle: true,
