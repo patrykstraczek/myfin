@@ -8,6 +8,7 @@ import 'package:myfin/app/domain/theme/theme_provider.dart';
 import 'package:myfin/App/features/pages/all_items/pages/all_items_page.dart';
 import 'package:myfin/App/features/pages/details/details_page.dart';
 import 'package:myfin/App/features/pages/home/cubit/home_cubit.dart';
+import 'package:myfin/app/features/pages/daily/daily_reports_page.dart';
 import 'package:myfin/app/injection_container.dart';
 import 'package:myfin/app/widgets/drawer_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -86,11 +87,9 @@ class _HomePageState extends State<HomePage> {
                   case Status.success:
                     return ListView(
                       children: [
-                        for (final spending in state.docs)
-                          _HomePageBody(
-                            isDarkMode: isDarkMode,
-                            model: spending,
-                          ),
+                        _HomePageBody(
+                          isDarkMode: isDarkMode,
+                        ),
                       ],
                     );
                   case Status.error:
@@ -132,22 +131,22 @@ class _AllHistoryItem extends StatelessWidget {
               bottomRight: Radius.circular(20)),
           color: isDarkMode ? Colors.grey[900] : Colors.white,
         ),
-        child: InkWell(
-          onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => const AllItemsPage()));
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const AllItemsPage()));
+              },
+              child: const Text(
                 'Sprawdź całą historię',
                 style: TextStyle(
                   fontSize: 18,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       )
     ]);
@@ -157,12 +156,10 @@ class _AllHistoryItem extends StatelessWidget {
 class _HomePageBody extends StatelessWidget {
   const _HomePageBody({
     Key? key,
-    required this.model,
     required this.isDarkMode,
   }) : super(key: key);
 
   final bool isDarkMode;
-  final SpendingsModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -177,8 +174,8 @@ class _HomePageBody extends StatelessWidget {
         ),
         child: InkWell(
           onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => const DetailsPage()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const DailyReportsPage()));
           },
           child: SizedBox(
             height: 80,
@@ -187,11 +184,10 @@ class _HomePageBody extends StatelessWidget {
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text(
-                      DateFormat.yMMMEd(AppLocalizations.of(context).dateFormat)
-                          .format(model.spendingDate),
-                      style: const TextStyle(fontSize: 18),
+                      'Marzec 2023',
+                      style: TextStyle(fontSize: 18),
                     ),
                   ],
                 ),
