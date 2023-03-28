@@ -37,7 +37,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     final today = DateTime.now();
 
     final months =
@@ -90,7 +89,6 @@ class _HomePageState extends State<HomePage> {
               return getIt<HomeCubit>()..start();
             },
             child: ListView.builder(
-              reverse: true,
                 itemCount: months,
                 itemBuilder: (BuildContext context, int index) {
                   final year = startYear + ((startMonth + index - 1) ~/ 12);

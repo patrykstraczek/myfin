@@ -71,7 +71,7 @@ class _DailyReportsWidget extends StatelessWidget {
               .push(MaterialPageRoute(builder: (_) => const DetailsPage()));
         },
         child: SizedBox(
-          height: 80,
+          height: 60,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -81,7 +81,7 @@ class _DailyReportsWidget extends StatelessWidget {
                   Text(
                     DateFormat.yMMMEd(AppLocalizations.of(context).dateFormat)
                         .format(date),
-                    style: const TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ],
               ),
