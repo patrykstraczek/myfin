@@ -10,6 +10,7 @@ import 'package:myfin/app/features/pages/daily/daily_reports_page.dart';
 import 'package:myfin/app/injection_container.dart';
 import 'package:myfin/app/widgets/drawer_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myfin/app/widgets/floating_action_button.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -45,6 +46,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: DrawerWidget(isDarkMode: isDarkMode),
       appBar: AppBar(
+        surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
         backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
         title: const Text('Raporty'),
         centerTitle: true,
@@ -70,17 +72,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.grey[300],
-        foregroundColor: Colors.black,
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (_) => const AddPage(),
-          ));
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: myFloatingActionButton(context),
       body: Column(children: [
         _AllHistoryItem(isDarkMode: isDarkMode),
         Expanded(

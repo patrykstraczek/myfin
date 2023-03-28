@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:myfin/App/features/pages/details/details_page.dart';
+import 'package:myfin/app/features/pages/details/details_page.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/widgets/floating_action_button.dart';
@@ -20,6 +20,7 @@ class DailyReportsPage extends StatelessWidget {
     int currentDay = DateTime.now().day;
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
         backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
         title: Text(
           DateFormat.yMMMM(AppLocalizations.of(context).dateFormat)
@@ -39,7 +40,7 @@ class DailyReportsPage extends StatelessWidget {
             // Create widget for each day
             final day = index + 1;
             final date = DateTime(year, month, day);
-            return _DailyReportsWidget(date: date);
+            return _DailyReportsWidget(dayInMonth: date);
           },
         ).toList().reversed.toList()),
       ]),
@@ -50,10 +51,10 @@ class DailyReportsPage extends StatelessWidget {
 class _DailyReportsWidget extends StatelessWidget {
   const _DailyReportsWidget({
     Key? key,
-    required this.date,
+    required this.dayInMonth,
   }) : super(key: key);
 
-  final DateTime date;
+  final DateTime dayInMonth;
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +68,8 @@ class _DailyReportsWidget extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => const DetailsPage()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => DetailsPage(selectedDay: dayInMonth)));
         },
         child: SizedBox(
           height: 60,
@@ -79,8 +80,8 @@ class _DailyReportsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    DateFormat.yMMMEd(AppLocalizations.of(context).dateFormat)
-                        .format(date),
+                    DateFormat.MEd(AppLocalizations.of(context).dateFormat)
+                        .format(dayInMonth),
                     style: const TextStyle(fontSize: 16),
                   ),
                 ],
@@ -89,7 +90,6 @@ class _DailyReportsWidget extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
-                    color: Colors.red,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,7 +97,9 @@ class _DailyReportsWidget extends StatelessWidget {
                         Text(
                           '-120 PLN',
                           style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.bold),
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -105,7 +107,6 @@ class _DailyReportsWidget extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     decoration: const BoxDecoration(
-                      color: Colors.green,
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(16),
                         bottomRight: Radius.circular(16),
@@ -118,7 +119,9 @@ class _DailyReportsWidget extends StatelessWidget {
                         Text(
                           '+25 PLN',
                           style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.bold),
+                              color: Colors.green,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

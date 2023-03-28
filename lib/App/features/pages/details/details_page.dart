@@ -14,19 +14,16 @@ import 'package:myfin/app/widgets/floating_action_button.dart';
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
     Key? key,
+    required this.selectedDay,
   }) : super(key: key);
+
+  final DateTime selectedDay;
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
 }
 
 int currentIndex = 0;
-double todaySpendings = 0.0;
-double thisMonthSpending = 0.0;
-double previousMonthSpending = 0.0;
-double todayIncome = 0.0;
-double thisMonthIncome = 0.0;
-double previousMonthIncome = 0.0;
 
 class _DetailsPageState extends State<DetailsPage> {
   @override
@@ -34,7 +31,11 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       floatingActionButton: myFloatingActionButton(context),
       appBar: AppBar(
-        title: const Text('Data'),
+        surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
+        backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
+        title: Text(
+            DateFormat.MMMMEEEEd(AppLocalizations.of(context).dateFormat)
+                .format(widget.selectedDay)),
         centerTitle: true,
       ),
       body: Builder(builder: (context) {

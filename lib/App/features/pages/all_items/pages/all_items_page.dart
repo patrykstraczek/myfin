@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myfin/App/features/pages/home/pages/home_page.dart';
+import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
 import 'package:myfin/App/features/pages/all_items/pages/incomes_page.dart';
 import 'package:myfin/App/features/pages/all_items/pages/spendings_page.dart';
@@ -32,21 +32,28 @@ class _AllItemsPageState extends State<AllItemsPage> {
     return Scaffold(
       floatingActionButton: myFloatingActionButton(context),
       appBar: AppBar(
-          toolbarHeight: 200,
-          //toolbarHeight: 250,
-          //backgroundColor: darkMode ? Colors.black : Colors.white,
-
+          centerTitle: true,
+          title: currentIndex == 0
+              ? Text(AppLocalizations.of(context).todaySpendings)
+              : Text(AppLocalizations.of(context).todayIncome),
+          surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
+          shape: const BeveledRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20)),
+          ),
+          backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
           bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(0),
+              preferredSize: const Size.fromHeight(110),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  color: isDarkMode
-                      ? const Color.fromARGB(255, 148, 112, 4)
-                      : Colors.amber,
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20)),
+                  color: isDarkMode ? Colors.grey[900] : Colors.white,
                 ),
                 alignment: Alignment.topCenter,
-                height: 144.0,
+                height: 110.0,
                 //height: 194.0,
                 child: currentIndex == 0
                     ? const _SpendingHeaderBody()
@@ -87,14 +94,6 @@ class _SpendingHeaderBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Text(
-            AppLocalizations.of(context).todaySpendings,
-            style: GoogleFonts.lato(
-              fontSize: 20,
-            ),
-          )),
       BlocProvider(
         create: (context) {
           return getIt<AllItemsCubit>()..getTodaySpendings();
@@ -178,14 +177,6 @@ class _IncomeHeaderBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Text(
-            AppLocalizations.of(context).todayIncome,
-            style: GoogleFonts.lato(
-              fontSize: 20,
-            ),
-          )),
       BlocProvider(
         create: (context) {
           return getIt<AllItemsCubit>()..getTodayIncome();
