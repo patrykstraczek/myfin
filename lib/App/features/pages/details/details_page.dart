@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/incomes_model.dart';
-import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/spendings/spendings_cubit.dart';
 import 'package:myfin/App/injection_container.dart';
@@ -33,7 +32,7 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: MyFloatingActionButton(context),
+      floatingActionButton: myFloatingActionButton(context),
       appBar: AppBar(
         title: const Text('Data'),
         centerTitle: true,

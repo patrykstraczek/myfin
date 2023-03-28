@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 import 'package:myfin/App/features/pages/home/pages/home_page.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
 import 'package:myfin/App/features/pages/all_items/pages/incomes_page.dart';
@@ -31,7 +30,7 @@ class _AllItemsPageState extends State<AllItemsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: MyFloatingActionButton(context),
+      floatingActionButton: myFloatingActionButton(context),
       appBar: AppBar(
           toolbarHeight: 200,
           //toolbarHeight: 250,
