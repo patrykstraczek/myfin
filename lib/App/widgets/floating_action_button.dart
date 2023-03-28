@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 
-FloatingActionButton MyFloatingActionButton(BuildContext context) {
+FloatingActionButton myFloatingActionButton(BuildContext context) {
   return FloatingActionButton(
     backgroundColor: Colors.grey[300],
     foregroundColor: Colors.black,

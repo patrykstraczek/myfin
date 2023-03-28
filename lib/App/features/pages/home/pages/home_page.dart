@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
-import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
 import 'package:myfin/App/features/pages/all_items/pages/all_items_page.dart';
-import 'package:myfin/App/features/pages/details/details_page.dart';
 import 'package:myfin/App/features/pages/home/cubit/home_cubit.dart';
 import 'package:myfin/app/features/pages/daily/daily_reports_page.dart';
 import 'package:myfin/app/injection_container.dart';
@@ -25,8 +23,26 @@ DateTime? date;
 bool isDarkMode = true;
 
 class _HomePageState extends State<HomePage> {
+  late int startYear;
+  late int startMonth;
+
+  @override
+  void initState() {
+    super.initState();
+    final now = DateTime.now();
+
+    startYear = now.year;
+    startMonth = now.month;
+  }
+
   @override
   Widget build(BuildContext context) {
+    
+    final today = DateTime.now();
+
+    final months =
+        (today.year - startYear) * 12 + (today.month - startMonth) + 1;
+
     return Scaffold(
       drawer: DrawerWidget(isDarkMode: isDarkMode),
       appBar: AppBar(
@@ -73,39 +89,49 @@ class _HomePageState extends State<HomePage> {
             create: (context) {
               return getIt<HomeCubit>()..start();
             },
-            child: BlocBuilder<HomeCubit, HomeState>(
-              builder: (context, state) {
-                switch (state.status) {
-                  case Status.initial:
-                    return const Center(
-                      child: Text(''),
-                    );
-                  case Status.loading:
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  case Status.success:
-                    return ListView(
-                      children: [
-                        _HomePageBody(
-                          isDarkMode: isDarkMode,
-                        ),
-                      ],
-                    );
-                  case Status.error:
-                    return Center(
-                      child: Text(
-                        state.errorMessage ?? 'Unknown error',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      ),
-                    );
-                }
-              },
-            ),
+            child: ListView.builder(
+              reverse: true,
+                itemCount: months,
+                itemBuilder: (BuildContext context, int index) {
+                  final year = startYear + ((startMonth + index - 1) ~/ 12);
+                  final month = (startMonth + index - 1) % 12 + 1;
+                  return BlocProvider(
+                    create: (context) {
+                      return getIt<HomeCubit>()..start();
+                    },
+                    child: BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        switch (state.status) {
+                          case Status.initial:
+                            return const Center(
+                              child: Text(''),
+                            );
+                          case Status.loading:
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          case Status.success:
+                            return _HomePageBody(
+                              isDarkMode: isDarkMode,
+                              month: month,
+                              year: year,
+                            );
+                          case Status.error:
+                            return Center(
+                              child: Text(
+                                state.errorMessage ?? 'Unknown error',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
+                              ),
+                            );
+                        }
+                      },
+                    ),
+                  );
+                }),
           ),
-        )
+        ),
       ]),
     );
   }
@@ -157,9 +183,13 @@ class _HomePageBody extends StatelessWidget {
   const _HomePageBody({
     Key? key,
     required this.isDarkMode,
+    required this.month,
+    required this.year,
   }) : super(key: key);
 
   final bool isDarkMode;
+  final int month;
+  final int year;
 
   @override
   Widget build(BuildContext context) {
@@ -174,8 +204,11 @@ class _HomePageBody extends StatelessWidget {
         ),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const DailyReportsPage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => DailyReportsPage(
+                      month: month,
+                      year: year,
+                    )));
           },
           child: SizedBox(
             height: 80,
@@ -184,10 +217,11 @@ class _HomePageBody extends StatelessWidget {
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
-                      'Marzec 2023',
-                      style: TextStyle(fontSize: 18),
+                      DateFormat.yMMMM(AppLocalizations.of(context).dateFormat)
+                          .format(DateTime(year, month)),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ],
                 ),
