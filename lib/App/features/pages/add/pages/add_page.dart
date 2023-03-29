@@ -7,6 +7,7 @@ import 'package:myfin/App/features/pages/add/cubit/add_page_cubit.dart';
 import 'package:myfin/App/features/pages/add/widgets/icons_body.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/widgets/calendar_widget.dart';
+import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:myfin/app/injection_container.dart';
 
 class AddPage extends StatefulWidget {
@@ -108,7 +109,13 @@ class _AddPageState extends State<AddPage> {
                       child: Text(
                         AppLocalizations.of(context).spending,
                         style: GoogleFonts.lato(
-                          color: spendingSelected ? Colors.amber : Colors.grey,
+                          color: isDarkMode
+                              ? spendingSelected
+                                  ? const Color(0xff673ab7)
+                                  : Colors.grey
+                              : spendingSelected
+                                  ? const Color(0xfff39c12)
+                                  : Colors.grey,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -124,8 +131,13 @@ class _AddPageState extends State<AddPage> {
                         child: Text(
                           AppLocalizations.of(context).income,
                           style: GoogleFonts.lato(
-                            color:
-                                spendingSelected ? Colors.grey : Colors.amber,
+                            color: isDarkMode
+                                ? spendingSelected
+                                    ? Colors.grey
+                                    : const Color(0xff673ab7)
+                                : spendingSelected
+                                    ? Colors.grey
+                                    : const Color(0xfff39c12),
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),

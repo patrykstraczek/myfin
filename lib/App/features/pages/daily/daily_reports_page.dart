@@ -20,11 +20,10 @@ class DailyReportsPage extends StatelessWidget {
     int currentDay = DateTime.now().day;
     return Scaffold(
       appBar: AppBar(
-        surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
-        backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
         title: Text(
           DateFormat.yMMMM(AppLocalizations.of(context).dateFormat)
-              .format(DateTime(year, month)),
+              .format(DateTime(year, month))
+              .toUpperCase(),
         ),
         centerTitle: true,
       ),

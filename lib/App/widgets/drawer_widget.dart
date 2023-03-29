@@ -17,22 +17,26 @@ class DrawerWidget extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.grey[900],
-            ),
-            child: Text(
-              'MyFin',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.lato(
-                color: Colors.amber,
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'MyFin.',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.lato(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
+                ),
+              ],
             ),
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.person,
+              color: isDarkMode
+                  ? const Color(0xff673ab7)
+                  : const Color(0xfff5b041),
             ),
             title: Text(AppLocalizations.of(context).profile,
                 style: GoogleFonts.lato()),
@@ -46,8 +50,11 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.moving,
+              color: isDarkMode
+                  ? const Color(0xff673ab7)
+                  : const Color(0xfff5b041),
             ),
             title: Text(AppLocalizations.of(context).exchangeRates,
                 style: GoogleFonts.lato()),
@@ -62,8 +69,11 @@ class DrawerWidget extends StatelessWidget {
           ),
           const Divider(),
           AboutListTile(
-            icon: const Icon(
+            icon: Icon(
               Icons.info,
+              color: isDarkMode
+                  ? const Color(0xff673ab7)
+                  : const Color(0xfff5b041),
             ),
             applicationIcon: const Icon(Icons.info),
             applicationName: 'MyFin - Moje Finanse',

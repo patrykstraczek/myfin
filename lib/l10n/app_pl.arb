@@ -14,7 +14,7 @@
   "hintName": "Nazwa",
   "hintValue": "Kwota",
   "date": "Data:",
-  "icon": "Oznaczenie:",
+  "icon": "Oznaczenie (opcjonalnie):",
   "dateFormat": "pl_PL:",
   "avgRate": "Średni kurs:",
   "convert": "Przelicz",

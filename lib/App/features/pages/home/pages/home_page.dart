@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
-import 'package:myfin/App/features/pages/add/pages/add_page.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
 import 'package:myfin/App/features/pages/all_items/pages/all_items_page.dart';
 import 'package:myfin/App/features/pages/home/cubit/home_cubit.dart';
@@ -155,9 +154,13 @@ class _AllHistoryItem extends StatelessWidget {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const AllItemsPage()));
               },
-              child: const Text(
+              child: Text(
                 'Sprawdź całą historię',
                 style: TextStyle(
+                  color: isDarkMode
+                      ? const Color(0xff673ab7)
+                      : const Color(0xfff5b041),
+                  fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
@@ -210,7 +213,8 @@ class _HomePageBody extends StatelessWidget {
                   children: [
                     Text(
                       DateFormat.yMMMM(AppLocalizations.of(context).dateFormat)
-                          .format(DateTime(year, month)),
+                          .format(DateTime(year, month))
+                          .toUpperCase(),
                       style: const TextStyle(fontSize: 18),
                     ),
                   ],

@@ -36,13 +36,15 @@ class _AllItemsPageState extends State<AllItemsPage> {
           title: currentIndex == 0
               ? Text(AppLocalizations.of(context).todaySpendings)
               : Text(AppLocalizations.of(context).todayIncome),
-          surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
+          surfaceTintColor:
+              isDarkMode ? const Color(0xff673ab7) : const Color(0xfff5b041),
           shape: const BeveledRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20)),
           ),
-          backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
+          backgroundColor:
+              isDarkMode ? const Color(0xff673ab7) : const Color(0xfff5b041),
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(110),
               child: Container(
@@ -50,7 +52,9 @@ class _AllItemsPageState extends State<AllItemsPage> {
                   borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       bottomRight: Radius.circular(20)),
-                  color: isDarkMode ? Colors.grey[900] : Colors.white,
+                  color: isDarkMode
+                      ? const Color(0xff673ab7)
+                      : const Color(0xfff5b041),
                 ),
                 alignment: Alignment.topCenter,
                 height: 110.0,
@@ -66,6 +70,8 @@ class _AllItemsPageState extends State<AllItemsPage> {
         return const IncomesPage();
       }),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor:
+            isDarkMode ? const Color(0xff673ab7) : const Color(0xfff39c12),
         currentIndex: currentIndex,
         onTap: (newIndex) {
           setState(() {

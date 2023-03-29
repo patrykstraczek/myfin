@@ -14,7 +14,7 @@
   "hintName": "Name",
   "hintValue": "Amount",
   "date": "Date:",
-  "icon": "Icon:",
+  "icon": "Icon (optional):",
   "dateFormat": "en_EN:",
   "avgRate": "Average exchange rate:",
   "convert": "Convert currency",

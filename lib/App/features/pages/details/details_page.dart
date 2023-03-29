@@ -31,8 +31,6 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       floatingActionButton: myFloatingActionButton(context),
       appBar: AppBar(
-        surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
-        backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
         title: Text(
             DateFormat.MMMMEEEEd(AppLocalizations.of(context).dateFormat)
                 .format(widget.selectedDay)),
@@ -45,6 +43,8 @@ class _DetailsPageState extends State<DetailsPage> {
         return const IncomesDetailsPage();
       }),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor:
+            isDarkMode ? const Color(0xff673ab7) : const Color(0xfff39c12),
         currentIndex: currentIndex,
         onTap: (newIndex) {
           setState(() {

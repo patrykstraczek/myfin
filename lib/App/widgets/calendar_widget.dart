@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-
+import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 
 class MyCalendar extends StatelessWidget {
   const MyCalendar({
@@ -32,6 +32,9 @@ class MyCalendar extends StatelessWidget {
             DateFormat.yMMMEd(AppLocalizations.of(context).dateFormat).format(
               DateTime.now(),
             ),
+        style: TextStyle(
+          color: isDarkMode ? const Color(0xff673ab7) : const Color(0xfff39c12),
+        ),
       ),
     );
   }
