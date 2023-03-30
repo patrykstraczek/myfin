@@ -164,7 +164,7 @@ class _SpendingDetailsItemWidgetState
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
             color: isDarkMode ? Colors.grey[900] : Colors.white,
           ),
           child: ListTile(
@@ -289,7 +289,7 @@ class _IncomeDetailsItemWidget extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
             color: isDarkMode ? Colors.grey[900] : Colors.white,
           ),
           child: ListTile(

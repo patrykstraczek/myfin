@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:myfin/App/core/enums.dart';
+import 'package:myfin/app/features/pages/daily/cubit/daily_reports_cubit.dart';
 import 'package:myfin/app/features/pages/details/details_page.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/widgets/floating_action_button.dart';
+import 'package:myfin/app/injection_container.dart';
 
 class DailyReportsPage extends StatelessWidget {
   const DailyReportsPage({
@@ -28,21 +32,50 @@ class DailyReportsPage extends StatelessWidget {
         centerTitle: true,
       ),
       floatingActionButton: myFloatingActionButton(context),
-      body: ListView(children: [
-        Column(
-            children: List.generate(
-          // Calculate days in month
-          DateTime(year, month + 1, 0).day < currentDay
-              ? DateTime(year, month + 1, 0).day
-              : currentDay,
-          (index) {
-            // Create widget for each day
-            final day = index + 1;
-            final date = DateTime(year, month, day);
-            return _DailyReportsWidget(dayInMonth: date);
+      body: BlocProvider(
+        create: (context) {
+          return getIt<DailyReportsCubit>()..start();
+        },
+        child: BlocBuilder<DailyReportsCubit, DailyReportsState>(
+          builder: (context, state) {
+            switch (state.status) {
+              case Status.initial:
+                return const Center(
+                  child: Text(''),
+                );
+              case Status.loading:
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              case Status.success:
+                return ListView(children: [
+                  Column(
+                      children: List.generate(
+                    // Calculate days in month
+                    DateTime(year, month + 1, 0).day < currentDay
+                        ? DateTime(year, month + 1, 0).day
+                        : currentDay,
+                    (index) {
+                      // Create widget for each day
+                      final day = index + 1;
+                      final date = DateTime(year, month, day);
+                      return _DailyReportsWidget(dayInMonth: date);
+                    },
+                  ).toList().reversed.toList()),
+                ]);
+              case Status.error:
+                return Center(
+                  child: Text(
+                    state.errorMessage ?? 'Unknown error',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                );
+            }
           },
-        ).toList().reversed.toList()),
-      ]),
+        ),
+      ),
     );
   }
 }

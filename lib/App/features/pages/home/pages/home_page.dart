@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
+import 'package:myfin/App/domain/models/spendings_model.dart';
+import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
+import 'package:myfin/app/domain/repositories/spendings_repository.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
 import 'package:myfin/App/features/pages/all_items/pages/all_items_page.dart';
-import 'package:myfin/App/features/pages/home/cubit/home_cubit.dart';
+import 'package:myfin/app/features/pages/home/cubit/home_cubit.dart';
 import 'package:myfin/app/features/pages/daily/daily_reports_page.dart';
 import 'package:myfin/app/injection_container.dart';
 import 'package:myfin/app/widgets/drawer_widget.dart';
@@ -75,51 +78,50 @@ class _HomePageState extends State<HomePage> {
       body: Column(children: [
         _AllHistoryItem(isDarkMode: isDarkMode),
         Expanded(
-          child: BlocProvider(
-            create: (context) {
-              return getIt<HomeCubit>()..start();
-            },
-            child: ListView.builder(
-                itemCount: months,
-                itemBuilder: (BuildContext context, int index) {
-                  final year = startYear + ((startMonth + index - 1) ~/ 12);
-                  final month = (startMonth + index - 1) % 12 + 1;
-                  return BlocProvider(
-                    create: (context) {
-                      return getIt<HomeCubit>()..start();
-                    },
-                    child: BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        switch (state.status) {
-                          case Status.initial:
-                            return const Center(
-                              child: Text(''),
-                            );
-                          case Status.loading:
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          case Status.success:
-                            return _HomePageBody(
-                              isDarkMode: isDarkMode,
-                              month: month,
-                              year: year,
-                            );
-                          case Status.error:
-                            return Center(
-                              child: Text(
-                                state.errorMessage ?? 'Unknown error',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error,
-                                ),
+          child: ListView.builder(
+              itemCount: months,
+              itemBuilder: (BuildContext context, int index) {
+                final year = startYear + ((startMonth + index - 1) ~/ 12);
+                final month = (startMonth + index - 1) % 12 + 1;
+                return BlocProvider(
+                  create: (context) {
+                    return HomeCubit(
+                        spendingsRepository: SpendingsRepository(
+                            firebaseSpendingsDataSource:
+                                FirebaseSpendingsDataSource()))
+                      ..start();
+                  },
+                  child: BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      switch (state.status) {
+                        case Status.initial:
+                          return const Center(
+                            child: Text(''),
+                          );
+                        case Status.loading:
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        case Status.success:
+                          return _HomePageBody(
+                            isDarkMode: isDarkMode,
+                            month: month,
+                            year: year,
+                          );
+                        case Status.error:
+                          return Center(
+                            child: Text(
+                              state.errorMessage ?? 'Unknown error',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
                               ),
-                            );
-                        }
-                      },
-                    ),
-                  );
-                }),
-          ),
+                            ),
+                          );
+                      }
+                    },
+                  ),
+                );
+              }),
         ),
       ]),
     );
@@ -198,70 +200,145 @@ class _HomePageBody extends StatelessWidget {
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => DailyReportsPage(
-                      month: month,
-                      year: year,
-                    )));
+              builder: (_) => DailyReportsPage(
+                month: month,
+                year: year,
+              ),
+            ));
           },
           child: SizedBox(
             height: 80,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      DateFormat.yMMMM(AppLocalizations.of(context).dateFormat)
-                          .format(DateTime(year, month))
-                          .toUpperCase(),
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      color: Colors.red,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          Text(
-                            '-120 PLN',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+            child: BlocProvider(
+              create: (context) {
+                return HomeCubit(
+                  spendingsRepository: SpendingsRepository(
+                    firebaseSpendingsDataSource: FirebaseSpendingsDataSource(),
+                  ),
+                )..monthly(month: month, year: year);
+              },
+              child: BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  final documents = state.docs;
+
+                  previousMonthSpending = 0.0;
+
+                  for (final doc in documents) {
+                    previousMonthSpending += doc.spendingValue;
+                  }
+                  switch (state.status) {
+                    case Status.initial:
+                      return const Center(
+                        child: Text(''),
+                      );
+                    case Status.loading:
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    case Status.success:
+                      final spendings = state.docs
+                          .where((spending) =>
+                              spending.spendingDate.month == month &&
+                              spending.spendingDate.year == year)
+                          .toList();
+                      return _SpendingsWidget(
+                        spendings: spendings,
+                        isDarkMode: isDarkMode,
+                        month: month,
+                        year: year,
+                      );
+                    case Status.error:
+                      return Center(
+                        child: Text(
+                          state.errorMessage ?? 'Unknown error',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
                           ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(16),
-                          bottomRight: Radius.circular(16),
                         ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          Text(
-                            '+25 PLN',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                      );
+                  }
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
+    ]);
+  }
+}
+
+class _SpendingsWidget extends StatelessWidget {
+  const _SpendingsWidget({
+    Key? key,
+    required this.isDarkMode,
+    required this.month,
+    required this.year,
+    required List<SpendingsModel> spendings,
+  }) : super(key: key);
+
+  final bool isDarkMode;
+  final int month;
+  final int year;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      SizedBox(
+        height: 80,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  DateFormat.yMMMM(AppLocalizations.of(context).dateFormat)
+                      .format(DateTime(year, month))
+                      .toUpperCase(),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ],
             ),
-          ),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  color: Colors.red,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '- $previousMonthSpending PLN',
+                        style: const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: const BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(16),
+                      bottomRight: Radius.circular(16),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Text(
+                        '+25 PLN',
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       )
     ]);
