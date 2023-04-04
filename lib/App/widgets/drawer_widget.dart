@@ -51,7 +51,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
-              Icons.moving,
+              Icons.currency_exchange,
               color: isDarkMode
                   ? const Color(0xff673ab7)
                   : const Color(0xfff5b041),

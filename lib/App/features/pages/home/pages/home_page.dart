@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
-import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 import 'package:myfin/app/domain/repositories/incomes_repository.dart';
@@ -31,7 +30,8 @@ double incomeInMonth = 0.0;
 
 class _HomePageState extends State<HomePage> {
   late int startYear;
-  late int startMonth;
+  static const int january = 1;
+  static const int december = 12;
 
   @override
   void initState() {
@@ -39,15 +39,22 @@ class _HomePageState extends State<HomePage> {
     final now = DateTime.now();
 
     startYear = now.year;
-    startMonth = now.month;
   }
 
   @override
   Widget build(BuildContext context) {
     final today = DateTime.now();
+    final currentYear = today.year;
+    final currentMonth = today.month;
 
-    final months =
-        (today.year - startYear) * 12 + (today.month - startMonth) + 1;
+    final months = List<int>.generate(currentMonth, (i) => i + 1)
+        .toList()
+        .reversed
+        .toList();
+
+    if (startYear < currentYear) {
+      months.addAll(List<int>.generate(december, (i) => i + 1));
+    }
 
     return Scaffold(
       drawer: DrawerWidget(isDarkMode: isDarkMode),
@@ -83,10 +90,10 @@ class _HomePageState extends State<HomePage> {
         _AllHistoryItem(isDarkMode: isDarkMode),
         Expanded(
           child: ListView.builder(
-              itemCount: months,
+              itemCount: months.length,
               itemBuilder: (BuildContext context, int index) {
-                final year = startYear + ((startMonth + index - 1) ~/ 12);
-                final month = (startMonth + index - 1) % 12 + 1;
+                final year = startYear;
+                final month = months[index];
                 return BlocProvider(
                   create: (context) {
                     return HomeCubit(

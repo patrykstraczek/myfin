@@ -96,10 +96,10 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  @override
-  Future<void> close() {
-    spendingsSubscription?.cancel();
-    incomesSubscription?.cancel();
-    return super.close();
-  }
+  // @override
+  // Future<void> close() {
+  //   spendingsSubscription?.cancel();
+  //   incomesSubscription?.cancel();
+  //   return super.close();
+  // }
 }
