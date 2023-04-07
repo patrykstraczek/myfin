@@ -22,6 +22,11 @@ class DailyReportsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int currentDay = DateTime.now().day;
+    int daysInMonth = DateTime(year, month + 1, 0).day;
+    int daysToDisplay = daysInMonth;
+    if (month == DateTime.now().month && year == DateTime.now().year) {
+      daysToDisplay = currentDay;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -48,21 +53,20 @@ class DailyReportsPage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               case Status.success:
-                return ListView(children: [
-                  Column(
+                return ListView(
+                  children: [
+                    Column(
                       children: List.generate(
-                    // Calculate days in month
-                    DateTime(year, month + 1, 0).day < currentDay
-                        ? DateTime(year, month + 1, 0).day
-                        : currentDay,
-                    (index) {
-                      // Create widget for each day
-                      final day = index + 1;
-                      final date = DateTime(year, month, day);
-                      return _DailyReportsWidget(dayInMonth: date);
-                    },
-                  ).toList().reversed.toList()),
-                ]);
+                        daysToDisplay,
+                        (index) {
+                          final day = index + 1;
+                          final date = DateTime(year, month, day);
+                          return _DailyReportsWidget(dayInMonth: date);
+                        },
+                      ).toList().reversed.toList(),
+                    ),
+                  ],
+                );
               case Status.error:
                 return Center(
                   child: Text(

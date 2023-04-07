@@ -254,12 +254,12 @@ class _HomePageBody extends StatelessWidget {
                       color: Colors.red,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
                             '$spendingsInMonth PLN',
                             style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                                fontSize: 11, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -275,12 +275,12 @@ class _HomePageBody extends StatelessWidget {
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
                             '$incomeInMonth PLN',
                             style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                                fontSize: 11, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
