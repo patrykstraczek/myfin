@@ -8,8 +8,15 @@ import 'package:myfin/App/features/pages/all_items/cubit/spendings/spendings_cub
 import 'package:myfin/App/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
+import 'package:myfin/app/domain/repositories/incomes_repository.dart';
+import 'package:myfin/app/domain/repositories/spendings_repository.dart';
+import 'package:myfin/app/features/pages/add/pages/add_page.dart';
+import 'package:myfin/app/features/pages/details/cubit/details_cubit.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:myfin/app/widgets/floating_action_button.dart';
+
+import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
+import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
@@ -38,9 +45,13 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
-          return const SpendingsDetailsPage();
+          return SpendingsDetailsPage(
+            selectedDay: widget.selectedDay,
+          );
         }
-        return const IncomesDetailsPage();
+        return IncomesDetailsPage(
+          selectedDay: widget.selectedDay,
+        );
       }),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor:
@@ -51,7 +62,6 @@ class _DetailsPageState extends State<DetailsPage> {
             currentIndex = newIndex;
           });
         },
-        //backgroundColor: Colors.grey[850],
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.store),
@@ -70,16 +80,24 @@ class _DetailsPageState extends State<DetailsPage> {
 class SpendingsDetailsPage extends StatelessWidget {
   const SpendingsDetailsPage({
     Key? key,
+    required this.selectedDay,
   }) : super(key: key);
+
+  final DateTime selectedDay;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
         create: (context) {
-          return getIt<SpendingsCubit>()..start();
+          return DetailsCubit(
+              SpendingsRepository(
+                  firebaseSpendingsDataSource: FirebaseSpendingsDataSource()),
+              IncomesRepository(
+                  firebaseIncomeDataSource: FirebaseIncomeDataSource()))
+            ..getDailyStream(selectedDay: selectedDay);
         },
-        child: BlocBuilder<SpendingsCubit, SpendingsState>(
+        child: BlocBuilder<DetailsCubit, DetailsState>(
           builder: (context, state) {
             switch (state.status) {
               case Status.initial:
@@ -93,11 +111,11 @@ class SpendingsDetailsPage extends StatelessWidget {
               case Status.success:
                 return ListView(
                   children: [
-                    for (final spending in state.docs)
+                    for (final spending in state.spendingDocs)
                       _SpendingDetailsItemWidget(
-                        model: spending,
-                        isDarkMode: isDarkMode,
-                      )
+                          model: spending,
+                          isDarkMode: isDarkMode,
+                          selectedDay: selectedDay)
                   ],
                 );
               case Status.error:
@@ -118,12 +136,17 @@ class SpendingsDetailsPage extends StatelessWidget {
 }
 
 class _SpendingDetailsItemWidget extends StatefulWidget {
-  const _SpendingDetailsItemWidget(
-      {Key? key, required this.model, required this.isDarkMode})
-      : super(key: key);
+  const _SpendingDetailsItemWidget({
+    Key? key,
+    required this.model,
+    required this.isDarkMode,
+    required this.selectedDay,
+  }) : super(key: key);
 
   final SpendingsModel model;
   final bool isDarkMode;
+
+  final DateTime selectedDay;
 
   @override
   State<_SpendingDetailsItemWidget> createState() =>
@@ -203,16 +226,24 @@ class _SpendingDetailsItemWidgetState
 class IncomesDetailsPage extends StatelessWidget {
   const IncomesDetailsPage({
     Key? key,
+    required this.selectedDay,
   }) : super(key: key);
+
+  final DateTime selectedDay;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
         create: (context) {
-          return getIt<IncomesCubit>()..start();
+          return DetailsCubit(
+              SpendingsRepository(
+                  firebaseSpendingsDataSource: FirebaseSpendingsDataSource()),
+              IncomesRepository(
+                  firebaseIncomeDataSource: FirebaseIncomeDataSource()))
+            ..getDailyStream(selectedDay: selectedDay);
         },
-        child: BlocBuilder<IncomesCubit, IncomesState>(
+        child: BlocBuilder<DetailsCubit, DetailsState>(
           builder: (context, state) {
             switch (state.status) {
               case Status.initial:
@@ -226,11 +257,11 @@ class IncomesDetailsPage extends StatelessWidget {
 
               case Status.success:
                 return ListView(children: [
-                  for (final income in state.docs)
+                  for (final income in state.incomesDocs)
                     _IncomeDetailsItemWidget(
-                      model: income,
-                      isDarkMode: isDarkMode,
-                    )
+                        model: income,
+                        isDarkMode: isDarkMode,
+                        selectedDay: selectedDay)
                 ]);
               case Status.error:
                 return Center(
@@ -251,11 +282,15 @@ class IncomesDetailsPage extends StatelessWidget {
 
 class _IncomeDetailsItemWidget extends StatelessWidget {
   const _IncomeDetailsItemWidget(
-      {Key? key, required this.model, required this.isDarkMode})
+      {Key? key,
+      required this.model,
+      required this.isDarkMode,
+      required this.selectedDay})
       : super(key: key);
 
   final IncomesModel model;
   final bool isDarkMode;
+  final DateTime selectedDay;
 
   @override
   Widget build(BuildContext context) {

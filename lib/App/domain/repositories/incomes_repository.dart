@@ -28,6 +28,19 @@ class IncomesRepository {
     });
   }
 
+  Stream<List<IncomesModel>> getDailyIncomeStream(
+      {required DateTime selectedDate}) {
+    return firebaseIncomeDataSource.getIncomesStream().map((incomes) {
+      return incomes.where((income) {
+        // Extract the month and year from the spending's created date
+        final createdDate = income.incomeDate;
+
+        // Check if the spending was created in the specified month and year
+        return createdDate == selectedDate;
+      }).toList();
+    });
+  }
+
   Future<void> remove({required String id}) async {
     return firebaseIncomeDataSource.remove(id: id);
   }

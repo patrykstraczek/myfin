@@ -61,7 +61,11 @@ class DailyReportsPage extends StatelessWidget {
                         (index) {
                           final day = index + 1;
                           final date = DateTime(year, month, day);
-                          return _DailyReportsWidget(dayInMonth: date);
+                          return _DailyReportsWidget(
+                              year: year,
+                              month: month,
+                              day: day,
+                              selectedDay: date);
                         },
                       ).toList().reversed.toList(),
                     ),
@@ -87,10 +91,16 @@ class DailyReportsPage extends StatelessWidget {
 class _DailyReportsWidget extends StatelessWidget {
   const _DailyReportsWidget({
     Key? key,
-    required this.dayInMonth,
+    required this.year,
+    required this.month,
+    required this.day,
+    required this.selectedDay,
   }) : super(key: key);
 
-  final DateTime dayInMonth;
+  final int year;
+  final int month;
+  final int day;
+  final DateTime selectedDay;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +115,9 @@ class _DailyReportsWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => DetailsPage(selectedDay: dayInMonth)));
+              builder: (_) => DetailsPage(
+                    selectedDay: selectedDay,
+                  )));
         },
         child: SizedBox(
           height: 60,
@@ -117,7 +129,7 @@ class _DailyReportsWidget extends StatelessWidget {
                 children: [
                   Text(
                     DateFormat.MEd(AppLocalizations.of(context).dateFormat)
-                        .format(dayInMonth),
+                        .format(selectedDay),
                     style: const TextStyle(fontSize: 16),
                   ),
                 ],

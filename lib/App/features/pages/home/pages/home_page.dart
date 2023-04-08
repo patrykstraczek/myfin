@@ -30,7 +30,6 @@ double incomeInMonth = 0.0;
 
 class _HomePageState extends State<HomePage> {
   late int startYear;
-  static const int january = 1;
   static const int december = 12;
 
   @override
@@ -61,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
         backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
-        title: const Text('Raporty'),
+        title: const Text('Podsumowanie'),
         centerTitle: true,
         actions: [
           IconButton(
