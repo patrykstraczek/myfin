@@ -20,7 +20,8 @@ final getIt = GetIt.instance;
 void configureDependencies() {
   //Bloc
 
-  getIt.registerFactory(() => DailyReportsCubit(spendingsRepository: getIt()));
+  getIt.registerFactory(() => DailyReportsCubit(
+      spendingsRepository: getIt(), incomesRepository: getIt()));
   getIt.registerFactory(() =>
       AddPageCubit(spendingsRepository: getIt(), incomesRepository: getIt()));
   getIt.registerFactory(() => AllItemsCubit());

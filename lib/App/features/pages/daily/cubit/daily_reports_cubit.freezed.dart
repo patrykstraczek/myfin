@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DailyReportsState {
-  List<SpendingsModel> get docs => throw _privateConstructorUsedError;
+  List<SpendingsModel> get spendingDocs => throw _privateConstructorUsedError;
+  List<IncomesModel> get incomesDocs => throw _privateConstructorUsedError;
   Status get status => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
@@ -31,7 +32,11 @@ abstract class $DailyReportsStateCopyWith<$Res> {
           DailyReportsState value, $Res Function(DailyReportsState) then) =
       _$DailyReportsStateCopyWithImpl<$Res, DailyReportsState>;
   @useResult
-  $Res call({List<SpendingsModel> docs, Status status, String? errorMessage});
+  $Res call(
+      {List<SpendingsModel> spendingDocs,
+      List<IncomesModel> incomesDocs,
+      Status status,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -47,15 +52,20 @@ class _$DailyReportsStateCopyWithImpl<$Res, $Val extends DailyReportsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? docs = null,
+    Object? spendingDocs = null,
+    Object? incomesDocs = null,
     Object? status = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
-      docs: null == docs
-          ? _value.docs
-          : docs // ignore: cast_nullable_to_non_nullable
+      spendingDocs: null == spendingDocs
+          ? _value.spendingDocs
+          : spendingDocs // ignore: cast_nullable_to_non_nullable
               as List<SpendingsModel>,
+      incomesDocs: null == incomesDocs
+          ? _value.incomesDocs
+          : incomesDocs // ignore: cast_nullable_to_non_nullable
+              as List<IncomesModel>,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -76,7 +86,11 @@ abstract class _$$_DailyReportsStateCopyWith<$Res>
       __$$_DailyReportsStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<SpendingsModel> docs, Status status, String? errorMessage});
+  $Res call(
+      {List<SpendingsModel> spendingDocs,
+      List<IncomesModel> incomesDocs,
+      Status status,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -90,15 +104,20 @@ class __$$_DailyReportsStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? docs = null,
+    Object? spendingDocs = null,
+    Object? incomesDocs = null,
     Object? status = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_$_DailyReportsState(
-      docs: null == docs
-          ? _value._docs
-          : docs // ignore: cast_nullable_to_non_nullable
+      spendingDocs: null == spendingDocs
+          ? _value._spendingDocs
+          : spendingDocs // ignore: cast_nullable_to_non_nullable
               as List<SpendingsModel>,
+      incomesDocs: null == incomesDocs
+          ? _value._incomesDocs
+          : incomesDocs // ignore: cast_nullable_to_non_nullable
+              as List<IncomesModel>,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -115,18 +134,29 @@ class __$$_DailyReportsStateCopyWithImpl<$Res>
 
 class _$_DailyReportsState implements _DailyReportsState {
   const _$_DailyReportsState(
-      {final List<SpendingsModel> docs = const [],
+      {final List<SpendingsModel> spendingDocs = const [],
+      final List<IncomesModel> incomesDocs = const [],
       this.status = Status.initial,
       this.errorMessage})
-      : _docs = docs;
+      : _spendingDocs = spendingDocs,
+        _incomesDocs = incomesDocs;
 
-  final List<SpendingsModel> _docs;
+  final List<SpendingsModel> _spendingDocs;
   @override
   @JsonKey()
-  List<SpendingsModel> get docs {
-    if (_docs is EqualUnmodifiableListView) return _docs;
+  List<SpendingsModel> get spendingDocs {
+    if (_spendingDocs is EqualUnmodifiableListView) return _spendingDocs;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_docs);
+    return EqualUnmodifiableListView(_spendingDocs);
+  }
+
+  final List<IncomesModel> _incomesDocs;
+  @override
+  @JsonKey()
+  List<IncomesModel> get incomesDocs {
+    if (_incomesDocs is EqualUnmodifiableListView) return _incomesDocs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_incomesDocs);
   }
 
   @override
@@ -137,7 +167,7 @@ class _$_DailyReportsState implements _DailyReportsState {
 
   @override
   String toString() {
-    return 'DailyReportsState(docs: $docs, status: $status, errorMessage: $errorMessage)';
+    return 'DailyReportsState(spendingDocs: $spendingDocs, incomesDocs: $incomesDocs, status: $status, errorMessage: $errorMessage)';
   }
 
   @override
@@ -145,7 +175,10 @@ class _$_DailyReportsState implements _DailyReportsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_DailyReportsState &&
-            const DeepCollectionEquality().equals(other._docs, _docs) &&
+            const DeepCollectionEquality()
+                .equals(other._spendingDocs, _spendingDocs) &&
+            const DeepCollectionEquality()
+                .equals(other._incomesDocs, _incomesDocs) &&
             const DeepCollectionEquality().equals(other.status, status) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
@@ -154,7 +187,8 @@ class _$_DailyReportsState implements _DailyReportsState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_docs),
+      const DeepCollectionEquality().hash(_spendingDocs),
+      const DeepCollectionEquality().hash(_incomesDocs),
       const DeepCollectionEquality().hash(status),
       errorMessage);
 
@@ -168,12 +202,15 @@ class _$_DailyReportsState implements _DailyReportsState {
 
 abstract class _DailyReportsState implements DailyReportsState {
   const factory _DailyReportsState(
-      {final List<SpendingsModel> docs,
+      {final List<SpendingsModel> spendingDocs,
+      final List<IncomesModel> incomesDocs,
       final Status status,
       final String? errorMessage}) = _$_DailyReportsState;
 
   @override
-  List<SpendingsModel> get docs;
+  List<SpendingsModel> get spendingDocs;
+  @override
+  List<IncomesModel> get incomesDocs;
   @override
   Status get status;
   @override

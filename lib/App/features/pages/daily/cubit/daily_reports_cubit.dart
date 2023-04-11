@@ -9,6 +9,8 @@ import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
+import 'package:myfin/App/domain/models/incomes_model.dart';
+import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 
 part 'daily_reports_state.dart';
 part 'daily_reports_cubit.freezed.dart';
@@ -19,36 +21,66 @@ class DailyReportsCubit extends Cubit<DailyReportsState> {
   final spendingDataSource = FirebaseSpendingsDataSource();
   final incomeDataSource = FirebaseIncomeDataSource();
 
-  DailyReportsCubit({required this.spendingsRepository})
-      : super(const DailyReportsState());
+  DailyReportsCubit({
+    required this.incomesRepository,
+    required this.spendingsRepository,
+  }) : super(const DailyReportsState());
 
   StreamSubscription? _spendingsSubscription;
   StreamSubscription? _incomesSubscription;
   final SpendingsRepository spendingsRepository;
-  StreamSubscription? spendingsSubscription;
+  final IncomesRepository incomesRepository;
 
-  Future<void> start() async {
-    _spendingsSubscription =
-        spendingsRepository.getSpendingsStream().listen((spendings) {
+  Future<void> getMonthlyData({required int month, required int year}) async {
+    emit(const DailyReportsState(status: Status.loading));
+    try {
+      final monthlyIncomes = await incomesRepository
+          .getMontlyIncomeStream(month: month, year: year)
+          .first;
+      final monthlySpendings = await spendingsRepository
+          .getMontlySpendingsStream(month: month, year: year)
+          .first;
       emit(
-        const DailyReportsState(status: Status.loading),
+        DailyReportsState(
+          status: Status.success,
+          incomesDocs: monthlyIncomes,
+          spendingDocs: monthlySpendings,
+        ),
       );
-      try {
-        emit(
-          DailyReportsState(
-            status: Status.success,
-            docs: spendings,
-          ),
-        );
-      } catch (error) {
-        emit(
-          DailyReportsState(
-            status: Status.error,
-            errorMessage: error.toString(),
-          ),
-        );
-      }
-    });
+    } catch (error) {
+      emit(
+        DailyReportsState(
+          status: Status.error,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getDailyStream({required selectedDay}) async {
+    emit(const DailyReportsState(status: Status.loading));
+    try {
+      final dailyIncomes = await incomesRepository
+          .getDailyIncomeStream(selectedDate: selectedDay)
+          .first;
+      final dailySpendings = await spendingsRepository
+          .getDailySpendingStream(selectedDay: selectedDay)
+          .first;
+      emit(
+        DailyReportsState(
+          status: Status.success,
+          incomesDocs: dailyIncomes,
+          spendingDocs: dailySpendings,
+        ),
+      );
+    } catch (error) {
+      emit(
+        DailyReportsState(
+          status: Status.error,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
   }
 
 //getSpendings

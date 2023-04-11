@@ -39,7 +39,8 @@ class DailyReportsPage extends StatelessWidget {
       floatingActionButton: myFloatingActionButton(context),
       body: BlocProvider(
         create: (context) {
-          return getIt<DailyReportsCubit>()..start();
+          return getIt<DailyReportsCubit>()
+            ..getMonthlyData(month: month, year: year);
         },
         child: BlocBuilder<DailyReportsCubit, DailyReportsState>(
           builder: (context, state) {
@@ -61,11 +62,7 @@ class DailyReportsPage extends StatelessWidget {
                         (index) {
                           final day = index + 1;
                           final date = DateTime(year, month, day);
-                          return _DailyReportsWidget(
-                              year: year,
-                              month: month,
-                              day: day,
-                              selectedDay: date);
+                          return _DailyReportsWidget(selectedDay: date);
                         },
                       ).toList().reversed.toList(),
                     ),
@@ -88,20 +85,22 @@ class DailyReportsPage extends StatelessWidget {
   }
 }
 
-class _DailyReportsWidget extends StatelessWidget {
+class _DailyReportsWidget extends StatefulWidget {
   const _DailyReportsWidget({
     Key? key,
-    required this.year,
-    required this.month,
-    required this.day,
     required this.selectedDay,
   }) : super(key: key);
 
-  final int year;
-  final int month;
-  final int day;
   final DateTime selectedDay;
 
+  @override
+  State<_DailyReportsWidget> createState() => _DailyReportsWidgetState();
+}
+
+double spendingsInDay = 0.0;
+double incomeInDay = 0.0;
+
+class _DailyReportsWidgetState extends State<_DailyReportsWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -116,70 +115,126 @@ class _DailyReportsWidget extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => DetailsPage(
-                    selectedDay: selectedDay,
+                    selectedDay: widget.selectedDay,
                   )));
         },
         child: SizedBox(
           height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    DateFormat.MEd(AppLocalizations.of(context).dateFormat)
-                        .format(selectedDay),
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ],
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  DateFormat.MEd(AppLocalizations.of(context).dateFormat)
+                      .format(widget.selectedDay),
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+            BlocProvider(
+              create: (context) {
+                return getIt<DailyReportsCubit>()
+                  ..getDailyStream(selectedDay: widget.selectedDay);
+              },
+              child: BlocBuilder<DailyReportsCubit, DailyReportsState>(
+                builder: (context, state) {
+                  switch (state.status) {
+                    case Status.initial:
+                      return const Center(
+                        child: Text(''),
+                      );
+                    case Status.loading:
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    case Status.success:
+                      spendingsInDay = 0.0;
+
+                      for (final spending in state.spendingDocs) {
+                        spendingsInDay += spending.spendingValue;
+                      }
+
+                      incomeInDay = 0.0;
+
+                      for (final income in state.incomesDocs) {
+                        incomeInDay += income.incomeValue;
+                      }
+
+                      return DailySummariesWidget(
+                        selectedDay: widget.selectedDay,
+                      );
+                    case Status.error:
+                      return Center(
+                        child: Text(
+                          state.errorMessage ?? 'Unknown error',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                      );
+                  }
+                },
               ),
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Text(
-                          '-120 PLN',
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(16),
-                        bottomRight: Radius.circular(16),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Text(
-                          '+25 PLN',
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+class DailySummariesWidget extends StatelessWidget {
+  const DailySummariesWidget({
+    Key? key,
+    required this.selectedDay,
+  }) : super(key: key);
+
+  final DateTime selectedDay;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                spendingsInDay == 0.0 ? '-' : '$spendingsInDay PLN',
+                style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold),
               ),
             ],
           ),
         ),
-      ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(16),
+              bottomRight: Radius.circular(16),
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                incomeInDay == 0.0 ? '-' : '$incomeInDay PLN',
+                style: const TextStyle(
+                    color: Colors.green,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

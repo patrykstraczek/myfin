@@ -23,43 +23,6 @@ class DetailsCubit extends Cubit<DetailsState> {
 
   StreamSubscription? incomesSubscription;
 
-  Future<void> removeSpendings({required String documentID}) async {
-    try {
-      await spendingsRepository.remove(id: documentID);
-    } catch (error) {
-      emit(
-        DetailsState(
-          errorMessage: error.toString(),
-        ),
-      );
-    }
-  }
-
-  Future<void> spendings({required DateTime selectedDay}) async {
-    spendingsSubscription = spendingsRepository
-        .getDailySpendingStream(selectedDay: selectedDay)
-        .listen((spendings) {
-      emit(
-        DetailsState(status: Status.loading),
-      );
-      try {
-        emit(
-          DetailsState(
-            status: Status.success,
-            spendingDocs: spendings,
-          ),
-        );
-      } catch (error) {
-        emit(
-          DetailsState(
-            status: Status.error,
-            errorMessage: error.toString(),
-          ),
-        );
-      }
-    });
-  }
-
   Future<void> getDailyStream({required selectedDay}) async {
     emit(DetailsState(status: Status.loading));
     try {
@@ -80,6 +43,18 @@ class DetailsCubit extends Cubit<DetailsState> {
       emit(
         DetailsState(
           status: Status.error,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> removeSpendings({required String documentID}) async {
+    try {
+      await spendingsRepository.remove(id: documentID);
+    } catch (error) {
+      emit(
+        DetailsState(
           errorMessage: error.toString(),
         ),
       );
