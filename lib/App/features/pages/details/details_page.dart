@@ -205,11 +205,6 @@ class _SpendingDetailsItemWidgetState
                 fontSize: 14,
               ),
             ),
-            subtitle: Text(
-              DateFormat.yMMMEd(AppLocalizations.of(context).dateFormat)
-                  .format(widget.model.spendingDate),
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
-            ),
             trailing: Text(
               '${widget.model.spendingValue}  PLN',
               style: const TextStyle(
@@ -341,11 +336,6 @@ class _IncomeDetailsItemWidget extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 14,
               ),
-            ),
-            subtitle: Text(
-              DateFormat.yMMMEd(AppLocalizations.of(context).dateFormat)
-                  .format(model.incomeDate),
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
             trailing: Text(
               '${model.incomeValue}  PLN',

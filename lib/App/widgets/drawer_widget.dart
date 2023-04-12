@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/features/pages/exchange/pages/exchange_rates_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/features/auth/pages/user_profile.dart';
+import 'package:myfin/app/features/pages/summaries/yearly_summaries_page.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key, required this.isDarkMode}) : super(key: key);
@@ -63,6 +64,23 @@ class DrawerWidget extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => const ExchangeRatesPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.calendar_month,
+              color: isDarkMode
+                  ? const Color(0xff673ab7)
+                  : const Color(0xfff5b041),
+            ),
+            title: Text('Historia', style: GoogleFonts.lato()),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const YearlySummariesPage(),
                 ),
               );
             },
