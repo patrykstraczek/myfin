@@ -31,32 +31,52 @@ class _YearlySummariesPageState extends State<YearlySummariesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final year = startYear;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Podsumowanie'),
         centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                final year = startYear;
-
-                return _YearlySummariesPageBody(
-                  year: year,
+        actions: [
+          IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Zamknij'))
+                    ],
+                    content: Text(
+                        'Wraz z rozpoczęciem nowego roku pojawią się tutaj Twoje roczne zestawienia.'),
+                  ),
                 );
               },
-            ),
-          ),
+              icon: Icon(
+                Icons.question_mark,
+                color: isDarkMode
+                    ? const Color(0xff673ab7)
+                    : const Color(0xfff5b041),
+              )),
+        ],
+      ),
+      body: ListView(
+        children: [
+          _YearlySummariesPageWidget(year: year),
+          _YearlySummariesPageWidget(year: 2022),
+          _YearlySummariesPageWidget(year: 2021),
+          _YearlySummariesPageWidget(year: 2020),
+          const SizedBox(height: 10),
         ],
       ),
     );
   }
 }
 
-class _YearlySummariesPageBody extends StatelessWidget {
-  const _YearlySummariesPageBody({
+class _YearlySummariesPageWidget extends StatelessWidget {
+  const _YearlySummariesPageWidget({
     Key? key,
     required this.year,
   }) : super(key: key);
@@ -65,6 +85,14 @@ class _YearlySummariesPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> monthlySummaries = [];
+    for (int month = 1; month <= 12; month++) {
+      monthlySummaries.add(MonthlySummariesBody(
+        month: month,
+        year: year,
+      ));
+    }
+
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -114,25 +142,8 @@ class _YearlySummariesPageBody extends StatelessWidget {
           ),
           const Divider(),
           Column(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  MonthlySummariesBody(month: 'Styczeń'),
-                  MonthlySummariesBody(month: 'Luty'),
-                  MonthlySummariesBody(month: 'Marzec'),
-                  MonthlySummariesBody(month: 'Kwiecień'),
-                  MonthlySummariesBody(month: 'Maj'),
-                  MonthlySummariesBody(month: 'Czerwiec'),
-                  MonthlySummariesBody(month: 'Lipiec'),
-                  MonthlySummariesBody(month: 'Sierpień'),
-                  MonthlySummariesBody(month: 'Wrzesień'),
-                  MonthlySummariesBody(month: 'Październik'),
-                  MonthlySummariesBody(month: 'Listopad'),
-                  MonthlySummariesBody(month: 'Grudzień'),
-                ],
-              ),
-            ],
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: monthlySummaries,
           )
         ],
       ),
@@ -141,19 +152,27 @@ class _YearlySummariesPageBody extends StatelessWidget {
 }
 
 class MonthlySummariesBody extends StatelessWidget {
-  MonthlySummariesBody({
+  const MonthlySummariesBody({
     required this.month,
+    required this.year,
     Key? key,
   }) : super(key: key);
 
-  String month;
+  final int month;
+  final int year;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(month),
+        Text(DateFormat.MMMM(AppLocalizations.of(context).dateFormat)
+                .format(DateTime(year, month))
+                .substring(0, 1)
+                .toUpperCase() +
+            DateFormat.MMMM(AppLocalizations.of(context).dateFormat)
+                .format(DateTime(year, month))
+                .substring(1)),
         Row(
           children: [
             Container(
