@@ -1,5 +1,3 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
@@ -13,10 +11,10 @@ import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/app/domain/repositories/spendings_repository.dart';
 import 'package:myfin/app/domain/repositories/incomes_repository.dart';
 
-part 'home_state.dart';
-part 'home_cubit.freezed.dart';
+part 'yearly_summaries_state.dart';
+part 'yearly_summaries_cubit.freezed.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+class YearlySummariesCubit extends Cubit<YearlySummariesState> {
   final userID = FirebaseAuth.instance.currentUser?.uid;
   final now = DateTime.now();
   final spendingDataSource = FirebaseSpendingsDataSource();
@@ -27,12 +25,12 @@ class HomeCubit extends Cubit<HomeState> {
   final IncomesRepository incomesRepository;
   StreamSubscription? incomesSubscription;
 
-  HomeCubit(
+  YearlySummariesCubit(
       {required this.incomesRepository, required this.spendingsRepository})
-      : super(const HomeState());
+      : super(const YearlySummariesState());
 
   Future<void> getMonthlyData({required int month, required int year}) async {
-    emit(const HomeState(status: Status.loading));
+    emit(const YearlySummariesState(status: Status.loading));
     try {
       final monthlyIncomes = await incomesRepository
           .getMontlyIncomeStream(month: month, year: year)
@@ -41,7 +39,7 @@ class HomeCubit extends Cubit<HomeState> {
           .getMontlySpendingsStream(month: month, year: year)
           .first;
       emit(
-        HomeState(
+        YearlySummariesState(
           status: Status.success,
           incomesDocs: monthlyIncomes,
           spendingDocs: monthlySpendings,
@@ -49,7 +47,7 @@ class HomeCubit extends Cubit<HomeState> {
       );
     } catch (error) {
       emit(
-        HomeState(
+        YearlySummariesState(
           status: Status.error,
           errorMessage: error.toString(),
         ),
@@ -57,10 +55,10 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  @override
-  Future<void> close() {
-    spendingsSubscription?.cancel();
-    incomesSubscription?.cancel();
-    return super.close();
-  }
+  // @override
+  // Future<void> close() {
+  //   spendingsSubscription?.cancel();
+  //   incomesSubscription?.cancel();
+  //   return super.close();
+  // }
 }

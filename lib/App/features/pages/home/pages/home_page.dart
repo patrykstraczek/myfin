@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                 return BlocProvider(
                   create: (context) {
                     return HomeCubit(
-                        IncomesRepository(
+                        incomesRepository: IncomesRepository(
                             firebaseIncomeDataSource:
                                 FirebaseIncomeDataSource()),
                         spendingsRepository: SpendingsRepository(
