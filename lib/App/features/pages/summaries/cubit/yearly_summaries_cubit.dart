@@ -29,6 +29,30 @@ class YearlySummariesCubit extends Cubit<YearlySummariesState> {
       {required this.incomesRepository, required this.spendingsRepository})
       : super(const YearlySummariesState());
 
+  Future<void> getYearlyData({required int year}) async {
+    emit(const YearlySummariesState(status: Status.loading));
+    try {
+      final monthlyIncomes =
+          await incomesRepository.getYearlyIncomeStream(year: year).first;
+      final monthlySpendings =
+          await spendingsRepository.getYearlySpendingsStream(year: year).first;
+      emit(
+        YearlySummariesState(
+          status: Status.success,
+          incomesDocs: monthlyIncomes,
+          spendingDocs: monthlySpendings,
+        ),
+      );
+    } catch (error) {
+      emit(
+        YearlySummariesState(
+          status: Status.error,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
+
   Future<void> getMonthlyData({required int month, required int year}) async {
     emit(const YearlySummariesState(status: Status.loading));
     try {
@@ -55,10 +79,10 @@ class YearlySummariesCubit extends Cubit<YearlySummariesState> {
     }
   }
 
-  // @override
-  // Future<void> close() {
-  //   spendingsSubscription?.cancel();
-  //   incomesSubscription?.cancel();
-  //   return super.close();
-  // }
+  @override
+  Future<void> close() {
+    spendingsSubscription?.cancel();
+    incomesSubscription?.cancel();
+    return super.close();
+  }
 }

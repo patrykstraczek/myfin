@@ -11,6 +11,21 @@ class IncomesRepository {
     return firebaseIncomeDataSource.getIncomesStream();
   }
 
+  Stream<List<IncomesModel>> getYearlyIncomeStream({
+    required int year,
+  }) {
+    return firebaseIncomeDataSource.getIncomesStream().map((incomes) {
+      return incomes.where((income) {
+        // Extract the year from the spending's created date
+        final createdDate = income.incomeDate;
+        final createdYear = createdDate.year;
+
+        // Check if the spending was created in the specified year
+        return createdYear == year;
+      }).toList();
+    });
+  }
+
   Stream<List<IncomesModel>> getMontlyIncomeStream({
     required int month,
     required int year,

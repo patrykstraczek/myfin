@@ -75,7 +75,7 @@ class DrawerWidget extends StatelessWidget {
                   ? const Color(0xff673ab7)
                   : const Color(0xfff5b041),
             ),
-            title: Text('Historia', style: GoogleFonts.lato()),
+            title: Text('Zestawienia roczne', style: GoogleFonts.lato()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(

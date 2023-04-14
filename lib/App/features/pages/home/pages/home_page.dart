@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
         backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
-        title: const Text('Podsumowanie'),
+        title: const Text('Podsumowania'),
         centerTitle: true,
         actions: [
           IconButton(

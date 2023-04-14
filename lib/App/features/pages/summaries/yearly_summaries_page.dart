@@ -24,6 +24,8 @@ DateTime? date;
 
 double spendingsInMonth = 0.0;
 double incomeInMonth = 0.0;
+double spendingsInYear = 0.0;
+double incomeInYear = 0.0;
 
 class _YearlySummariesPageState extends State<YearlySummariesPage> {
   late int startYear;
@@ -41,7 +43,7 @@ class _YearlySummariesPageState extends State<YearlySummariesPage> {
     final year = startYear;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Podsumowanie'),
+        title: const Text('Zestawienia roczne'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -57,7 +59,7 @@ class _YearlySummariesPageState extends State<YearlySummariesPage> {
                           child: Text('Zamknij'))
                     ],
                     content: Text(
-                        'Wraz z rozpoczęciem nowego roku pojawią się tutaj Twoje roczne zestawienia.'),
+                        'Z każdym nowym rokiem będą się tutaj pojawiać Twoje roczne zestawienia.'),
                   ),
                 );
               },
@@ -73,8 +75,6 @@ class _YearlySummariesPageState extends State<YearlySummariesPage> {
         children: [
           _YearlySummariesPageWidget(year: year),
           _YearlySummariesPageWidget(year: 2022),
-          _YearlySummariesPageWidget(year: 2021),
-          _YearlySummariesPageWidget(year: 2020),
           const SizedBox(height: 10),
         ],
       ),
@@ -125,24 +125,69 @@ class _YearlySummariesPageWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  children: const [
-                    Text('-49280',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      '+62820',
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                BlocProvider(
+                  create: (context) => YearlySummariesCubit(
+                    incomesRepository: IncomesRepository(
+                        firebaseIncomeDataSource: FirebaseIncomeDataSource()),
+                    spendingsRepository: SpendingsRepository(
+                        firebaseSpendingsDataSource:
+                            FirebaseSpendingsDataSource()),
+                  )..getYearlyData(year: year),
+                  child:
+                      BlocBuilder<YearlySummariesCubit, YearlySummariesState>(
+                    builder: (context, state) {
+                      spendingsInYear = 0.0;
+
+                      for (final spending in state.spendingDocs) {
+                        spendingsInYear += spending.spendingValue;
+                      }
+
+                      incomeInYear = 0.0;
+
+                      for (final income in state.incomesDocs) {
+                        incomeInYear += income.incomeValue;
+                      }
+                      switch (state.status) {
+                        case Status.initial:
+                          return const Center(
+                            child: Text(''),
+                          );
+                        case Status.loading:
+                          return const Center(
+                            child: Text('...'),
+                          );
+                        case Status.success:
+                          return Row(
+                            children: [
+                              Text('-$spendingsInYear',
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                '+$incomeInYear',
+                                style: const TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          );
+                        case Status.error:
+                          return Center(
+                            child: Text(
+                              state.errorMessage ?? 'Unknown error',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                          );
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
@@ -207,51 +252,10 @@ class MonthlySummariesBody extends StatelessWidget {
                   );
                 case Status.loading:
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: Text('...'),
                   );
                 case Status.success:
-                  return Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              spendingsInMonth == 0.0
-                                  ? '0'
-                                  : '+ $spendingsInMonth',
-                              style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(16),
-                            bottomRight: Radius.circular(16),
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              incomeInMonth == 0.0 ? '0' : ' + $incomeInMonth',
-                              style: const TextStyle(
-                                color: Colors.green,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
+                  return MonthlySummaries(month: month, year: year);
                 case Status.error:
                   return Center(
                     child: Text(
@@ -263,6 +267,63 @@ class MonthlySummariesBody extends StatelessWidget {
                   );
               }
             },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class MonthlySummaries extends StatelessWidget {
+  const MonthlySummaries({
+    Key? key,
+    required this.month,
+    required this.year,
+  }) : super(key: key);
+
+  final int month;
+  final int year;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 80,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                spendingsInMonth == 0.0 ? '0' : '+ $spendingsInMonth',
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          width: 80,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(16),
+              bottomRight: Radius.circular(16),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                incomeInMonth == 0.0 ? '0' : ' + $incomeInMonth',
+                style: const TextStyle(
+                  color: Colors.green,
+                  fontSize: 12,
+                ),
+              ),
+            ],
           ),
         ),
       ],

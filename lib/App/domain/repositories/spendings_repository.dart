@@ -11,6 +11,24 @@ class SpendingsRepository {
     return firebaseSpendingsDataSource.getSpendingsStream();
   }
 
+
+  Stream<List<SpendingsModel>> getYearlySpendingsStream({
+    
+    required int year,
+  }) {
+    return firebaseSpendingsDataSource.getSpendingsStream().map((spendings) {
+      return spendings.where((spending) {
+        // Extract the month and year from the spending's created date
+        final createdDate = spending.spendingDate;
+        
+        final createdYear = createdDate.year;
+
+        // Check if the spending was created in the specified month and year
+        return createdYear ==  year;
+      }).toList();
+    });
+  }
+
   Stream<List<SpendingsModel>> getMontlySpendingsStream({
     required int month,
     required int year,
