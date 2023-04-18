@@ -20,5 +20,10 @@
   "convert": "Convert currency",
   "specifyAmount": "Amount",
   "to": "to",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "close": "Close",
+  "monthlyReports": "Monthly reports",
+  "allHistory": "Check all records",
+  "yearlysummaries": "Yearly summaries",
+  "yearlysummariesInfo": "With each new year, your annual statements will appear here."
 }

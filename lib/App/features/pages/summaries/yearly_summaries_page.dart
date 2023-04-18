@@ -44,7 +44,7 @@ class _YearlySummariesPageState extends State<YearlySummariesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Zestawienia roczne'),
+        title: Text(AppLocalizations.of(context).yearlysummaries),
         centerTitle: true,
         actions: [
           IconButton(
@@ -57,10 +57,10 @@ class _YearlySummariesPageState extends State<YearlySummariesPage> {
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text('Zamknij'))
+                          child: Text(AppLocalizations.of(context).close))
                     ],
-                    content: Text(
-                        'Z każdym nowym rokiem będą się tutaj pojawiać Twoje roczne zestawienia.'),
+                    content:
+                        Text(AppLocalizations.of(context).yearlysummariesInfo),
                   ),
                 );
               },

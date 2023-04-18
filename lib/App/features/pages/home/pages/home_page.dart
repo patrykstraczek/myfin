@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
         backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
-        title: const Text('Podsumowania'),
+        title: Text(AppLocalizations.of(context).monthlyReports),
         centerTitle: true,
         actions: [
           IconButton(
@@ -181,7 +181,7 @@ class _AllHistoryItem extends StatelessWidget {
                     MaterialPageRoute(builder: (_) => const AllItemsPage()));
               },
               child: Text(
-                'Sprawdź całą historię',
+                AppLocalizations.of(context).allHistory,
                 style: TextStyle(
                   color: isDarkMode
                       ? const Color(0xff673ab7)
