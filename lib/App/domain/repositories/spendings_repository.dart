@@ -18,12 +18,9 @@ class SpendingsRepository {
   }) {
     return firebaseSpendingsDataSource.getSpendingsStream().map((spendings) {
       return spendings.where((spending) {
-        // Extract the month and year from the spending's created date
-        final createdDate = spending.spendingDate;
-        
+        final createdDate = spending.spendingDate;        
         final createdYear = createdDate.year;
 
-        // Check if the spending was created in the specified month and year
         return createdYear ==  year;
       }).toList();
     });
@@ -50,10 +47,8 @@ class SpendingsRepository {
       {required DateTime selectedDay}) {
     return firebaseSpendingsDataSource.getSpendingsStream().map((spendings) {
       return spendings.where((spending) {
-        // Extract the month and year from the spending's created date
+        
         final createdDate = spending.spendingDate;
-
-        // Check if the spending was created in the specified month and year
 
         return createdDate.year == selectedDay.year &&
             createdDate.month == selectedDay.month &&

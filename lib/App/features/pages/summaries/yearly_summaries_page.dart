@@ -29,6 +29,7 @@ double incomeInYear = 0.0;
 
 class _YearlySummariesPageState extends State<YearlySummariesPage> {
   late int startYear;
+  List<int> years = [];
 
   @override
   void initState() {
@@ -36,11 +37,11 @@ class _YearlySummariesPageState extends State<YearlySummariesPage> {
     final now = DateTime.now();
 
     startYear = now.year;
+    years.add(startYear); // Add current year to list
   }
 
   @override
   Widget build(BuildContext context) {
-    final year = startYear;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Zestawienia roczne'),
@@ -73,8 +74,9 @@ class _YearlySummariesPageState extends State<YearlySummariesPage> {
       ),
       body: ListView(
         children: [
-          _YearlySummariesPageWidget(year: year),
-          _YearlySummariesPageWidget(year: 2022),
+          for (int year in years)
+            _YearlySummariesPageWidget(
+                year: year), // Generuj widgety na podstawie listy lat
           const SizedBox(height: 10),
         ],
       ),
