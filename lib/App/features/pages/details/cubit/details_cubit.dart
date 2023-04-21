@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
@@ -7,7 +9,6 @@ import 'package:myfin/App/domain/models/incomes_model.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/app/domain/repositories/spendings_repository.dart';
 import 'package:myfin/app/domain/repositories/incomes_repository.dart';
-import 'package:myfin/app/features/pages/add/pages/add_page.dart';
 
 part 'details_state.dart';
 part 'details_cubit.freezed.dart';

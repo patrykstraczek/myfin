@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +5,6 @@ import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/features/pages/summaries/cubit/yearly_summaries_cubit.dart';
-import 'package:provider/provider.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 import 'package:myfin/app/domain/repositories/incomes_repository.dart';

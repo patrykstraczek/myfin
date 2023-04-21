@@ -31,7 +31,6 @@ class AddPageCubit extends Cubit<AddPageState> {
         selectedDate,
         spendingIcon,
       );
-      emit(AddPageState(saved: true));
     } catch (error) {
       emit(AddPageState(errorMessage: error.toString()));
     }
@@ -50,7 +49,6 @@ class AddPageCubit extends Cubit<AddPageState> {
         selectedDate,
         incomeIcon,
       );
-      emit(AddPageState(saved: true));
     } catch (error) {
       emit(AddPageState(errorMessage: error.toString()));
     }

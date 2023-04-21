@@ -58,7 +58,6 @@ class _AllItemsPageState extends State<AllItemsPage> {
                 ),
                 alignment: Alignment.topCenter,
                 height: 110.0,
-                //height: 194.0,
                 child: currentIndex == 0
                     ? const _SpendingHeaderBody()
                     : const _IncomeHeaderBody(),
@@ -78,7 +77,6 @@ class _AllItemsPageState extends State<AllItemsPage> {
             currentIndex = newIndex;
           });
         },
-        //backgroundColor: Colors.grey[850],
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.store),

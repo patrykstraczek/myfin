@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AddPageState {
-  bool get saved => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +29,7 @@ abstract class $AddPageStateCopyWith<$Res> {
           AddPageState value, $Res Function(AddPageState) then) =
       _$AddPageStateCopyWithImpl<$Res, AddPageState>;
   @useResult
-  $Res call({bool saved, String? errorMessage});
+  $Res call({String? errorMessage});
 }
 
 /// @nodoc
@@ -46,14 +45,9 @@ class _$AddPageStateCopyWithImpl<$Res, $Val extends AddPageState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? saved = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
-      saved: null == saved
-          ? _value.saved
-          : saved // ignore: cast_nullable_to_non_nullable
-              as bool,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -70,7 +64,7 @@ abstract class _$$_AddPageStateCopyWith<$Res>
       __$$_AddPageStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool saved, String? errorMessage});
+  $Res call({String? errorMessage});
 }
 
 /// @nodoc
@@ -84,14 +78,9 @@ class __$$_AddPageStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? saved = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_$_AddPageState(
-      saved: null == saved
-          ? _value.saved
-          : saved // ignore: cast_nullable_to_non_nullable
-              as bool,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -103,17 +92,14 @@ class __$$_AddPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_AddPageState implements _AddPageState {
-  _$_AddPageState({this.saved = false, this.errorMessage});
+  _$_AddPageState({this.errorMessage});
 
-  @override
-  @JsonKey()
-  final bool saved;
   @override
   final String? errorMessage;
 
   @override
   String toString() {
-    return 'AddPageState(saved: $saved, errorMessage: $errorMessage)';
+    return 'AddPageState(errorMessage: $errorMessage)';
   }
 
   @override
@@ -121,13 +107,12 @@ class _$_AddPageState implements _AddPageState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AddPageState &&
-            (identical(other.saved, saved) || other.saved == saved) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, saved, errorMessage);
+  int get hashCode => Object.hash(runtimeType, errorMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -137,11 +122,8 @@ class _$_AddPageState implements _AddPageState {
 }
 
 abstract class _AddPageState implements AddPageState {
-  factory _AddPageState({final bool saved, final String? errorMessage}) =
-      _$_AddPageState;
+  factory _AddPageState({final String? errorMessage}) = _$_AddPageState;
 
-  @override
-  bool get saved;
   @override
   String? get errorMessage;
   @override

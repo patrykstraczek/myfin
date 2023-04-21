@@ -10,7 +10,6 @@ import 'package:myfin/app/domain/theme/theme_provider.dart';
 import 'package:myfin/App/features/pages/all_items/pages/all_items_page.dart';
 import 'package:myfin/app/features/pages/home/cubit/home_cubit.dart';
 import 'package:myfin/app/features/pages/daily/daily_reports_page.dart';
-import 'package:myfin/app/injection_container.dart';
 import 'package:myfin/app/widgets/drawer_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/widgets/floating_action_button.dart';
@@ -250,7 +249,9 @@ class _HomePageBody extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
-                      color: Colors.red,
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -267,10 +268,8 @@ class _HomePageBody extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       decoration: const BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(16),
-                          bottomRight: Radius.circular(16),
-                        ),
+                        borderRadius:
+                            BorderRadius.horizontal(right: Radius.circular(16)),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
