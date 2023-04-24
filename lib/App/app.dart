@@ -5,10 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
 import 'package:myfin/app/features/auth/pages/sign_in_screen.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
-import 'package:myfin/app/localizations/label_overrides.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -34,8 +32,7 @@ class MyApp extends StatelessWidget {
             title: 'MyFin - Moje Finanse',
             theme: themeProvider.getTheme(),
             localizationsDelegates: [
-              FirebaseUILocalizations.withDefaultOverrides(
-                  const LabelOverrides()),
+              FirebaseUILocalizations.delegate,
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

@@ -25,5 +25,6 @@
   "monthlyReports": "Raporty miesięczne",
   "allHistory": "Sprawdź całą historię",
   "yearlysummaries": "Zestawienia roczne",
-  "yearlysummariesInfo": "Z każdym nowym rokiem będą się tutaj pojawiać Twoje roczne zestawienia."
+  "yearlysummariesInfo": "Z każdym nowym rokiem będą się tutaj pojawiać Twoje roczne zestawienia.",
+  "emailInputLabel": "Wprowadź email"
 }

@@ -25,5 +25,6 @@
   "monthlyReports": "Monthly reports",
   "allHistory": "Check all records",
   "yearlysummaries": "Yearly summaries",
-  "yearlysummariesInfo": "With each new year, your annual statements will appear here."
+  "yearlysummariesInfo": "With each new year, your annual statements will appear here.",
+  "emailInputLabel": "Enter your email"
 }
