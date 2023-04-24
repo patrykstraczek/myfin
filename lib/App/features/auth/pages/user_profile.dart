@@ -1,5 +1,5 @@
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/auth.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({Key? key}) : super(key: key);
@@ -7,19 +7,13 @@ class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProfileScreen(
-      appBar: AppBar(
-      ),
-      providerConfigs: const [
-        EmailProviderConfiguration(),
-      ],
+      appBar: AppBar(),
+      providers: [EmailAuthProvider()],
       actions: [
-        SignedOutAction(
-          (context) {
-            Navigator.of(context).pop();
-          },
-        ),
+        SignedOutAction((context) {
+          Navigator.pushReplacementNamed(context, '/sign-in');
+        }),
       ],
-      avatarSize: 100,
     );
   }
 }

@@ -6,7 +6,7 @@ IconData iconLight = Icons.wb_sunny;
 IconData iconDark = Icons.nights_stay;
 
 final lightTheme = ThemeData(
-  primarySwatch: Colors.amber,
+  primarySwatch: Colors.orange,
   brightness: Brightness.light,
   useMaterial3: true,
   colorScheme:
@@ -18,7 +18,7 @@ final lightTheme = ThemeData(
 );
 
 final darkTheme = ThemeData(
-  primarySwatch: Colors.amber,
+  primarySwatch: Colors.deepPurple,
   brightness: Brightness.dark,
   useMaterial3: true,
   colorScheme: const ColorScheme.highContrastDark(background: Colors.black),

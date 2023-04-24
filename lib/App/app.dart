@@ -1,9 +1,14 @@
+import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:myfin/App/features/auth/pages/auth_gate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
+import 'package:myfin/app/features/auth/pages/sign_in_screen.dart';
+import 'package:myfin/app/features/pages/home/pages/home_page.dart';
+import 'package:myfin/app/localizations/label_overrides.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,9 +20,22 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp(
+            initialRoute: FirebaseAuth.instance.currentUser == null
+                ? '/sign-in'
+                : '/home',
+            routes: {
+              '/sign-in': (context) {
+                return const SignInPage();
+              },
+              '/home': (context) {
+                return const HomePage();
+              },
+            },
             title: 'MyFin - Moje Finanse',
             theme: themeProvider.getTheme(),
-            localizationsDelegates: const [
+            localizationsDelegates: [
+              FirebaseUILocalizations.withDefaultOverrides(
+                  const LabelOverrides()),
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
@@ -27,7 +45,6 @@ class MyApp extends StatelessWidget {
               Locale('en'), // English
               Locale('pl'), // Polish
             ],
-            home: const AuthGate(),
           );
         },
       ),
