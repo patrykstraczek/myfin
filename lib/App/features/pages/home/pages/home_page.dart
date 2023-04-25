@@ -89,7 +89,6 @@ class _HomePageState extends State<HomePage> {
                     .setLightMode();
               }
               // Save _isDarkMode value in SharedPreferences
-              SharedPreferences prefs = await SharedPreferences.getInstance();
               Provider.of<ThemeProvider>(context, listen: false)
                   .saveDarkModeState(
                       isDarkMode); // Use method saveDarkModeState from Provider
