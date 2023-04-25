@@ -14,6 +14,7 @@ import 'package:myfin/app/widgets/drawer_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/widgets/floating_action_button.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class HomePage extends StatefulWidget {
 }
 
 DateTime? date;
-bool isDarkMode = true;
+bool isDarkMode = false;
 double spendingsInMonth = 0.0;
 double incomeInMonth = 0.0;
 
@@ -34,9 +35,17 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _loadDarkModeState();
     final now = DateTime.now();
 
     startYear = now.year;
+  }
+
+  Future<void> _loadDarkModeState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isDarkMode = prefs.getBool('isDarkMode') ?? false;
+    });
   }
 
   @override
@@ -66,7 +75,7 @@ class _HomePageState extends State<HomePage> {
             icon: isDarkMode
                 ? const Icon(Icons.nights_stay)
                 : const Icon(Icons.wb_sunny),
-            onPressed: () {
+            onPressed: () async {
               setState(() {
                 isDarkMode = !isDarkMode;
               });
@@ -79,6 +88,11 @@ class _HomePageState extends State<HomePage> {
                 Provider.of<ThemeProvider>(context, listen: false)
                     .setLightMode();
               }
+              // Save _isDarkMode value in SharedPreferences
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              Provider.of<ThemeProvider>(context, listen: false)
+                  .saveDarkModeState(
+                      isDarkMode); // Use method saveDarkModeState from Provider
             },
           ),
         ],
