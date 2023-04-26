@@ -8,6 +8,7 @@ import 'package:myfin/app/domain/repositories/incomes_repository.dart';
 import 'package:myfin/app/domain/repositories/spendings_repository.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
 import 'package:myfin/App/features/pages/all_items/pages/all_items_page.dart';
+import 'package:myfin/app/features/pages/add/widgets/currency_buttons.dart';
 import 'package:myfin/app/features/pages/home/cubit/home_cubit.dart';
 import 'package:myfin/app/features/pages/daily/daily_reports_page.dart';
 import 'package:myfin/app/widgets/drawer_widget.dart';
