@@ -15,6 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/widgets/floating_action_button.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myfin/app/core/currency_notifier.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -224,6 +225,8 @@ class _HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencyNotifier = Provider.of<CurrencyNotifier>(context);
+    final selectedCurrency = currencyNotifier.selectedCurrency;
     return Column(children: [
       Container(
         padding: const EdgeInsets.only(left: 10),
@@ -270,7 +273,7 @@ class _HomePageBody extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '$spendingsInMonth PLN',
+                            '$spendingsInMonth $selectedCurrency',
                             style: const TextStyle(
                                 fontSize: 11, fontWeight: FontWeight.bold),
                           ),
@@ -289,7 +292,7 @@ class _HomePageBody extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '$incomeInMonth PLN',
+                            '$incomeInMonth $selectedCurrency',
                             style: const TextStyle(
                                 fontSize: 11, fontWeight: FontWeight.bold),
                           ),

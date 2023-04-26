@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
+import 'package:myfin/app/features/pages/add/widgets/currency_buttons.dart';
 import 'package:myfin/app/features/pages/daily/cubit/daily_reports_cubit.dart';
 import 'package:myfin/app/features/pages/details/details_page.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/widgets/floating_action_button.dart';
 import 'package:myfin/app/injection_container.dart';
+import 'package:myfin/app/core/currency_notifier.dart';
+import 'package:provider/provider.dart';
 
 class DailyReportsPage extends StatelessWidget {
   const DailyReportsPage({
@@ -194,6 +197,9 @@ class DailySummariesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencyNotifier = Provider.of<CurrencyNotifier>(context);
+
+    final selectedCurrency = currencyNotifier.selectedCurrency;
     return Row(
       children: [
         Container(
@@ -203,7 +209,9 @@ class DailySummariesWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                spendingsInDay == 0.0 ? '-' : '$spendingsInDay PLN',
+                spendingsInDay == 0.0
+                    ? '-'
+                    : '$spendingsInDay $selectedCurrency',
                 style: const TextStyle(
                     color: Colors.red,
                     fontSize: 12,
@@ -225,7 +233,7 @@ class DailySummariesWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                incomeInDay == 0.0 ? '-' : '$incomeInDay PLN',
+                incomeInDay == 0.0 ? '-' : '$incomeInDay $selectedCurrency',
                 style: const TextStyle(
                     color: Colors.green,
                     fontSize: 12,
