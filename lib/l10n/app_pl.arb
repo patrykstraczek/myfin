@@ -1,4 +1,5 @@
 {
+  "subtitle": "Moje Finanse",
   "todaySpendings": "Dzisiejsze wydatki:",
   "todayIncome": "Dzisiejsze wpływy:",
   "thisMonth": "W tym miesiącu",
@@ -26,5 +27,6 @@
   "allHistory": "Sprawdź całą historię",
   "yearlysummaries": "Zestawienia roczne",
   "yearlysummariesInfo": "Z każdym nowym rokiem będą się tutaj pojawiać Twoje roczne zestawienia.",
-  "emailInputLabel": "Wprowadź email"
+  "emailInputLabel": "Wprowadź email",
+  "noItems": "Pusto, nie dodano żadnych operacji na ten dzień."
 }

@@ -1,4 +1,5 @@
 {
+  "subtitle": "My Finances",
   "todaySpendings": "Today spendings:",
   "todayIncome": "Today income:",
   "thisMonth": "This month",
@@ -26,5 +27,6 @@
   "allHistory": "Check all records",
   "yearlysummaries": "Yearly summaries",
   "yearlysummariesInfo": "With each new year, your annual statements will appear here.",
-  "emailInputLabel": "Enter your email"
+  "emailInputLabel": "Enter your email",
+  "noItems": "No records found."
 }

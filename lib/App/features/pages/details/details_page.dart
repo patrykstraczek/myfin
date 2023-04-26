@@ -34,49 +34,21 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: myFloatingActionButton(context),
-      appBar: AppBar(
-        title: Text(
-            DateFormat.MMMMEEEEd(AppLocalizations.of(context).dateFormat)
-                .format(widget.selectedDay)),
-        centerTitle: true,
-      ),
-      body: Builder(builder: (context) {
-        if (currentIndex == 0) {
-          return SpendingsDetailsPage(
-            selectedDay: widget.selectedDay,
-          );
-        }
-        return IncomesDetailsPage(
+        floatingActionButton: myFloatingActionButton(context),
+        appBar: AppBar(
+          title: Text(
+              DateFormat.MMMMEEEEd(AppLocalizations.of(context).dateFormat)
+                  .format(widget.selectedDay)),
+          centerTitle: true,
+        ),
+        body: ItemsWidget(
           selectedDay: widget.selectedDay,
-        );
-      }),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor:
-            isDarkMode ? const Color(0xff673ab7) : const Color(0xfff39c12),
-        currentIndex: currentIndex,
-        onTap: (newIndex) {
-          setState(() {
-            currentIndex = newIndex;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.store),
-            label: AppLocalizations.of(context).spendings,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.monetization_on),
-            label: AppLocalizations.of(context).incomes,
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
-class SpendingsDetailsPage extends StatelessWidget {
-  const SpendingsDetailsPage({
+class ItemsWidget extends StatelessWidget {
+  const ItemsWidget({
     Key? key,
     required this.selectedDay,
   }) : super(key: key);
@@ -107,15 +79,28 @@ class SpendingsDetailsPage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               case Status.success:
-                return ListView(
-                  children: [
-                    for (final spending in state.spendingDocs)
-                      _SpendingDetailsItemWidget(
+                if (state.spendingDocs.isEmpty && state.incomesDocs.isEmpty) {
+                  return Center(
+                    child: Text(AppLocalizations.of(context).noItems),
+                  );
+                } else {
+                  return ListView(
+                    children: [
+                      for (final spending in state.spendingDocs)
+                        _SpendingDetailsItemWidget(
                           model: spending,
                           isDarkMode: isDarkMode,
-                          selectedDay: selectedDay)
-                  ],
-                );
+                          selectedDay: selectedDay,
+                        ),
+                      for (final income in state.incomesDocs)
+                        _IncomeDetailsItemWidget(
+                          model: income,
+                          isDarkMode: isDarkMode,
+                          selectedDay: selectedDay,
+                        ),
+                    ],
+                  );
+                }
               case Status.error:
                 return Center(
                   child: Text(
@@ -210,63 +195,6 @@ class _SpendingDetailsItemWidgetState
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class IncomesDetailsPage extends StatelessWidget {
-  const IncomesDetailsPage({
-    Key? key,
-    required this.selectedDay,
-  }) : super(key: key);
-
-  final DateTime selectedDay;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
-        create: (context) {
-          return DetailsCubit(
-              SpendingsRepository(
-                  firebaseSpendingsDataSource: FirebaseSpendingsDataSource()),
-              IncomesRepository(
-                  firebaseIncomeDataSource: FirebaseIncomeDataSource()))
-            ..getDailyStream(selectedDay: selectedDay);
-        },
-        child: BlocBuilder<DetailsCubit, DetailsState>(
-          builder: (context, state) {
-            switch (state.status) {
-              case Status.initial:
-                return const Center(
-                  child: Text(''),
-                );
-              case Status.loading:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-
-              case Status.success:
-                return ListView(children: [
-                  for (final income in state.incomesDocs)
-                    _IncomeDetailsItemWidget(
-                        model: income,
-                        isDarkMode: isDarkMode,
-                        selectedDay: selectedDay)
-                ]);
-              case Status.error:
-                return Center(
-                  child: Text(
-                    state.errorMessage ?? 'Unknown error',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  ),
-                );
-            }
-          },
         ),
       ),
     );
