@@ -29,6 +29,10 @@ class DrawerWidget extends StatelessWidget {
                     fontSize: 25,
                   ),
                 ),
+                Text(
+                  AppLocalizations.of(context).subtitle,
+                  style: const TextStyle(fontSize: 12),
+                )
               ],
             ),
           ),
@@ -96,7 +100,7 @@ class DrawerWidget extends StatelessWidget {
             ),
             applicationIcon: const Icon(Icons.info),
             applicationName: 'MyFin - Moje Finanse',
-            applicationVersion: '',
+            applicationVersion: '1.0.1',
             applicationLegalese: 'Patryk Strączek',
             child: Text(AppLocalizations.of(context).info,
                 style: GoogleFonts.lato()),

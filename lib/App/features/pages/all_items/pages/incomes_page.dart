@@ -6,7 +6,10 @@ import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/incomes_model.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
 import 'package:myfin/App/injection_container.dart';
+import 'package:myfin/app/features/pages/add/widgets/currency_buttons.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
+import 'package:provider/provider.dart';
+import 'package:myfin/app/core/currency_notifier.dart';
 
 class IncomesPage extends StatelessWidget {
   const IncomesPage({
@@ -64,6 +67,8 @@ class _IncomeItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencyNotifier = Provider.of<CurrencyNotifier>(context);
+    final selectedCurrency = currencyNotifier.selectedCurrency;
     return Dismissible(
       key: ValueKey(model.id),
       background: const DecoratedBox(
@@ -118,7 +123,7 @@ class _IncomeItemWidget extends StatelessWidget {
               style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
             trailing: Text(
-              '${model.incomeValue}  PLN',
+              '${model.incomeValue}  $selectedCurrency',
               style: const TextStyle(
                 color: Colors.green,
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myfin/app/features/pages/add/widgets/currency_buttons.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
 import 'package:myfin/App/features/pages/all_items/pages/incomes_page.dart';
@@ -8,11 +9,16 @@ import 'package:myfin/App/features/pages/all_items/pages/spendings_page.dart';
 import 'package:myfin/App/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/widgets/floating_action_button.dart';
+import 'package:provider/provider.dart';
+import 'package:myfin/app/core/currency_notifier.dart';
+
+
 
 class AllItemsPage extends StatefulWidget {
   const AllItemsPage({
     Key? key,
   }) : super(key: key);
+  
 
   @override
   State<AllItemsPage> createState() => _AllItemsPageState();
@@ -97,6 +103,8 @@ class _SpendingHeaderBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencyNotifier = Provider.of<CurrencyNotifier>(context);
+    final selectedCurrency = currencyNotifier.selectedCurrency;
     return Column(children: [
       BlocProvider(
         create: (context) {
@@ -111,7 +119,7 @@ class _SpendingHeaderBody extends StatelessWidget {
               todaySpendings += (doc['spending_value']);
             }
             return Text(
-              '$todaySpendings PLN',
+              '$todaySpendings $selectedCurrency',
               style: GoogleFonts.lato(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -140,7 +148,7 @@ class _SpendingHeaderBody extends StatelessWidget {
                     for (final doc in documents) {
                       thisMonthSpending += (doc['spending_value']);
                     }
-                    return Text('$thisMonthSpending PLN');
+                    return Text('$thisMonthSpending $selectedCurrency');
                   },
                 ),
               ),
@@ -163,7 +171,7 @@ class _SpendingHeaderBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(AppLocalizations.of(context).previousMonth),
-                    Text('$previousMonthSpending PLN'),
+                    Text('$previousMonthSpending $selectedCurrency'),
                   ],
                 );
               },
@@ -180,6 +188,8 @@ class _IncomeHeaderBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencyNotifier = Provider.of<CurrencyNotifier>(context);
+    final selectedCurrency = currencyNotifier.selectedCurrency;
     return Column(children: [
       BlocProvider(
         create: (context) {
@@ -194,7 +204,7 @@ class _IncomeHeaderBody extends StatelessWidget {
               todayIncome += (doc['income_value']);
             }
             return Text(
-              '$todayIncome PLN',
+              '$todayIncome $selectedCurrency',
               style: GoogleFonts.lato(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -223,7 +233,7 @@ class _IncomeHeaderBody extends StatelessWidget {
                     for (final doc in documents) {
                       thisMonthIncome += (doc['income_value']);
                     }
-                    return Text('$thisMonthIncome PLN');
+                    return Text('$thisMonthIncome $selectedCurrency');
                   },
                 ),
               ),
@@ -246,7 +256,7 @@ class _IncomeHeaderBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(AppLocalizations.of(context).previousMonth),
-                    Text('$previousMonthIncome PLN'),
+                    Text('$previousMonthIncome $selectedCurrency'),
                   ],
                 );
               },

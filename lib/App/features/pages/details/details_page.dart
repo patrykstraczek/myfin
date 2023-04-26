@@ -9,12 +9,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
 import 'package:myfin/app/domain/repositories/incomes_repository.dart';
 import 'package:myfin/app/domain/repositories/spendings_repository.dart';
+import 'package:myfin/app/features/pages/add/widgets/currency_buttons.dart';
 import 'package:myfin/app/features/pages/details/cubit/details_cubit.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:myfin/app/widgets/floating_action_button.dart';
-
+import 'package:myfin/app/core/currency_notifier.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
+import 'package:provider/provider.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({
@@ -140,6 +142,9 @@ class _SpendingDetailsItemWidgetState
     extends State<_SpendingDetailsItemWidget> {
   @override
   Widget build(BuildContext context) {
+    final currencyNotifier = Provider.of<CurrencyNotifier>(context);
+
+    final selectedCurrency = currencyNotifier.selectedCurrency;
     return Dismissible(
       key: ValueKey(widget.model.id),
       background: const DecoratedBox(
@@ -189,7 +194,7 @@ class _SpendingDetailsItemWidgetState
               ),
             ),
             trailing: Text(
-              '${widget.model.spendingValue}  PLN',
+              '${widget.model.spendingValue}  $selectedCurrency',
               style: const TextStyle(
                 color: Colors.red,
               ),
@@ -215,6 +220,9 @@ class _IncomeDetailsItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencyNotifier = Provider.of<CurrencyNotifier>(context);
+
+    final selectedCurrency = currencyNotifier.selectedCurrency;
     return Dismissible(
       key: ValueKey(model.id),
       background: const DecoratedBox(
@@ -264,7 +272,7 @@ class _IncomeDetailsItemWidget extends StatelessWidget {
               ),
             ),
             trailing: Text(
-              '${model.incomeValue}  PLN',
+              '${model.incomeValue}  $selectedCurrency',
               style: const TextStyle(
                 color: Colors.green,
               ),
