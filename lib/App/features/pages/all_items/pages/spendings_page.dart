@@ -5,7 +5,6 @@ import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/spendings/spendings_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:myfin/app/features/pages/add/widgets/currency_buttons.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:myfin/app/core/currency_notifier.dart';
 import 'package:myfin/app/injection_container.dart';
@@ -132,7 +131,7 @@ class _SpendingItemWidgetState extends State<_SpendingItemWidget> {
               style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
             trailing: Text(
-              '${widget.model.spendingValue}  $selectedCurrency',
+              '${widget.model.spendingValue.toStringAsFixed(2)}  $selectedCurrency',
               style: const TextStyle(
                 color: Colors.red,
               ),

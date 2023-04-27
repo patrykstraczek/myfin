@@ -123,7 +123,7 @@ class _IncomeItemWidget extends StatelessWidget {
               style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
             trailing: Text(
-              '${model.incomeValue}  $selectedCurrency',
+              '${model.incomeValue.toStringAsFixed(2)}  $selectedCurrency',
               style: const TextStyle(
                 color: Colors.green,
               ),
