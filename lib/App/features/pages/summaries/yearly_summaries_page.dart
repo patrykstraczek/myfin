@@ -158,7 +158,7 @@ class _YearlySummariesPageWidget extends StatelessWidget {
                         case Status.success:
                           return Row(
                             children: [
-                              Text('-$spendingsInYear',
+                              Text('-${spendingsInYear.toStringAsFixed(2)}',
                                   style: const TextStyle(
                                     color: Colors.red,
                                     fontWeight: FontWeight.bold,
@@ -167,7 +167,7 @@ class _YearlySummariesPageWidget extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                '+$incomeInYear',
+                                '+${incomeInYear.toStringAsFixed(2)}',
                                 style: const TextStyle(
                                   color: Colors.green,
                                   fontWeight: FontWeight.bold,
@@ -294,7 +294,9 @@ class MonthlySummaries extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                spendingsInMonth == 0.0 ? '0' : '+ $spendingsInMonth',
+                spendingsInMonth == 0.0
+                    ? '0'
+                    : '+ ${spendingsInMonth.toStringAsFixed(2)}',
                 style: const TextStyle(
                   color: Colors.red,
                   fontSize: 12,
@@ -316,7 +318,9 @@ class MonthlySummaries extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                incomeInMonth == 0.0 ? '0' : ' + $incomeInMonth',
+                incomeInMonth == 0.0
+                    ? '0'
+                    : ' + ${incomeInMonth.toStringAsFixed(2)}',
                 style: const TextStyle(
                   color: Colors.green,
                   fontSize: 12,

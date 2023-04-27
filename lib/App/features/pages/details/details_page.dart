@@ -194,7 +194,7 @@ class _SpendingDetailsItemWidgetState
               ),
             ),
             trailing: Text(
-              '${widget.model.spendingValue}  $selectedCurrency',
+              '- ${widget.model.spendingValue.toStringAsFixed(2)}  $selectedCurrency',
               style: const TextStyle(
                 color: Colors.red,
               ),
@@ -272,7 +272,7 @@ class _IncomeDetailsItemWidget extends StatelessWidget {
               ),
             ),
             trailing: Text(
-              '${model.incomeValue}  $selectedCurrency',
+              '+ ${model.incomeValue.toStringAsFixed(2)}  $selectedCurrency',
               style: const TextStyle(
                 color: Colors.green,
               ),

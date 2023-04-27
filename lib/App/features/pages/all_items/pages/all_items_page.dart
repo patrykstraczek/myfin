@@ -12,13 +12,10 @@ import 'package:myfin/app/widgets/floating_action_button.dart';
 import 'package:provider/provider.dart';
 import 'package:myfin/app/core/currency_notifier.dart';
 
-
-
 class AllItemsPage extends StatefulWidget {
   const AllItemsPage({
     Key? key,
   }) : super(key: key);
-  
 
   @override
   State<AllItemsPage> createState() => _AllItemsPageState();
@@ -119,7 +116,7 @@ class _SpendingHeaderBody extends StatelessWidget {
               todaySpendings += (doc['spending_value']);
             }
             return Text(
-              '$todaySpendings $selectedCurrency',
+              '${todaySpendings.toStringAsFixed(2)} $selectedCurrency',
               style: GoogleFonts.lato(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -148,7 +145,8 @@ class _SpendingHeaderBody extends StatelessWidget {
                     for (final doc in documents) {
                       thisMonthSpending += (doc['spending_value']);
                     }
-                    return Text('$thisMonthSpending $selectedCurrency');
+                    return Text(
+                        '${thisMonthSpending.toStringAsFixed(2)} $selectedCurrency');
                   },
                 ),
               ),
@@ -171,7 +169,8 @@ class _SpendingHeaderBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(AppLocalizations.of(context).previousMonth),
-                    Text('$previousMonthSpending $selectedCurrency'),
+                    Text(
+                        '${previousMonthSpending.toStringAsFixed(2)} $selectedCurrency'),
                   ],
                 );
               },
@@ -204,7 +203,7 @@ class _IncomeHeaderBody extends StatelessWidget {
               todayIncome += (doc['income_value']);
             }
             return Text(
-              '$todayIncome $selectedCurrency',
+              '${todayIncome.toStringAsFixed(2)} $selectedCurrency',
               style: GoogleFonts.lato(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -233,7 +232,8 @@ class _IncomeHeaderBody extends StatelessWidget {
                     for (final doc in documents) {
                       thisMonthIncome += (doc['income_value']);
                     }
-                    return Text('$thisMonthIncome $selectedCurrency');
+                    return Text(
+                        '${thisMonthIncome.toStringAsFixed(2)} $selectedCurrency');
                   },
                 ),
               ),
@@ -256,7 +256,8 @@ class _IncomeHeaderBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(AppLocalizations.of(context).previousMonth),
-                    Text('$previousMonthIncome $selectedCurrency'),
+                    Text(
+                        '${previousMonthIncome.toStringAsFixed(2)} $selectedCurrency'),
                   ],
                 );
               },

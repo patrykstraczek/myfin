@@ -211,7 +211,7 @@ class DailySummariesWidget extends StatelessWidget {
               Text(
                 spendingsInDay == 0.0
                     ? '-'
-                    : '$spendingsInDay $selectedCurrency',
+                    : '${spendingsInDay.toStringAsFixed(2)} $selectedCurrency',
                 style: const TextStyle(
                     color: Colors.red,
                     fontSize: 12,
@@ -233,7 +233,9 @@ class DailySummariesWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                incomeInDay == 0.0 ? '-' : '$incomeInDay $selectedCurrency',
+                incomeInDay == 0.0
+                    ? '-'
+                    : '${incomeInDay.toStringAsFixed(2)} $selectedCurrency',
                 style: const TextStyle(
                     color: Colors.green,
                     fontSize: 12,
