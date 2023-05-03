@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
 import 'package:myfin/app/features/auth/pages/sign_in_screen.dart';
-import 'package:myfin/app/features/pages/add/widgets/currency_buttons.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:myfin/app/core/currency_notifier.dart';

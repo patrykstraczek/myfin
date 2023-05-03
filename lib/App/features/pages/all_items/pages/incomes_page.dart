@@ -6,7 +6,6 @@ import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/incomes_model.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
 import 'package:myfin/App/injection_container.dart';
-import 'package:myfin/app/features/pages/add/widgets/currency_buttons.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:myfin/app/core/currency_notifier.dart';

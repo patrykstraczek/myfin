@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
-import 'package:myfin/app/features/pages/add/widgets/currency_buttons.dart';
 import 'package:myfin/app/features/pages/daily/cubit/daily_reports_cubit.dart';
 import 'package:myfin/app/features/pages/details/details_page.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
