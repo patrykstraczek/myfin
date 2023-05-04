@@ -16,11 +16,9 @@ class IncomesRepository {
   }) {
     return firebaseIncomeDataSource.getIncomesStream().map((incomes) {
       return incomes.where((income) {
-        // Extract the year from the spending's created date
         final createdDate = income.incomeDate;
         final createdYear = createdDate.year;
 
-        // Check if the spending was created in the specified year
         return createdYear == year;
       }).toList();
     });
@@ -32,12 +30,10 @@ class IncomesRepository {
   }) {
     return firebaseIncomeDataSource.getIncomesStream().map((incomes) {
       return incomes.where((income) {
-        // Extract the month and year from the spending's created date
         final createdDate = income.incomeDate;
         final createdMonth = createdDate.month;
         final createdYear = createdDate.year;
 
-        // Check if the spending was created in the specified month and year
         return createdMonth == month && createdYear == year;
       }).toList();
     });
@@ -47,10 +43,8 @@ class IncomesRepository {
       {required DateTime selectedDate}) {
     return firebaseIncomeDataSource.getIncomesStream().map((incomes) {
       return incomes.where((income) {
-        // Extract the month and year from the spending's created date
         final createdDate = income.incomeDate;
 
-        // Check if the spending was created in the specified month and year
         return createdDate == selectedDate;
       }).toList();
     });

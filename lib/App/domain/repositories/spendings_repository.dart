@@ -32,7 +32,7 @@ class SpendingsRepository {
   }) {
     return firebaseSpendingsDataSource.getSpendingsStream().map((spendings) {
       return spendings.where((spending) {
-        // Extract the month and year from the spending's created date
+        // Extract the month and year from the spending created date
         final createdDate = spending.spendingDate;
         final createdMonth = createdDate.month;
         final createdYear = createdDate.year;
