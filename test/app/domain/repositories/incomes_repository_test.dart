@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:myfin/App/domain/models/incomes_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
-import 'package:myfin/App/domain/repositories/incomes_repository.dart';
+import 'package:myfin/app/domain/repositories/incomes_repository.dart';
 
 class MockFirebaseIncomeDataSource extends Mock
     implements FirebaseIncomeDataSource {}
@@ -195,14 +195,15 @@ void main() {
             ),
             IncomesModel(
               id: '4',
-              incomeDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
+              incomeDate: DateTime(2023, 6, 3, 11, 30, 0, 0),
               incomeName: 'incomeName4',
               incomeValue: 4,
               selectedIncomesIcon: 4,
             ),
           ]));
       //act
-      final results = sut.getMontlyIncomeStream(year: 2023, month: 6);
+      final results =
+          sut.getDailyIncomeStream(selectedDay: DateTime(2023, 6, 3));
       //assert
       await expectLater(
           results,
@@ -217,7 +218,7 @@ void main() {
               ),
               IncomesModel(
                 id: '4',
-                incomeDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
+                incomeDate: DateTime(2023, 6, 3, 11, 30, 0, 0),
                 incomeName: 'incomeName4',
                 incomeValue: 4,
                 selectedIncomesIcon: 4,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myfin/app/domain/theme/colors.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
 import 'package:myfin/App/features/pages/all_items/pages/incomes_page.dart';
@@ -32,21 +33,19 @@ class _AllItemsPageState extends State<AllItemsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: myFloatingActionButton(context),
+      floatingActionButton: const MyFloatingActionButton(),
       appBar: AppBar(
           centerTitle: true,
           title: currentIndex == 0
               ? Text(AppLocalizations.of(context).todaySpendings)
               : Text(AppLocalizations.of(context).todayIncome),
-          surfaceTintColor:
-              isDarkMode ? const Color(0xff673ab7) : const Color(0xfff5b041),
+          surfaceTintColor: accentColor(),
           shape: const BeveledRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20)),
           ),
-          backgroundColor:
-              isDarkMode ? const Color(0xff673ab7) : const Color(0xfff5b041),
+          backgroundColor: accentColor(),
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(110),
               child: Container(

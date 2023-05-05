@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myfin/app/core/currency_notifier.dart';
+import 'package:myfin/app/domain/theme/colors.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -19,8 +20,7 @@ class _CurrencyButtonsState extends State<CurrencyButtons> {
     final currencyNotifier = Provider.of<CurrencyNotifier>(context);
     return ToggleButtons(
       fillColor: isDarkMode ? Colors.black : Colors.white,
-      selectedColor:
-          isDarkMode ? const Color(0xff673ab7) : const Color(0xfff5b041),
+      selectedColor: accentColor(),
       isSelected: isSelected,
       onPressed: (int newIndex) {
         setState(() {

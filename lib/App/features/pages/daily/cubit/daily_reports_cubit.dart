@@ -61,7 +61,7 @@ class DailyReportsCubit extends Cubit<DailyReportsState> {
     emit(const DailyReportsState(status: Status.loading));
     try {
       final dailyIncomes = await incomesRepository
-          .getDailyIncomeStream(selectedDate: selectedDay)
+          .getDailyIncomeStream(selectedDay: selectedDay)
           .first;
       final dailySpendings = await spendingsRepository
           .getDailySpendingStream(selectedDay: selectedDay)

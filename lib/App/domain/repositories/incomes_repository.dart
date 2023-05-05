@@ -40,12 +40,14 @@ class IncomesRepository {
   }
 
   Stream<List<IncomesModel>> getDailyIncomeStream(
-      {required DateTime selectedDate}) {
+      {required DateTime selectedDay}) {
     return firebaseIncomeDataSource.getIncomesStream().map((incomes) {
       return incomes.where((income) {
         final createdDate = income.incomeDate;
 
-        return createdDate == selectedDate;
+        return createdDate.year == selectedDay.year &&
+            createdDate.month == selectedDay.month &&
+            createdDate.day == selectedDay.day;
       }).toList();
     });
   }

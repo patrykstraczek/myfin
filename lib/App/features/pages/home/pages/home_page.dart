@@ -6,6 +6,7 @@ import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 import 'package:myfin/app/domain/repositories/incomes_repository.dart';
 import 'package:myfin/app/domain/repositories/spendings_repository.dart';
+import 'package:myfin/app/domain/theme/colors.dart';
 import 'package:myfin/app/domain/theme/theme_provider.dart';
 import 'package:myfin/App/features/pages/all_items/pages/all_items_page.dart';
 import 'package:myfin/app/features/pages/home/cubit/home_cubit.dart';
@@ -96,68 +97,75 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButton: myFloatingActionButton(context),
+      floatingActionButton: const MyFloatingActionButton(),
       body: Column(children: [
         _AllHistoryItem(isDarkMode: isDarkMode),
         Expanded(
-          child: ListView.builder(
-              itemCount: months.length,
-              itemBuilder: (BuildContext context, int index) {
-                final year = startYear;
-                final month = months[index];
-                return BlocProvider(
-                  create: (context) {
-                    return HomeCubit(
-                        incomesRepository: IncomesRepository(
-                            firebaseIncomeDataSource:
-                                FirebaseIncomeDataSource()),
-                        spendingsRepository: SpendingsRepository(
-                            firebaseSpendingsDataSource:
-                                FirebaseSpendingsDataSource()))
-                      ..getMonthlyData(month: month, year: year);
-                  },
-                  child: BlocBuilder<HomeCubit, HomeState>(
-                    builder: (context, state) {
-                      spendingsInMonth = 0.0;
-
-                      for (final spending in state.spendingDocs) {
-                        spendingsInMonth += spending.spendingValue;
-                      }
-
-                      incomeInMonth = 0.0;
-
-                      for (final income in state.incomesDocs) {
-                        incomeInMonth += income.incomeValue;
-                      }
-                      switch (state.status) {
-                        case Status.initial:
-                          return const Center(
-                            child: Text(''),
-                          );
-                        case Status.loading:
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        case Status.success:
-                          return _HomePageBody(
-                            isDarkMode: isDarkMode,
-                            month: month,
-                            year: year,
-                          );
-                        case Status.error:
-                          return Center(
-                            child: Text(
-                              state.errorMessage ?? 'Unknown error',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.error,
-                              ),
-                            ),
-                          );
-                      }
+          child: RefreshIndicator(
+            displacement: 10,
+            color: accentColor(),
+            onRefresh: () async {
+              setState(() {});
+            },
+            child: ListView.builder(
+                itemCount: months.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final year = startYear;
+                  final month = months[index];
+                  return BlocProvider(
+                    create: (context) {
+                      return HomeCubit(
+                          incomesRepository: IncomesRepository(
+                              firebaseIncomeDataSource:
+                                  FirebaseIncomeDataSource()),
+                          spendingsRepository: SpendingsRepository(
+                              firebaseSpendingsDataSource:
+                                  FirebaseSpendingsDataSource()))
+                        ..getMonthlyData(month: month, year: year);
                     },
-                  ),
-                );
-              }),
+                    child: BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        spendingsInMonth = 0.0;
+
+                        for (final spending in state.spendingDocs) {
+                          spendingsInMonth += spending.spendingValue;
+                        }
+
+                        incomeInMonth = 0.0;
+
+                        for (final income in state.incomesDocs) {
+                          incomeInMonth += income.incomeValue;
+                        }
+                        switch (state.status) {
+                          case Status.initial:
+                            return const Center(
+                              child: Text('Initial state'),
+                            );
+                          case Status.loading:
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          case Status.success:
+                            return _HomePageBody(
+                              isDarkMode: isDarkMode,
+                              month: month,
+                              year: year,
+                            );
+                          case Status.error:
+                            return Center(
+                              child: Text(
+                                state.errorMessage ?? 'Unknown error',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
+                              ),
+                            );
+                        }
+                      },
+                    ),
+                  );
+                }),
+          ),
         ),
       ]),
     );
@@ -195,9 +203,7 @@ class _AllHistoryItem extends StatelessWidget {
               child: Text(
                 AppLocalizations.of(context).allHistory,
                 style: TextStyle(
-                  color: isDarkMode
-                      ? const Color(0xff673ab7)
-                      : const Color(0xfff5b041),
+                  color: accentColor(),
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
