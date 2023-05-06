@@ -27,7 +27,9 @@ var incomeIcon = 0xe047;
 int iconSelected = 0;
 String text = text.replaceAll(",", ".");
 
-DateTime selectedDate = DateTime.now();
+DateTime currentDate = DateTime.now().toLocal();
+DateTime currentDateWithStartTime =
+    DateTime(currentDate.year, currentDate.month, currentDate.day, 0, 0, 0);
 
 class _AddPageState extends State<AddPage> {
   void checkOption(int index) {
@@ -62,7 +64,7 @@ class _AddPageState extends State<AddPage> {
                                     context.read<AddPageCubit>().addSpending(
                                           name!,
                                           value!.replaceAll(",", "."),
-                                          selectedDate,
+                                          currentDateWithStartTime,
                                           spendingIcon,
                                         )
                                   ];
@@ -72,7 +74,7 @@ class _AddPageState extends State<AddPage> {
                                     context.read<AddPageCubit>().addIncome(
                                           name!,
                                           value!.replaceAll(",", "."),
-                                          selectedDate,
+                                          currentDateWithStartTime,
                                           incomeIcon,
                                         )
                                   ];
@@ -198,12 +200,12 @@ class _AddPageState extends State<AddPage> {
                   child: MyCalendar(
                     onDateChanged: (newValue) {
                       setState(() {
-                        selectedDate = newValue!;
+                        currentDateWithStartTime = newValue!;
                       });
                     },
                     selectedDateFormatted: DateFormat.yMMMEd(
                             AppLocalizations.of(context).dateFormat)
-                        .format(selectedDate),
+                        .format(currentDateWithStartTime),
                   ),
                 ),
                 const SizedBox(height: 50),
