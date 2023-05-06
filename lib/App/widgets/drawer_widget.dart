@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/App/features/pages/exchange/pages/exchange_rates_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/features/auth/pages/user_profile.dart';
+import 'package:myfin/app/domain/theme/colors.dart';
 import 'package:myfin/app/features/pages/summaries/yearly_summaries_page.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -39,9 +40,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.person,
-              color: isDarkMode
-                  ? const Color(0xff673ab7)
-                  : const Color(0xfff5b041),
+              color: accentColors(),
             ),
             title: Text(AppLocalizations.of(context).profile,
                 style: GoogleFonts.lato()),
@@ -57,9 +56,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.currency_exchange,
-              color: isDarkMode
-                  ? const Color(0xff673ab7)
-                  : const Color(0xfff5b041),
+              color: accentColors(),
             ),
             title: Text(AppLocalizations.of(context).exchangeRates,
                 style: GoogleFonts.lato()),
@@ -75,9 +72,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             leading: Icon(
               Icons.calendar_month,
-              color: isDarkMode
-                  ? const Color(0xff673ab7)
-                  : const Color(0xfff5b041),
+              color: accentColors(),
             ),
             title: Text(AppLocalizations.of(context).yearlysummaries,
                 style: GoogleFonts.lato()),
@@ -94,9 +89,7 @@ class DrawerWidget extends StatelessWidget {
           AboutListTile(
             icon: Icon(
               Icons.info,
-              color: isDarkMode
-                  ? const Color(0xff673ab7)
-                  : const Color(0xfff5b041),
+              color: accentColors(),
             ),
             applicationIcon: const Icon(Icons.info),
             applicationName: 'MyFin - Moje Finanse',

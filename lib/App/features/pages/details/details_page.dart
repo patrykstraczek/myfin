@@ -35,7 +35,7 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: const MyFloatingActionButton(),
+        floatingActionButton: MyFloatingActionButton(isDarkMode: isDarkMode),
         appBar: AppBar(
           title: Text(
               DateFormat.MMMMEEEEd(AppLocalizations.of(context).dateFormat)

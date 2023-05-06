@@ -33,19 +33,19 @@ class _AllItemsPageState extends State<AllItemsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: const MyFloatingActionButton(),
+      floatingActionButton:  MyFloatingActionButton(isDarkMode: isDarkMode,),
       appBar: AppBar(
           centerTitle: true,
           title: currentIndex == 0
               ? Text(AppLocalizations.of(context).todaySpendings)
               : Text(AppLocalizations.of(context).todayIncome),
-          surfaceTintColor: accentColor(),
+          surfaceTintColor: accentColors(),
           shape: const BeveledRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20)),
           ),
-          backgroundColor: accentColor(),
+          backgroundColor: accentColors(),
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(110),
               child: Container(
@@ -53,9 +53,7 @@ class _AllItemsPageState extends State<AllItemsPage> {
                   borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       bottomRight: Radius.circular(20)),
-                  color: isDarkMode
-                      ? const Color(0xff673ab7)
-                      : const Color(0xfff5b041),
+                  color: accentColors(),
                 ),
                 alignment: Alignment.topCenter,
                 height: 110.0,
