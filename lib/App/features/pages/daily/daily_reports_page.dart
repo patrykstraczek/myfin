@@ -38,7 +38,7 @@ class DailyReportsPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      floatingActionButton: const MyFloatingActionButton(),
+      floatingActionButton: MyFloatingActionButton(isDarkMode: isDarkMode),
       body: BlocProvider(
         create: (context) {
           return getIt<DailyReportsCubit>()

@@ -97,21 +97,28 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButton: const MyFloatingActionButton(),
+      floatingActionButton: MyFloatingActionButton(isDarkMode: isDarkMode),
       body: Column(children: [
         _AllHistoryItem(isDarkMode: isDarkMode),
         Expanded(
           child: RefreshIndicator(
             displacement: 10,
-            color: accentColor(),
+            color: accentColors(),
             onRefresh: () async {
-              setState(() {});
+              await HomeCubit(
+                      incomesRepository: IncomesRepository(
+                          firebaseIncomeDataSource: FirebaseIncomeDataSource()),
+                      spendingsRepository: SpendingsRepository(
+                          firebaseSpendingsDataSource:
+                              FirebaseSpendingsDataSource()))
+                  .getMonthlyData(month: months[0], year: startYear);
             },
             child: ListView.builder(
                 itemCount: months.length,
                 itemBuilder: (BuildContext context, int index) {
                   final year = startYear;
                   final month = months[index];
+
                   return BlocProvider(
                     create: (context) {
                       return HomeCubit(
@@ -203,7 +210,7 @@ class _AllHistoryItem extends StatelessWidget {
               child: Text(
                 AppLocalizations.of(context).allHistory,
                 style: TextStyle(
-                  color: accentColor(),
+                  color: accentColors(),
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),

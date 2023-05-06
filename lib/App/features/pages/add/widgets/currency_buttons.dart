@@ -20,7 +20,7 @@ class _CurrencyButtonsState extends State<CurrencyButtons> {
     final currencyNotifier = Provider.of<CurrencyNotifier>(context);
     return ToggleButtons(
       fillColor: isDarkMode ? Colors.black : Colors.white,
-      selectedColor: accentColor(),
+      selectedColor: accentColors(),
       isSelected: isSelected,
       onPressed: (int newIndex) {
         setState(() {
