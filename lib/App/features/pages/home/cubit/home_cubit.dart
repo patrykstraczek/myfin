@@ -23,44 +23,38 @@ class HomeCubit extends Cubit<HomeState> {
   final incomeDataSource = FirebaseIncomeDataSource();
 
   final SpendingsRepository spendingsRepository;
-  StreamSubscription? spendingsSubscription;
+  StreamSubscription? _spendingsSubscription;
   final IncomesRepository incomesRepository;
-  StreamSubscription? incomesSubscription;
+  StreamSubscription? _incomesSubscription;
 
   HomeCubit(
       {required this.incomesRepository, required this.spendingsRepository})
       : super(const HomeState());
 
   Future<void> getMonthlyData({required int month, required int year}) async {
-    emit(const HomeState(status: Status.loading));
-    try {
-      final monthlyIncomes = await incomesRepository
+    _spendingsSubscription = spendingsRepository
+        .getMontlySpendingsStream(month: month, year: year)
+        .listen((monthlySpendings) {
+      _incomesSubscription = incomesRepository
           .getMontlyIncomeStream(month: month, year: year)
-          .first;
-      final monthlySpendings = await spendingsRepository
-          .getMontlySpendingsStream(month: month, year: year)
-          .first;
-      emit(
-        HomeState(
-          status: Status.success,
-          incomesDocs: monthlyIncomes,
-          spendingDocs: monthlySpendings,
-        ),
-      );
-    } catch (error) {
-      emit(
-        HomeState(
-          status: Status.error,
-          errorMessage: error.toString(),
-        ),
-      );
-    }
+          .listen((monthlyIncomes) {
+        try {
+          emit(HomeState(
+            spendingDocs: monthlySpendings,
+            incomesDocs: monthlyIncomes,
+            status: Status.success,
+          ));
+        } catch (error) {
+          emit(HomeState(errorMessage: error.toString(), status: Status.error));
+        }
+      });
+    });
   }
 
   @override
   Future<void> close() {
-    spendingsSubscription?.cancel();
-    incomesSubscription?.cancel();
+    _spendingsSubscription?.cancel();
+    _incomesSubscription?.cancel();
     return super.close();
   }
 }
