@@ -71,9 +71,7 @@ class _YearlySummariesPageState extends State<YearlySummariesPage> {
       ),
       body: ListView(
         children: [
-          for (int year in years)
-            _YearlySummariesPageWidget(
-                year: year), // Generuj widgety na podstawie listy lat
+          for (int year in years) _YearlySummariesPageWidget(year: year),
           const SizedBox(height: 10),
         ],
       ),
@@ -295,7 +293,7 @@ class MonthlySummaries extends StatelessWidget {
             children: [
               Text(
                 spendingsInMonth == 0.0
-                    ? '0'
+                    ? '-'
                     : '+ ${spendingsInMonth.toStringAsFixed(2)}',
                 style: const TextStyle(
                   color: Colors.red,
@@ -319,7 +317,7 @@ class MonthlySummaries extends StatelessWidget {
             children: [
               Text(
                 incomeInMonth == 0.0
-                    ? '0'
+                    ? '-'
                     : ' + ${incomeInMonth.toStringAsFixed(2)}',
                 style: const TextStyle(
                   color: Colors.green,

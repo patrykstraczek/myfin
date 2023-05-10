@@ -38,6 +38,7 @@ class HomeCubit extends Cubit<HomeState> {
       _incomesSubscription = incomesRepository
           .getMontlyIncomeStream(month: month, year: year)
           .listen((monthlyIncomes) {
+        emit(const HomeState(status: Status.loading));
         try {
           emit(HomeState(
             spendingDocs: monthlySpendings,

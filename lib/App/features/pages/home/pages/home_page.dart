@@ -101,78 +101,65 @@ class _HomePageState extends State<HomePage> {
       body: Column(children: [
         _AllHistoryItem(isDarkMode: isDarkMode),
         Expanded(
-          child: RefreshIndicator(
-            displacement: 10,
-            color: accentColors(),
-            onRefresh: () async {
-              await HomeCubit(
-                      incomesRepository: IncomesRepository(
-                          firebaseIncomeDataSource: FirebaseIncomeDataSource()),
-                      spendingsRepository: SpendingsRepository(
-                          firebaseSpendingsDataSource:
-                              FirebaseSpendingsDataSource()))
-                  .getMonthlyData(month: months[0], year: startYear);
-            },
-            child: ListView.builder(
-                itemCount: months.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final year = startYear;
-                  final month = months[index];
+          child: ListView.builder(
+              itemCount: months.length,
+              itemBuilder: (BuildContext context, int index) {
+                final year = startYear;
+                final month = months[index];
 
-                  return BlocProvider(
-                    create: (context) {
-                      return HomeCubit(
-                          incomesRepository: IncomesRepository(
-                              firebaseIncomeDataSource:
-                                  FirebaseIncomeDataSource()),
-                          spendingsRepository: SpendingsRepository(
-                              firebaseSpendingsDataSource:
-                                  FirebaseSpendingsDataSource()))
-                        ..getMonthlyData(month: month, year: year);
-                    },
-                    child: BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        spendingsInMonth = 0.0;
+                return BlocProvider(
+                  create: (context) {
+                    return HomeCubit(
+                        incomesRepository: IncomesRepository(
+                            firebaseIncomeDataSource:
+                                FirebaseIncomeDataSource()),
+                        spendingsRepository: SpendingsRepository(
+                            firebaseSpendingsDataSource:
+                                FirebaseSpendingsDataSource()))
+                      ..getMonthlyData(month: month, year: year);
+                  },
+                  child: BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      spendingsInMonth = 0.0;
 
-                        for (final spending in state.spendingDocs) {
-                          spendingsInMonth += spending.spendingValue;
-                        }
+                      for (final spending in state.spendingDocs) {
+                        spendingsInMonth += spending.spendingValue;
+                      }
 
-                        incomeInMonth = 0.0;
+                      incomeInMonth = 0.0;
 
-                        for (final income in state.incomesDocs) {
-                          incomeInMonth += income.incomeValue;
-                        }
-                        switch (state.status) {
-                          case Status.initial:
-                            return const Center(
-                              child: Text('Initial state'),
-                            );
-                          case Status.loading:
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          case Status.success:
-                            return _HomePageBody(
-                              isDarkMode: isDarkMode,
-                              month: month,
-                              year: year,
-                            );
-                          case Status.error:
-                            return Center(
-                              child: Text(
-                                state.errorMessage ?? 'Unknown error',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error,
-                                ),
+                      for (final income in state.incomesDocs) {
+                        incomeInMonth += income.incomeValue;
+                      }
+                      switch (state.status) {
+                        case Status.initial:
+                          return const Center(
+                            child: Text('Initial state'),
+                          );
+                        case Status.loading:
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        case Status.success:
+                          return _HomePageBody(
+                            isDarkMode: isDarkMode,
+                            month: month,
+                            year: year,
+                          );
+                        case Status.error:
+                          return Center(
+                            child: Text(
+                              state.errorMessage ?? 'Unknown error',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
                               ),
-                            );
-                        }
-                      },
-                    ),
-                  );
-                }),
-          ),
+                            ),
+                          );
+                      }
+                    },
+                  ),
+                );
+              }),
         ),
       ]),
     );
