@@ -10,7 +10,7 @@ import 'package:myfin/App/features/pages/add/cubit/add_page_cubit.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
 import 'package:myfin/App/features/pages/all_items/cubit/spendings/spendings_cubit.dart';
 import 'package:myfin/App/features/pages/exchange/cubit/exchange_rates_cubit.dart';
-import 'package:myfin/App/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
+import 'package:myfin/app/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
 
 import 'package:myfin/app/features/pages/daily/cubit/daily_reports_cubit.dart';
 import 'package:myfin/app/features/pages/details/cubit/details_cubit.dart';
@@ -24,7 +24,7 @@ void configureDependencies() {
       spendingsRepository: getIt(), incomesRepository: getIt()));
   getIt.registerFactory(() =>
       AddPageCubit(spendingsRepository: getIt(), incomesRepository: getIt()));
-  getIt.registerFactory(() => AllItemsCubit());
+  getIt.registerFactory(() => AllItemsCubit(getIt(), getIt()));
   getIt.registerFactory(() => SpendingsCubit(spendingsRepository: getIt()));
   getIt.registerFactory(() => IncomesCubit(incomesRepository: getIt()));
   getIt.registerFactory(

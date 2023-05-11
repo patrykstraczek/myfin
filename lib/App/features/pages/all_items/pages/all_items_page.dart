@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myfin/app/domain/theme/colors.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
-import 'package:myfin/App/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
+import 'package:myfin/app/features/pages/all_items/cubit/all_items/all_items_cubit.dart';
 import 'package:myfin/App/features/pages/all_items/pages/incomes_page.dart';
 import 'package:myfin/App/features/pages/all_items/pages/spendings_page.dart';
 import 'package:myfin/App/injection_container.dart';
@@ -33,7 +33,9 @@ class _AllItemsPageState extends State<AllItemsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:  MyFloatingActionButton(isDarkMode: isDarkMode,),
+      floatingActionButton: MyFloatingActionButton(
+        isDarkMode: isDarkMode,
+      ),
       appBar: AppBar(
           centerTitle: true,
           title: currentIndex == 0
@@ -58,8 +60,8 @@ class _AllItemsPageState extends State<AllItemsPage> {
                 alignment: Alignment.topCenter,
                 height: 110.0,
                 child: currentIndex == 0
-                    ? const _SpendingHeaderBody()
-                    : const _IncomeHeaderBody(),
+                    ? _SpendingHeaderBody()
+                    : _IncomeHeaderBody(),
               ))),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
@@ -92,7 +94,9 @@ class _AllItemsPageState extends State<AllItemsPage> {
 }
 
 class _SpendingHeaderBody extends StatelessWidget {
-  const _SpendingHeaderBody({Key? key}) : super(key: key);
+  _SpendingHeaderBody({Key? key}) : super(key: key);
+
+  final today = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -101,15 +105,15 @@ class _SpendingHeaderBody extends StatelessWidget {
     return Column(children: [
       BlocProvider(
         create: (context) {
-          return getIt<AllItemsCubit>()..getTodaySpendings();
+          return getIt<AllItemsCubit>()..getDailyStream(selectedDay: today);
         },
         child: BlocBuilder<AllItemsCubit, AllItemsState>(
           builder: (context, state) {
-            final documents = state.documents;
+            final documents = state.spendingDocs;
             todaySpendings = 0.0;
 
             for (final doc in documents) {
-              todaySpendings += (doc['spending_value']);
+              todaySpendings += (doc.spendingValue);
             }
             return Text(
               '${todaySpendings.toStringAsFixed(2)} $selectedCurrency',
@@ -130,16 +134,16 @@ class _SpendingHeaderBody extends StatelessWidget {
               Text(AppLocalizations.of(context).thisMonth),
               BlocProvider(
                 create: (context) {
-                  return getIt<AllItemsCubit>()..getThisMonthSpendings();
+                  return getIt<AllItemsCubit>()..getThisMonthStream();
                 },
                 child: BlocBuilder<AllItemsCubit, AllItemsState>(
                   builder: (context, state) {
-                    final documents = state.documents;
+                    final documents = state.spendingDocs;
 
                     thisMonthSpending = 0.0;
 
                     for (final doc in documents) {
-                      thisMonthSpending += (doc['spending_value']);
+                      thisMonthSpending += (doc.spendingValue);
                     }
                     return Text(
                         '${thisMonthSpending.toStringAsFixed(2)} $selectedCurrency');
@@ -150,16 +154,16 @@ class _SpendingHeaderBody extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) {
-              return getIt<AllItemsCubit>()..getPreviousMonthSpendings();
+              return getIt<AllItemsCubit>()..getPreviousMonthStream();
             },
             child: BlocBuilder<AllItemsCubit, AllItemsState>(
               builder: (context, state) {
-                final documents = state.documents;
+                final documents = state.spendingDocs;
 
                 previousMonthSpending = 0.0;
 
                 for (final doc in documents) {
-                  previousMonthSpending += (doc['spending_value']);
+                  previousMonthSpending += (doc.spendingValue);
                 }
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -179,7 +183,9 @@ class _SpendingHeaderBody extends StatelessWidget {
 }
 
 class _IncomeHeaderBody extends StatelessWidget {
-  const _IncomeHeaderBody({Key? key}) : super(key: key);
+  _IncomeHeaderBody({Key? key}) : super(key: key);
+
+  final today = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -188,15 +194,15 @@ class _IncomeHeaderBody extends StatelessWidget {
     return Column(children: [
       BlocProvider(
         create: (context) {
-          return getIt<AllItemsCubit>()..getTodayIncome();
+          return getIt<AllItemsCubit>()..getDailyStream(selectedDay: today);
         },
         child: BlocBuilder<AllItemsCubit, AllItemsState>(
           builder: (context, state) {
-            final documents = state.documents;
+            final documents = state.incomesDocs;
             todayIncome = 0.0;
 
             for (final doc in documents) {
-              todayIncome += (doc['income_value']);
+              todayIncome += (doc.incomeValue);
             }
             return Text(
               '${todayIncome.toStringAsFixed(2)} $selectedCurrency',
@@ -217,16 +223,16 @@ class _IncomeHeaderBody extends StatelessWidget {
               Text(AppLocalizations.of(context).thisMonth),
               BlocProvider(
                 create: (context) {
-                  return getIt<AllItemsCubit>()..getThisMonthIncome();
+                  return getIt<AllItemsCubit>()..getThisMonthStream();
                 },
                 child: BlocBuilder<AllItemsCubit, AllItemsState>(
                   builder: (context, state) {
-                    final documents = state.documents;
+                    final documents = state.incomesDocs;
 
                     thisMonthIncome = 0.0;
 
                     for (final doc in documents) {
-                      thisMonthIncome += (doc['income_value']);
+                      thisMonthIncome += (doc.incomeValue);
                     }
                     return Text(
                         '${thisMonthIncome.toStringAsFixed(2)} $selectedCurrency');
@@ -237,16 +243,16 @@ class _IncomeHeaderBody extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) {
-              return getIt<AllItemsCubit>()..getPreviousMonthIncome();
+              return getIt<AllItemsCubit>()..getPreviousMonthStream();
             },
             child: BlocBuilder<AllItemsCubit, AllItemsState>(
               builder: (context, state) {
-                final documents = state.documents;
+                final documents = state.incomesDocs;
 
                 previousMonthIncome = 0.0;
 
                 for (final doc in documents) {
-                  previousMonthIncome += (doc['income_value']);
+                  previousMonthIncome += (doc.incomeValue);
                 }
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

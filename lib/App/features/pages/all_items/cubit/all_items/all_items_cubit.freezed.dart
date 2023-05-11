@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AllItemsState {
-  List<QueryDocumentSnapshot<Object?>> get documents =>
-      throw _privateConstructorUsedError;
+  List<SpendingsModel> get spendingDocs => throw _privateConstructorUsedError;
+  List<IncomesModel> get incomesDocs => throw _privateConstructorUsedError;
   Status get status => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
@@ -33,7 +33,8 @@ abstract class $AllItemsStateCopyWith<$Res> {
       _$AllItemsStateCopyWithImpl<$Res, AllItemsState>;
   @useResult
   $Res call(
-      {List<QueryDocumentSnapshot<Object?>> documents,
+      {List<SpendingsModel> spendingDocs,
+      List<IncomesModel> incomesDocs,
       Status status,
       String? errorMessage});
 }
@@ -51,15 +52,20 @@ class _$AllItemsStateCopyWithImpl<$Res, $Val extends AllItemsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? documents = null,
+    Object? spendingDocs = null,
+    Object? incomesDocs = null,
     Object? status = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
-      documents: null == documents
-          ? _value.documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<QueryDocumentSnapshot<Object?>>,
+      spendingDocs: null == spendingDocs
+          ? _value.spendingDocs
+          : spendingDocs // ignore: cast_nullable_to_non_nullable
+              as List<SpendingsModel>,
+      incomesDocs: null == incomesDocs
+          ? _value.incomesDocs
+          : incomesDocs // ignore: cast_nullable_to_non_nullable
+              as List<IncomesModel>,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -81,7 +87,8 @@ abstract class _$$_AllItemsStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<QueryDocumentSnapshot<Object?>> documents,
+      {List<SpendingsModel> spendingDocs,
+      List<IncomesModel> incomesDocs,
       Status status,
       String? errorMessage});
 }
@@ -97,15 +104,20 @@ class __$$_AllItemsStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? documents = null,
+    Object? spendingDocs = null,
+    Object? incomesDocs = null,
     Object? status = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_$_AllItemsState(
-      documents: null == documents
-          ? _value._documents
-          : documents // ignore: cast_nullable_to_non_nullable
-              as List<QueryDocumentSnapshot<Object?>>,
+      spendingDocs: null == spendingDocs
+          ? _value._spendingDocs
+          : spendingDocs // ignore: cast_nullable_to_non_nullable
+              as List<SpendingsModel>,
+      incomesDocs: null == incomesDocs
+          ? _value._incomesDocs
+          : incomesDocs // ignore: cast_nullable_to_non_nullable
+              as List<IncomesModel>,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -122,18 +134,29 @@ class __$$_AllItemsStateCopyWithImpl<$Res>
 
 class _$_AllItemsState implements _AllItemsState {
   const _$_AllItemsState(
-      {final List<QueryDocumentSnapshot<Object?>> documents = const [],
+      {final List<SpendingsModel> spendingDocs = const [],
+      final List<IncomesModel> incomesDocs = const [],
       this.status = Status.initial,
       this.errorMessage})
-      : _documents = documents;
+      : _spendingDocs = spendingDocs,
+        _incomesDocs = incomesDocs;
 
-  final List<QueryDocumentSnapshot<Object?>> _documents;
+  final List<SpendingsModel> _spendingDocs;
   @override
   @JsonKey()
-  List<QueryDocumentSnapshot<Object?>> get documents {
-    if (_documents is EqualUnmodifiableListView) return _documents;
+  List<SpendingsModel> get spendingDocs {
+    if (_spendingDocs is EqualUnmodifiableListView) return _spendingDocs;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_documents);
+    return EqualUnmodifiableListView(_spendingDocs);
+  }
+
+  final List<IncomesModel> _incomesDocs;
+  @override
+  @JsonKey()
+  List<IncomesModel> get incomesDocs {
+    if (_incomesDocs is EqualUnmodifiableListView) return _incomesDocs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_incomesDocs);
   }
 
   @override
@@ -144,7 +167,7 @@ class _$_AllItemsState implements _AllItemsState {
 
   @override
   String toString() {
-    return 'AllItemsState(documents: $documents, status: $status, errorMessage: $errorMessage)';
+    return 'AllItemsState(spendingDocs: $spendingDocs, incomesDocs: $incomesDocs, status: $status, errorMessage: $errorMessage)';
   }
 
   @override
@@ -153,7 +176,9 @@ class _$_AllItemsState implements _AllItemsState {
         (other.runtimeType == runtimeType &&
             other is _$_AllItemsState &&
             const DeepCollectionEquality()
-                .equals(other._documents, _documents) &&
+                .equals(other._spendingDocs, _spendingDocs) &&
+            const DeepCollectionEquality()
+                .equals(other._incomesDocs, _incomesDocs) &&
             const DeepCollectionEquality().equals(other.status, status) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
@@ -162,7 +187,8 @@ class _$_AllItemsState implements _AllItemsState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_documents),
+      const DeepCollectionEquality().hash(_spendingDocs),
+      const DeepCollectionEquality().hash(_incomesDocs),
       const DeepCollectionEquality().hash(status),
       errorMessage);
 
@@ -175,12 +201,15 @@ class _$_AllItemsState implements _AllItemsState {
 
 abstract class _AllItemsState implements AllItemsState {
   const factory _AllItemsState(
-      {final List<QueryDocumentSnapshot<Object?>> documents,
+      {final List<SpendingsModel> spendingDocs,
+      final List<IncomesModel> incomesDocs,
       final Status status,
       final String? errorMessage}) = _$_AllItemsState;
 
   @override
-  List<QueryDocumentSnapshot<Object?>> get documents;
+  List<SpendingsModel> get spendingDocs;
+  @override
+  List<IncomesModel> get incomesDocs;
   @override
   Status get status;
   @override

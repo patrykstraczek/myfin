@@ -1,15 +1,17 @@
-// ignore_for_file: depend_on_referenced_packages, unused_import
+// ignore_for_file: depend_on_referenced_packages
 
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
+import 'package:myfin/App/domain/repositories/incomes_repository.dart';
+import 'package:myfin/App/domain/repositories/spendings_repository.dart';
+import 'package:myfin/App/domain/models/incomes_model.dart';
 
 part 'all_items_state.dart';
 part 'all_items_cubit.freezed.dart';
@@ -20,96 +22,102 @@ class AllItemsCubit extends Cubit<AllItemsState> {
   final spendingDataSource = FirebaseSpendingsDataSource();
   final incomeDataSource = FirebaseIncomeDataSource();
 
-  AllItemsCubit() : super(const AllItemsState());
+  AllItemsCubit(this._incomesRepository, this._spendingsRepository)
+      : super(const AllItemsState());
 
   StreamSubscription? _homeSpendingsSubscription;
   StreamSubscription? _homeIncomesSubscription;
+  final SpendingsRepository _spendingsRepository;
+  final IncomesRepository _incomesRepository;
 
-  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>
-      _handleSpendingsStream(
-          Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
-    emit(
-      const AllItemsState(status: Status.loading),
-    );
-    return stream.listen((data) {
-      try {
-        emit(AllItemsState(
-          status: Status.success,
-          documents: data.docs,
-        ));
-      } catch (error) {
-        emit(AllItemsState(
-          status: Status.error,
-          errorMessage: error.toString(),
-        ));
-      }
+  Future<void> getDailyStream({required selectedDay}) async {
+    _homeSpendingsSubscription = _spendingsRepository
+        .getDailySpendingStream(selectedDay: selectedDay)
+        .listen((dailySpendings) {
+      _homeIncomesSubscription = _incomesRepository
+          .getDailyIncomeStream(selectedDay: selectedDay)
+          .listen((dailyIncome) async {
+        emit(const AllItemsState(status: Status.loading));
+        try {
+          final dailyIncomes = await _incomesRepository
+              .getDailyIncomeStream(selectedDay: selectedDay)
+              .first;
+          final dailySpendings = await _spendingsRepository
+              .getDailySpendingStream(selectedDay: selectedDay)
+              .first;
+          emit(
+            AllItemsState(
+              status: Status.success,
+              incomesDocs: dailyIncomes,
+              spendingDocs: dailySpendings,
+            ),
+          );
+        } catch (error) {
+          emit(
+            AllItemsState(
+              status: Status.error,
+              errorMessage: error.toString(),
+            ),
+          );
+        }
+      });
     });
   }
 
-  StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _handleIncomesStream(
-      Stream<QuerySnapshot<Map<String, dynamic>>> stream) {
-    emit(
-      const AllItemsState(
-        status: Status.loading,
-      ),
-    );
-    return stream.listen((data) {
-      try {
-        emit(AllItemsState(
-          status: Status.success,
-          documents: data.docs,
-        ));
-      } catch (error) {
-        emit(AllItemsState(
-          status: Status.error,
-          errorMessage: error.toString(),
-        ));
-      }
+  Future<void> getThisMonthStream() async {
+    _homeSpendingsSubscription = _spendingsRepository
+        .getMontlySpendingsStream(month: now.month, year: now.year)
+        .listen((monthlySpendings) {
+      _homeIncomesSubscription = _incomesRepository
+          .getMontlyIncomeStream(month: now.month, year: now.year)
+          .listen((monthlyIncomes) async {
+        emit(const AllItemsState(status: Status.loading));
+        try {
+          emit(
+            AllItemsState(
+              status: Status.success,
+              incomesDocs: monthlyIncomes,
+              spendingDocs: monthlySpendings,
+            ),
+          );
+        } catch (error) {
+          emit(
+            AllItemsState(
+              status: Status.error,
+              errorMessage: error.toString(),
+            ),
+          );
+        }
+      });
     });
   }
 
-//getSpendings
-  Future<void> getTodaySpendings() async {
-    final start = DateTime(now.year, now.month, now.day);
-    final end = DateTime(now.year, now.month, now.day, 23, 59, 59);
-    final stream = spendingDataSource.getSpendings(start, end);
-    _homeSpendingsSubscription = _handleSpendingsStream(stream);
-  }
-
-  Future<void> getThisMonthSpendings() async {
-    final start = DateTime(now.year, now.month, 1);
-    final end = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
-    final stream = spendingDataSource.getSpendings(start, end);
-    _homeSpendingsSubscription = _handleSpendingsStream(stream);
-  }
-
-  Future<void> getPreviousMonthSpendings() async {
-    final start = DateTime(now.year, now.month - 1, 1);
-    final end = DateTime(now.year, now.month, 0, 23, 59, 59);
-    final stream = spendingDataSource.getSpendings(start, end);
-    _homeSpendingsSubscription = _handleSpendingsStream(stream);
-  }
-
-//getIncome
-  Future<void> getTodayIncome() async {
-    final start = DateTime(now.year, now.month, now.day);
-    final end = DateTime(now.year, now.month, now.day, 23, 59, 59);
-    final stream = incomeDataSource.getIncomes(start, end);
-    _homeIncomesSubscription = _handleIncomesStream(stream);
-  }
-
-  Future<void> getThisMonthIncome() async {
-    final start = DateTime(now.year, now.month, 1);
-    final end = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
-    final stream = incomeDataSource.getIncomes(start, end);
-    _homeIncomesSubscription = _handleIncomesStream(stream);
-  }
-
-  Future<void> getPreviousMonthIncome() async {
-    final start = DateTime(now.year, now.month - 1, 1);
-    final end = DateTime(now.year, now.month, 0, 23, 59, 59);
-    final stream = incomeDataSource.getIncomes(start, end);
-    _homeIncomesSubscription = _handleIncomesStream(stream);
+  Future<void> getPreviousMonthStream() async {
+    _homeSpendingsSubscription = _spendingsRepository
+        .getMontlySpendingsStream(month: now.month - 1, year: now.year)
+        .listen((monthlySpendings) {
+      _homeIncomesSubscription = _incomesRepository
+          .getMontlyIncomeStream(month: now.month - 1, year: now.year)
+          .listen((monthlyIncomes) async {
+        emit(const AllItemsState(status: Status.loading));
+        try {
+          emit(
+            AllItemsState(
+              status: Status.success,
+              incomesDocs: monthlyIncomes,
+              spendingDocs: monthlySpendings,
+            ),
+          );
+        } catch (error) {
+          emit(
+            AllItemsState(
+              status: Status.error,
+              errorMessage: error.toString(),
+            ),
+          );
+        }
+      });
+    });
   }
 
 //close
