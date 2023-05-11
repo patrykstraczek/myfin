@@ -37,32 +37,32 @@ class _AllItemsPageState extends State<AllItemsPage> {
         isDarkMode: isDarkMode,
       ),
       appBar: AppBar(
-          centerTitle: true,
-          title: currentIndex == 0
-              ? Text(AppLocalizations.of(context).todaySpendings)
-              : Text(AppLocalizations.of(context).todayIncome),
-          surfaceTintColor: accentColors(),
-          shape: const BeveledRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20)),
+        centerTitle: true,
+        title: currentIndex == 0
+            ? Text(AppLocalizations.of(context).todaySpendings)
+            : Text(AppLocalizations.of(context).todayIncome),
+        surfaceTintColor: accentColors(),
+        shape: const BeveledRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20)),
+        ),
+        backgroundColor: accentColors(),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(110),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20)),
+              color: accentColors(),
+            ),
+            alignment: Alignment.topCenter,
+            height: 110.0,
+            child: _HeaderBody(currentIndex: currentIndex),
           ),
-          backgroundColor: accentColors(),
-          bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(110),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20)),
-                  color: accentColors(),
-                ),
-                alignment: Alignment.topCenter,
-                height: 110.0,
-                child: currentIndex == 0
-                    ? _SpendingHeaderBody()
-                    : _IncomeHeaderBody(),
-              ))),
+        ),
+      ),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
           return const SpendingsPage();
@@ -93,180 +93,134 @@ class _AllItemsPageState extends State<AllItemsPage> {
   }
 }
 
-class _SpendingHeaderBody extends StatelessWidget {
-  _SpendingHeaderBody({Key? key}) : super(key: key);
+class _HeaderBody extends StatelessWidget {
+  _HeaderBody({Key? key, required this.currentIndex}) : super(key: key);
 
+  final int currentIndex;
   final today = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     final currencyNotifier = Provider.of<CurrencyNotifier>(context);
     final selectedCurrency = currencyNotifier.selectedCurrency;
-    return Column(children: [
-      BlocProvider(
-        create: (context) {
-          return getIt<AllItemsCubit>()..getDailyStream(selectedDay: today);
-        },
-        child: BlocBuilder<AllItemsCubit, AllItemsState>(
-          builder: (context, state) {
-            final documents = state.spendingDocs;
-            todaySpendings = 0.0;
 
-            for (final doc in documents) {
-              todaySpendings += (doc.spendingValue);
-            }
-            return Text(
-              '${todaySpendings.toStringAsFixed(2)} $selectedCurrency',
-              style: GoogleFonts.lato(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            );
+    return Column(
+      children: [
+        BlocProvider(
+          create: (context) {
+            return getIt<AllItemsCubit>()..getDailyStream(selectedDay: today);
           },
+          child: BlocBuilder<AllItemsCubit, AllItemsState>(
+            builder: (context, state) {
+              List<dynamic> documents;
+
+              if (currentIndex == 0) {
+                documents = state.spendingDocs;
+              } else {
+                documents = state.incomesDocs;
+              }
+              double todayValue = 0.0;
+
+              for (final doc in documents) {
+                if (currentIndex == 0) {
+                  todayValue += doc.spendingValue;
+                } else {
+                  todayValue += doc.incomeValue;
+                }
+              }
+
+              return Text(
+                '${todayValue.toStringAsFixed(2)} $selectedCurrency',
+                style: GoogleFonts.lato(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              );
+            },
+          ),
         ),
-      ),
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
+          child: Column(
             children: [
-              Text(AppLocalizations.of(context).thisMonth),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context).thisMonth,
+                  ),
+                  BlocProvider(
+                    create: (context) {
+                      return getIt<AllItemsCubit>()..getThisMonthStream();
+                    },
+                    child: BlocBuilder<AllItemsCubit, AllItemsState>(
+                      builder: (context, state) {
+                        List<dynamic> documents;
+
+                        if (currentIndex == 0) {
+                          documents = state.spendingDocs;
+                        } else {
+                          documents = state.incomesDocs;
+                        }
+                        double thisMonthValue = 0.0;
+
+                        for (final doc in documents) {
+                          if (currentIndex == 0) {
+                            thisMonthValue += doc.spendingValue;
+                          } else {
+                            thisMonthValue += doc.incomeValue;
+                          }
+                        }
+
+                        return Text(
+                          '${thisMonthValue.toStringAsFixed(2)} $selectedCurrency',
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
               BlocProvider(
                 create: (context) {
-                  return getIt<AllItemsCubit>()..getThisMonthStream();
+                  return getIt<AllItemsCubit>()..getPreviousMonthStream();
                 },
                 child: BlocBuilder<AllItemsCubit, AllItemsState>(
                   builder: (context, state) {
-                    final documents = state.spendingDocs;
+                    List<dynamic> documents;
 
-                    thisMonthSpending = 0.0;
+                    if (currentIndex == 0) {
+                      documents = state.spendingDocs;
+                    } else {
+                      documents = state.incomesDocs;
+                    }
+                    double previousMonthValue = 0.0;
 
                     for (final doc in documents) {
-                      thisMonthSpending += (doc.spendingValue);
+                      if (currentIndex == 0) {
+                        previousMonthValue += doc.spendingValue;
+                      } else {
+                        previousMonthValue += doc.incomeValue;
+                      }
                     }
-                    return Text(
-                        '${thisMonthSpending.toStringAsFixed(2)} $selectedCurrency');
+
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context).previousMonth,
+                        ),
+                        Text(
+                          '${previousMonthValue.toStringAsFixed(2)} $selectedCurrency',
+                        ),
+                      ],
+                    );
                   },
                 ),
               ),
             ],
           ),
-          BlocProvider(
-            create: (context) {
-              return getIt<AllItemsCubit>()..getPreviousMonthStream();
-            },
-            child: BlocBuilder<AllItemsCubit, AllItemsState>(
-              builder: (context, state) {
-                final documents = state.spendingDocs;
-
-                previousMonthSpending = 0.0;
-
-                for (final doc in documents) {
-                  previousMonthSpending += (doc.spendingValue);
-                }
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(AppLocalizations.of(context).previousMonth),
-                    Text(
-                        '${previousMonthSpending.toStringAsFixed(2)} $selectedCurrency'),
-                  ],
-                );
-              },
-            ),
-          ),
-        ]),
-      )
-    ]);
-  }
-}
-
-class _IncomeHeaderBody extends StatelessWidget {
-  _IncomeHeaderBody({Key? key}) : super(key: key);
-
-  final today = DateTime.now();
-
-  @override
-  Widget build(BuildContext context) {
-    final currencyNotifier = Provider.of<CurrencyNotifier>(context);
-    final selectedCurrency = currencyNotifier.selectedCurrency;
-    return Column(children: [
-      BlocProvider(
-        create: (context) {
-          return getIt<AllItemsCubit>()..getDailyStream(selectedDay: today);
-        },
-        child: BlocBuilder<AllItemsCubit, AllItemsState>(
-          builder: (context, state) {
-            final documents = state.incomesDocs;
-            todayIncome = 0.0;
-
-            for (final doc in documents) {
-              todayIncome += (doc.incomeValue);
-            }
-            return Text(
-              '${todayIncome.toStringAsFixed(2)} $selectedCurrency',
-              style: GoogleFonts.lato(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            );
-          },
         ),
-      ),
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 16),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(AppLocalizations.of(context).thisMonth),
-              BlocProvider(
-                create: (context) {
-                  return getIt<AllItemsCubit>()..getThisMonthStream();
-                },
-                child: BlocBuilder<AllItemsCubit, AllItemsState>(
-                  builder: (context, state) {
-                    final documents = state.incomesDocs;
-
-                    thisMonthIncome = 0.0;
-
-                    for (final doc in documents) {
-                      thisMonthIncome += (doc.incomeValue);
-                    }
-                    return Text(
-                        '${thisMonthIncome.toStringAsFixed(2)} $selectedCurrency');
-                  },
-                ),
-              ),
-            ],
-          ),
-          BlocProvider(
-            create: (context) {
-              return getIt<AllItemsCubit>()..getPreviousMonthStream();
-            },
-            child: BlocBuilder<AllItemsCubit, AllItemsState>(
-              builder: (context, state) {
-                final documents = state.incomesDocs;
-
-                previousMonthIncome = 0.0;
-
-                for (final doc in documents) {
-                  previousMonthIncome += (doc.incomeValue);
-                }
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(AppLocalizations.of(context).previousMonth),
-                    Text(
-                        '${previousMonthIncome.toStringAsFixed(2)} $selectedCurrency'),
-                  ],
-                );
-              },
-            ),
-          ),
-        ]),
-      )
-    ]);
+      ],
+    );
   }
 }
