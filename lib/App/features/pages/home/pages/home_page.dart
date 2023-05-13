@@ -259,50 +259,64 @@ class _HomePageBody extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                spendingsInMonth == 0.00 && incomeInMonth == 0.00
+                    ? const SizedBox.shrink()
+                    : Row(
                         children: [
-                          Text(
-                            '- ${spendingsInMonth.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                                fontSize: 11, fontWeight: FontWeight.bold),
-                          ),
+                          spendingsInMonth == 0
+                              ? const SizedBox.shrink()
+                              : Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: incomeInMonth == 0
+                                        ? const BorderRadius.horizontal(
+                                            right: Radius.circular(16))
+                                        : null,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        '- ${spendingsInMonth.toStringAsFixed(2)}',
+                                        style: const TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          incomeInMonth == 0
+                              ? const SizedBox.shrink()
+                              : Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.horizontal(
+                                        right: Radius.circular(16)),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '+ ${incomeInMonth.toStringAsFixed(2)}',
+                                            style: const TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
                         ],
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius:
-                            BorderRadius.horizontal(right: Radius.circular(16)),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                '+ ${incomeInMonth.toStringAsFixed(2)}',
-                                style: const TextStyle(
-                                    fontSize: 11, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
