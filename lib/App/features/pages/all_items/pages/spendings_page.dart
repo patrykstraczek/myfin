@@ -60,7 +60,7 @@ class SpendingsPage extends StatelessWidget {
   }
 }
 
-class _SpendingItemWidget extends StatefulWidget {
+class _SpendingItemWidget extends StatelessWidget {
   const _SpendingItemWidget(
       {Key? key, required this.model, required this.isDarkMode})
       : super(key: key);
@@ -69,16 +69,11 @@ class _SpendingItemWidget extends StatefulWidget {
   final bool isDarkMode;
 
   @override
-  State<_SpendingItemWidget> createState() => _SpendingItemWidgetState();
-}
-
-class _SpendingItemWidgetState extends State<_SpendingItemWidget> {
-  @override
   Widget build(BuildContext context) {
     final currencyNotifier = Provider.of<CurrencyNotifier>(context);
     final selectedCurrency = currencyNotifier.selectedCurrency;
     return Dismissible(
-      key: ValueKey(widget.model.id),
+      key: ValueKey(model.id),
       background: const DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.red,
@@ -98,7 +93,7 @@ class _SpendingItemWidgetState extends State<_SpendingItemWidget> {
         return direction == DismissDirection.startToEnd;
       },
       onDismissed: (direction) {
-        context.read<SpendingsCubit>().remove(documentID: widget.model.id);
+        context.read<SpendingsCubit>().remove(documentID: model.id);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -115,23 +110,23 @@ class _SpendingItemWidgetState extends State<_SpendingItemWidget> {
             leading:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Icon(
-                IconData(widget.model.selectedSpendingIcon,
+                IconData(model.selectedSpendingIcon,
                     fontFamily: 'materialIcons'),
               ),
             ]),
             title: Text(
-              widget.model.spendingName,
+              model.spendingName,
               style: const TextStyle(
                 fontSize: 14,
               ),
             ),
             subtitle: Text(
               DateFormat.yMMMEd(AppLocalizations.of(context).dateFormat)
-                  .format(widget.model.spendingDate),
+                  .format(model.spendingDate),
               style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
             trailing: Text(
-              '${widget.model.spendingValue.toStringAsFixed(2)}  $selectedCurrency',
+              '${model.spendingValue.toStringAsFixed(2)}  $selectedCurrency',
               style: const TextStyle(
                 color: Colors.red,
               ),

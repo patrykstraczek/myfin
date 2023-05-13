@@ -4,9 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/incomes_model.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
-import 'package:myfin/App/features/pages/all_items/cubit/spendings/spendings_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:myfin/App/features/pages/all_items/cubit/incomes/incomes_cubit.dart';
 import 'package:myfin/app/domain/repositories/incomes_repository.dart';
 import 'package:myfin/app/domain/repositories/spendings_repository.dart';
 import 'package:myfin/app/features/pages/details/cubit/details_cubit.dart';
@@ -119,7 +117,7 @@ class ItemsWidget extends StatelessWidget {
   }
 }
 
-class _SpendingDetailsItemWidget extends StatefulWidget {
+class _SpendingDetailsItemWidget extends StatelessWidget {
   const _SpendingDetailsItemWidget({
     Key? key,
     required this.model,
@@ -133,19 +131,12 @@ class _SpendingDetailsItemWidget extends StatefulWidget {
   final DateTime selectedDay;
 
   @override
-  State<_SpendingDetailsItemWidget> createState() =>
-      _SpendingDetailsItemWidgetState();
-}
-
-class _SpendingDetailsItemWidgetState
-    extends State<_SpendingDetailsItemWidget> {
-  @override
   Widget build(BuildContext context) {
     final currencyNotifier = Provider.of<CurrencyNotifier>(context);
 
     final selectedCurrency = currencyNotifier.selectedCurrency;
     return Dismissible(
-      key: ValueKey(widget.model.id),
+      key: ValueKey(model.id),
       background: const DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.red,
@@ -165,7 +156,7 @@ class _SpendingDetailsItemWidgetState
         return direction == DismissDirection.startToEnd;
       },
       onDismissed: (direction) {
-        context.read<SpendingsCubit>().remove(documentID: widget.model.id);
+        context.read<DetailsCubit>().removeSpending(documentID: model.id);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -182,18 +173,18 @@ class _SpendingDetailsItemWidgetState
             leading:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Icon(
-                IconData(widget.model.selectedSpendingIcon,
+                IconData(model.selectedSpendingIcon,
                     fontFamily: 'materialIcons'),
               ),
             ]),
             title: Text(
-              widget.model.spendingName,
+              model.spendingName,
               style: const TextStyle(
                 fontSize: 14,
               ),
             ),
             trailing: Text(
-              '- ${widget.model.spendingValue.toStringAsFixed(2)}  $selectedCurrency',
+              '- ${model.spendingValue.toStringAsFixed(2)}  $selectedCurrency',
               style: const TextStyle(
                 color: Colors.red,
               ),
@@ -243,7 +234,7 @@ class _IncomeDetailsItemWidget extends StatelessWidget {
         return direction == DismissDirection.startToEnd;
       },
       onDismissed: (direction) {
-        context.read<IncomesCubit>().remove(documentID: model.id);
+        context.read<DetailsCubit>().removeIncome(documentID: model.id);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(

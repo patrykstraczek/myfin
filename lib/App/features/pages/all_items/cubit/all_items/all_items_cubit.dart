@@ -120,7 +120,6 @@ class AllItemsCubit extends Cubit<AllItemsState> {
     });
   }
 
-//close
   @override
   Future<void> close() {
     _homeSpendingsSubscription?.cancel();

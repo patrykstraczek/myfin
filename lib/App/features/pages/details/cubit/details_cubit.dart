@@ -50,7 +50,7 @@ class DetailsCubit extends Cubit<DetailsState> {
     }
   }
 
-  Future<void> removeSpendings({required String documentID}) async {
+  Future<void> removeSpending({required String documentID}) async {
     try {
       await spendingsRepository.remove(id: documentID);
     } catch (error) {
@@ -62,7 +62,7 @@ class DetailsCubit extends Cubit<DetailsState> {
     }
   }
 
-  Future<void> removeIncomes({required String documentID}) async {
+  Future<void> removeIncome({required String documentID}) async {
     try {
       await incomesRepository.remove(id: documentID);
     } catch (error) {

@@ -69,7 +69,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         surfaceTintColor: isDarkMode ? Colors.grey[900] : Colors.white,
         backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
-        title: Text(AppLocalizations.of(context).monthlyReports),
+        title: Text(
+            '${AppLocalizations.of(context).monthlyReports} ${DateFormat.y(AppLocalizations.of(context).dateFormat).format(DateTime.now())}'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -251,7 +252,7 @@ class _HomePageBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      DateFormat.yMMMM(AppLocalizations.of(context).dateFormat)
+                      DateFormat.MMMM(AppLocalizations.of(context).dateFormat)
                           .format(DateTime(year, month))
                           .toUpperCase(),
                       style: const TextStyle(fontSize: 18),
