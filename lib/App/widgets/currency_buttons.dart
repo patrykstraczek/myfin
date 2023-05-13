@@ -12,12 +12,24 @@ class CurrencyButtons extends StatefulWidget {
 }
 
 class _CurrencyButtonsState extends State<CurrencyButtons> {
-  String selectedCurrency = 'PLN';
+  late CurrencyNotifier currencyNotifier;
   List<bool> isSelected = [true, false, false];
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    currencyNotifier = Provider.of<CurrencyNotifier>(context);
+    if (currencyNotifier.selectedCurrency == 'EUR') {
+      isSelected = [false, true, false];
+    } else if (currencyNotifier.selectedCurrency == 'USD') {
+      isSelected = [false, false, true];
+    } else {
+      isSelected = [true, false, false];
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final currencyNotifier = Provider.of<CurrencyNotifier>(context);
     return ToggleButtons(
       fillColor: isDarkMode ? Colors.black : Colors.white,
       selectedColor: accentColors(),
