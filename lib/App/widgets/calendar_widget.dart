@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:myfin/app/domain/theme/theme_data.dart';
+
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 
 class MyCalendar extends StatelessWidget {
@@ -18,13 +20,20 @@ class MyCalendar extends StatelessWidget {
     return ElevatedButton(
       onPressed: () async {
         final selectedDate = await showDatePicker(
-            currentDate: DateTime.now(),
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime.now().subtract(
-              const Duration(days: 365),
-            ),
-            lastDate: DateTime.now());
+          currentDate: DateTime.now(),
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime.now().subtract(
+            const Duration(days: 365),
+          ),
+          lastDate: DateTime.now(),
+          builder: (BuildContext context, Widget? child) {
+            return Theme(
+              data: datePickerTheme(isDarkMode),
+              child: child ?? Container(),
+            );
+          },
+        );
         onDateChanged(selectedDate);
       },
       child: Text(
@@ -33,7 +42,7 @@ class MyCalendar extends StatelessWidget {
               DateTime.now(),
             ),
         style: TextStyle(
-          color: isDarkMode ? const Color(0xff673ab7) : const Color(0xfff39c12),
+          color: isDarkMode ? Colors.white : const Color(0xfff39c12),
         ),
       ),
     );

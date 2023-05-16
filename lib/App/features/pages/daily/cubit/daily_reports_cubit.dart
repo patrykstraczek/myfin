@@ -58,36 +58,33 @@ class DailyReportsCubit extends Cubit<DailyReportsState> {
   }
 
   Future<void> getDailyStream({required selectedDay}) async {
-    emit(const DailyReportsState(status: Status.loading));
-    try {
-      final dailyIncomes = await incomesRepository
+    _spendingsSubscription = spendingsRepository
+        .getDailySpendingStream(selectedDay: selectedDay)
+        .listen((dailySpendings) {
+      _incomesSubscription = incomesRepository
           .getDailyIncomeStream(selectedDay: selectedDay)
-          .first;
-      final dailySpendings = await spendingsRepository
-          .getDailySpendingStream(selectedDay: selectedDay)
-          .first;
-      emit(
-        DailyReportsState(
-          status: Status.success,
-          incomesDocs: dailyIncomes,
-          spendingDocs: dailySpendings,
-        ),
-      );
-    } catch (error) {
-      emit(
-        DailyReportsState(
-          status: Status.error,
-          errorMessage: error.toString(),
-        ),
-      );
-    }
+          .listen((dailyIncomes) {
+        emit(const DailyReportsState(status: Status.loading));
+        try {
+          emit(
+            DailyReportsState(
+              status: Status.success,
+              incomesDocs: dailyIncomes,
+              spendingDocs: dailySpendings,
+            ),
+          );
+        } catch (error) {
+          emit(
+            DailyReportsState(
+              status: Status.error,
+              errorMessage: error.toString(),
+            ),
+          );
+        }
+      });
+    });
   }
 
-//getSpendings
-
-//getIncome
-
-//close
   @override
   Future<void> close() {
     _spendingsSubscription?.cancel();

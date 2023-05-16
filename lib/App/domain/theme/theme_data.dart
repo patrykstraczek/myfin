@@ -6,7 +6,6 @@ IconData iconLight = Icons.wb_sunny;
 IconData iconDark = Icons.nights_stay;
 
 final lightTheme = ThemeData(
-  primarySwatch: Colors.orange,
   brightness: Brightness.light,
   useMaterial3: true,
   colorScheme:
@@ -18,7 +17,6 @@ final lightTheme = ThemeData(
 );
 
 final darkTheme = ThemeData(
-  primarySwatch: Colors.deepPurple,
   brightness: Brightness.dark,
   useMaterial3: true,
   colorScheme: const ColorScheme.highContrastDark(background: Colors.black),
@@ -28,4 +26,46 @@ final darkTheme = ThemeData(
   ),
 );
 
+ThemeData datePickerTheme(bool isDarkMode) {
+  return isDarkMode
+      ? ThemeData(
+          colorScheme: const ColorScheme.dark(
+            primary: Color(0xff673ab7), // header background color
+            onPrimary: Colors.white, // header text color
+            onSurface: Colors.white, // body text color
+          ),
+          dialogBackgroundColor: Colors.black,
+          buttonTheme:
+              const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        )
+      : ThemeData(
+          colorScheme: const ColorScheme.light(
+            primary: Color(0xfff5b041),
+            onPrimary: Colors.black,
+            onSurface: Colors.black,
+          ),
+          dialogBackgroundColor: Colors.white,
+          buttonTheme:
+              const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        );
+}
 
+ThemeData dialogTheme(bool isDarkMode) {
+  return isDarkMode
+      ? ThemeData(
+          colorScheme: const ColorScheme.dark(
+            primary: Color(0xff673ab7), // header background color
+          ),
+          dialogBackgroundColor: Colors.grey[900],
+          buttonTheme:
+              const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        )
+      : ThemeData(
+          colorScheme: const ColorScheme.light(
+            primary: Color(0xfff5b041),
+          ),
+          dialogBackgroundColor: Colors.white,
+          buttonTheme:
+              const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        );
+}
