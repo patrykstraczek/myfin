@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myfin/App/core/enums.dart';
+import 'package:myfin/app/domain/theme/theme_data.dart';
 import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/features/pages/summaries/cubit/yearly_summaries_cubit.dart';
@@ -45,28 +46,33 @@ class _YearlySummariesPageState extends State<YearlySummariesPage> {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => Theme(
+                  data: dialogTheme(isDarkMode),
+                  child: AlertDialog(
                     actions: [
                       TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(AppLocalizations.of(context).close))
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(AppLocalizations.of(context).close),
+                      ),
                     ],
                     content:
                         Text(AppLocalizations.of(context).yearlysummariesInfo),
                   ),
-                );
-              },
-              icon: Icon(
-                Icons.question_mark,
-                color: isDarkMode
-                    ? const Color(0xff673ab7)
-                    : const Color(0xfff5b041),
-              )),
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.question_mark,
+              color: isDarkMode
+                  ? const Color(0xff673ab7)
+                  : const Color(0xfff5b041),
+            ),
+          )
         ],
       ),
       body: ListView(
@@ -294,7 +300,7 @@ class MonthlySummaries extends StatelessWidget {
               Text(
                 spendingsInMonth == 0.0
                     ? '-'
-                    : '+ ${spendingsInMonth.toStringAsFixed(2)}',
+                    : '- ${spendingsInMonth.toStringAsFixed(2)}',
                 style: const TextStyle(
                   color: Colors.red,
                   fontSize: 12,
