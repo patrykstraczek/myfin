@@ -93,7 +93,7 @@ class DrawerWidget extends StatelessWidget {
             ),
             applicationIcon: const Icon(Icons.info),
             applicationName: 'MyFin - Moje Finanse',
-            applicationVersion: '1.0.1',
+            applicationVersion: '1.0.6',
             applicationLegalese: 'Patryk Strączek',
             child: Text(AppLocalizations.of(context).info,
                 style: GoogleFonts.lato()),

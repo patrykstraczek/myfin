@@ -79,9 +79,9 @@ class _SpendingItemWidget extends StatelessWidget {
           color: Colors.red,
         ),
         child: Align(
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.centerRight,
           child: Padding(
-            padding: EdgeInsets.only(left: 32.0),
+            padding: EdgeInsets.only(right: 32.0),
             child: Icon(
               Icons.delete,
               color: Colors.black,
@@ -90,7 +90,7 @@ class _SpendingItemWidget extends StatelessWidget {
         ),
       ),
       confirmDismiss: (direction) async {
-        return direction == DismissDirection.startToEnd;
+        return direction == DismissDirection.endToStart;
       },
       onDismissed: (direction) {
         context.read<SpendingsCubit>().remove(documentID: model.id);

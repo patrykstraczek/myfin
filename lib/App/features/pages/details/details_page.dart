@@ -142,9 +142,9 @@ class _SpendingDetailsItemWidget extends StatelessWidget {
           color: Colors.red,
         ),
         child: Align(
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.centerRight,
           child: Padding(
-            padding: EdgeInsets.only(left: 32.0),
+            padding: EdgeInsets.only(right: 32.0),
             child: Icon(
               Icons.delete,
               color: Colors.black,
@@ -220,9 +220,9 @@ class _IncomeDetailsItemWidget extends StatelessWidget {
           color: Colors.red,
         ),
         child: Align(
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.centerRight,
           child: Padding(
-            padding: EdgeInsets.only(left: 32.0),
+            padding: EdgeInsets.only(right: 32.0),
             child: Icon(
               Icons.delete,
               color: Colors.black,
