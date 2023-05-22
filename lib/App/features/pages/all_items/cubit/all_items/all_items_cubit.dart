@@ -4,7 +4,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
@@ -17,11 +16,9 @@ part 'all_items_state.dart';
 part 'all_items_cubit.freezed.dart';
 
 class AllItemsCubit extends Cubit<AllItemsState> {
-  final userID = FirebaseAuth.instance.currentUser?.uid;
   final now = DateTime.now();
   final spendingDataSource = FirebaseSpendingsDataSource();
   final incomeDataSource = FirebaseIncomeDataSource();
-
   AllItemsCubit(this._incomesRepository, this._spendingsRepository)
       : super(const AllItemsState());
 

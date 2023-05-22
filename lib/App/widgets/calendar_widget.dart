@@ -29,7 +29,7 @@ class MyCalendar extends StatelessWidget {
           lastDate: DateTime.now(),
           builder: (BuildContext context, Widget? child) {
             return Theme(
-              data: datePickerTheme(isDarkMode),
+              data: dialogTheme(isDarkMode),
               child: child ?? Container(),
             );
           },

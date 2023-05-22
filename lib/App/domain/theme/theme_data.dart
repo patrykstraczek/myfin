@@ -26,7 +26,7 @@ final darkTheme = ThemeData(
   ),
 );
 
-ThemeData datePickerTheme(bool isDarkMode) {
+ThemeData dialogTheme(bool isDarkMode) {
   return isDarkMode
       ? ThemeData(
           colorScheme: const ColorScheme.dark(
@@ -48,26 +48,6 @@ ThemeData datePickerTheme(bool isDarkMode) {
             primary: Color(0xfff5b041),
             onPrimary: Colors.black,
             onSurface: Colors.black,
-          ),
-          dialogBackgroundColor: Colors.white,
-          buttonTheme:
-              const ButtonThemeData(textTheme: ButtonTextTheme.primary),
-        );
-}
-
-ThemeData dialogTheme(bool isDarkMode) {
-  return isDarkMode
-      ? ThemeData(
-          colorScheme: const ColorScheme.dark(
-            primary: Color(0xff673ab7), // header background color
-          ),
-          dialogBackgroundColor: Colors.grey[900],
-          buttonTheme:
-              const ButtonThemeData(textTheme: ButtonTextTheme.primary),
-        )
-      : ThemeData(
-          colorScheme: const ColorScheme.light(
-            primary: Color(0xfff5b041),
           ),
           dialogBackgroundColor: Colors.white,
           buttonTheme:

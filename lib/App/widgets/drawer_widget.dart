@@ -20,19 +20,18 @@ class DrawerWidget extends StatelessWidget {
         children: [
           DrawerHeader(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   'MyFin.',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.lato(
                     fontWeight: FontWeight.bold,
-                    fontSize: 25,
+                    fontSize: 26,
                   ),
                 ),
                 Text(
                   AppLocalizations.of(context).subtitle,
-                  style: const TextStyle(fontSize: 12),
+                  style: const TextStyle(fontSize: 14),
                 )
               ],
             ),

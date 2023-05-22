@@ -15,7 +15,7 @@ import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 import 'package:provider/provider.dart';
 
-class DetailsPage extends StatefulWidget {
+class DetailsPage extends StatelessWidget {
   const DetailsPage({
     Key? key,
     required this.selectedDay,
@@ -24,27 +24,22 @@ class DetailsPage extends StatefulWidget {
   final DateTime selectedDay;
 
   @override
-  State<DetailsPage> createState() => _DetailsPageState();
-}
-
-int currentIndex = 0;
-
-class _DetailsPageState extends State<DetailsPage> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: MyFloatingActionButton(isDarkMode: isDarkMode),
         appBar: AppBar(
           title: Text(
               DateFormat.MMMMEEEEd(AppLocalizations.of(context).dateFormat)
-                  .format(widget.selectedDay)),
+                  .format(selectedDay)),
           centerTitle: true,
         ),
         body: ItemsWidget(
-          selectedDay: widget.selectedDay,
+          selectedDay: selectedDay,
         ));
   }
 }
+
+int currentIndex = 0;
 
 class ItemsWidget extends StatelessWidget {
   const ItemsWidget({
@@ -70,9 +65,7 @@ class ItemsWidget extends StatelessWidget {
           builder: (context, state) {
             switch (state.status) {
               case Status.initial:
-                return const Center(
-                  child: Text(''),
-                );
+                return const SizedBox.shrink();
               case Status.loading:
                 return const Center(
                   child: CircularProgressIndicator(),

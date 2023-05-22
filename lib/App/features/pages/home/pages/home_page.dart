@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
               // Save _isDarkMode value in SharedPreferences
               Provider.of<ThemeProvider>(context, listen: false)
                   .saveDarkModeState(
-                      isDarkMode); // Use method saveDarkModeState from Provider
+                      isDarkMode); 
             },
           ),
         ],
@@ -134,9 +134,7 @@ class _HomePageState extends State<HomePage> {
                       }
                       switch (state.status) {
                         case Status.initial:
-                          return const Center(
-                            child: Text('Initial state'),
-                          );
+                          return const SizedBox.shrink();
                         case Status.loading:
                           return const Center(
                             child: CircularProgressIndicator(),

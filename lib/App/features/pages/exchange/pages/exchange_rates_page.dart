@@ -5,9 +5,12 @@ import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/exchange_rates_model.dart';
 import 'package:myfin/App/domain/remote_data_sources/exchange_rates_data_source.dart';
 import 'package:myfin/App/domain/repositories/exchange_rates_repository.dart';
-import 'package:myfin/App/features/pages/exchange/cubit/exchange_rates_cubit.dart';
+import 'package:myfin/app/features/pages/exchange/cubit/exchange_rates_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:math' as math;
+
+import 'package:myfin/app/domain/theme/theme_data.dart';
+import 'package:myfin/app/features/pages/home/pages/home_page.dart';
 
 class ExchangeRatesPage extends StatelessWidget {
   const ExchangeRatesPage({Key? key}) : super(key: key);
@@ -24,7 +27,7 @@ class ExchangeRatesPage extends StatelessWidget {
           exchangeRatesRepository: ExchangeRatesRepository(
             remoteDataSource: ExchangeRatesDTO(Dio()),
           ),
-        )..getExchangeRatesModel(),
+        )..getExchangeRates(),
         child: BlocBuilder<ExchangeRatesCubit, ExchangeRatesState>(
           builder: (context, state) {
             switch (state.status) {
@@ -89,48 +92,53 @@ class _ExchangeRateBody extends StatelessWidget {
             onTap: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: Text(AppLocalizations.of(context).convert),
-                  content: TextField(
-                    keyboardType: TextInputType.number,
-                    controller: exchangeController,
-                    decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context).specifyAmount),
+                builder: (context) => Theme(
+                  data: dialogTheme(isDarkMode),
+                  child: AlertDialog(
+                    title: Text(AppLocalizations.of(context).convert),
+                    content: TextField(
+                      keyboardType: TextInputType.number,
+                      controller: exchangeController,
+                      decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context).specifyAmount),
+                    ),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            double value =
+                                double.parse(exchangeController.text) *
+                                    exchangeRatesModel.averageRate;
+                            value = double.parse(value.toStringAsFixed(2));
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: Text('$value PLN'),
+                                    ));
+                          },
+                          child: Text(
+                              '${exchangeRatesModel.code} ${AppLocalizations.of(context).to} PLN')),
+                      TextButton(
+                          onPressed: () {
+                            double value =
+                                double.parse(exchangeController.text) /
+                                    exchangeRatesModel.averageRate;
+                            value = double.parse(value.toStringAsFixed(2));
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: Text(
+                                          '$value ${exchangeRatesModel.code}'),
+                                    ));
+                          },
+                          child: Text(
+                              'PLN ${AppLocalizations.of(context).to} ${exchangeRatesModel.code}')),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(AppLocalizations.of(context).cancel))
+                    ],
                   ),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          double value = double.parse(exchangeController.text) *
-                              exchangeRatesModel.averageRate;
-                          value = double.parse(value.toStringAsFixed(2));
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: Text('$value PLN'),
-                                  ));
-                        },
-                        child: Text(
-                            '${exchangeRatesModel.code} ${AppLocalizations.of(context).to} PLN')),
-                    TextButton(
-                        onPressed: () {
-                          double value = double.parse(exchangeController.text) /
-                              exchangeRatesModel.averageRate;
-                          value = double.parse(value.toStringAsFixed(2));
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: Text(
-                                        '$value ${exchangeRatesModel.code}'),
-                                  ));
-                        },
-                        child: Text(
-                            'PLN ${AppLocalizations.of(context).to} ${exchangeRatesModel.code}')),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(AppLocalizations.of(context).cancel))
-                  ],
                 ),
               );
             },

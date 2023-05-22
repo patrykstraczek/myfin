@@ -26,9 +26,7 @@ class SpendingsPage extends StatelessWidget {
           builder: (context, state) {
             switch (state.status) {
               case Status.initial:
-                return const Center(
-                  child: Text(''),
-                );
+                return const SizedBox.shrink();
               case Status.loading:
                 return const Center(
                   child: CircularProgressIndicator(),

@@ -18,8 +18,8 @@ import 'package:myfin/app/features/pages/details/cubit/details_cubit.dart';
 final getIt = GetIt.instance;
 
 void configureDependencies() {
+  
   //Bloc
-
   getIt.registerFactory(() => DailyReportsCubit(
       spendingsRepository: getIt(), incomesRepository: getIt()));
   getIt.registerFactory(() =>

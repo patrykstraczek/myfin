@@ -51,7 +51,6 @@ void main() {
       final result = await sut.getExchangeRatesModel();
 
       // assert
-      expect(result.length, 3);
       expect(
         result,
         [

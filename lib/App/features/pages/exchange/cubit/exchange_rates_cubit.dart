@@ -10,13 +10,13 @@ part 'exchange_rates_cubit.freezed.dart';
 
 class ExchangeRatesCubit extends Cubit<ExchangeRatesState> {
   ExchangeRatesCubit({required this.exchangeRatesRepository})
-      : super( ExchangeRatesState());
+      : super(ExchangeRatesState());
 
   final ExchangeRatesRepository exchangeRatesRepository;
 
-  Future<void> getExchangeRatesModel() async {
+  Future<void> getExchangeRates() async {
     emit(
-       ExchangeRatesState(
+      ExchangeRatesState(
         status: Status.loading,
       ),
     );

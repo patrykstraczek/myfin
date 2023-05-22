@@ -13,7 +13,7 @@ class MyFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: isDarkMode ? Colors.white12 : Colors.grey[300],
+      backgroundColor: isDarkMode ? Colors.white12 : Colors.white,
       foregroundColor: accentColors(),
       onPressed: () {
         Navigator.of(context).push(MaterialPageRoute(
