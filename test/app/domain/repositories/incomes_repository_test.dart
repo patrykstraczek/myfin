@@ -10,10 +10,34 @@ class MockFirebaseIncomeDataSource extends Mock
 void main() {
   late IncomesRepository sut;
   late MockFirebaseIncomeDataSource dataSource;
+  late List<IncomesModel> incomesList;
 
   setUp(() {
     dataSource = MockFirebaseIncomeDataSource();
     sut = IncomesRepository(firebaseIncomeDataSource: dataSource);
+    incomesList = [
+      IncomesModel(
+        id: '1',
+        incomeDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
+        incomeName: 'incomeName1',
+        incomeValue: 1,
+        selectedIncomesIcon: 1,
+      ),
+      IncomesModel(
+        id: '2',
+        incomeDate: DateTime(2022, 5, 2, 12, 30, 0, 0),
+        incomeName: 'incomeName2',
+        incomeValue: 2,
+        selectedIncomesIcon: 2,
+      ),
+      IncomesModel(
+        id: '3',
+        incomeDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
+        incomeName: 'incomeName3',
+        incomeValue: 3,
+        selectedIncomesIcon: 3,
+      ),
+    ];
   });
 
   group('getIncomesModel', () {
@@ -30,29 +54,8 @@ void main() {
 
     test('Should emit list of all incomes', () async {
       //arrange
-      when(() => dataSource.getIncomesStream()).thenAnswer((_) => Stream.value([
-            IncomesModel(
-              id: '1',
-              incomeDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
-              incomeName: 'incomeName1',
-              incomeValue: 1,
-              selectedIncomesIcon: 1,
-            ),
-            IncomesModel(
-              id: '2',
-              incomeDate: DateTime(2022, 5, 2, 12, 30, 0, 0),
-              incomeName: 'incomeName2',
-              incomeValue: 2,
-              selectedIncomesIcon: 2,
-            ),
-            IncomesModel(
-              id: '3',
-              incomeDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
-              incomeName: 'incomeName3',
-              incomeValue: 3,
-              selectedIncomesIcon: 3,
-            ),
-          ]));
+      when(() => dataSource.getIncomesStream())
+          .thenAnswer((_) => Stream.value(incomesList));
       //act
       final results = sut.getIncomesStream();
       //assert
@@ -87,29 +90,8 @@ void main() {
 
     test('Should emit list of incomes in given year', () async {
       //arrange
-      when(() => dataSource.getIncomesStream()).thenAnswer((_) => Stream.value([
-            IncomesModel(
-              id: '1',
-              incomeDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
-              incomeName: 'incomeName1',
-              incomeValue: 1,
-              selectedIncomesIcon: 1,
-            ),
-            IncomesModel(
-              id: '2',
-              incomeDate: DateTime(2022, 5, 2, 12, 30, 0, 0),
-              incomeName: 'incomeName2',
-              incomeValue: 2,
-              selectedIncomesIcon: 2,
-            ),
-            IncomesModel(
-              id: '3',
-              incomeDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
-              incomeName: 'incomeName3',
-              incomeValue: 3,
-              selectedIncomesIcon: 3,
-            ),
-          ]));
+      when(() => dataSource.getIncomesStream())
+          .thenAnswer((_) => Stream.value(incomesList));
       //act
       final results = sut.getYearlyIncomeStream(year: 2023);
       //assert
@@ -129,29 +111,8 @@ void main() {
     });
     test('Should emit list of incomes in given month', () async {
       //arrange
-      when(() => dataSource.getIncomesStream()).thenAnswer((_) => Stream.value([
-            IncomesModel(
-              id: '1',
-              incomeDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
-              incomeName: 'incomeName1',
-              incomeValue: 1,
-              selectedIncomesIcon: 1,
-            ),
-            IncomesModel(
-              id: '2',
-              incomeDate: DateTime(2022, 5, 2, 12, 30, 0, 0),
-              incomeName: 'incomeName2',
-              incomeValue: 2,
-              selectedIncomesIcon: 2,
-            ),
-            IncomesModel(
-              id: '3',
-              incomeDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
-              incomeName: 'incomeName3',
-              incomeValue: 3,
-              selectedIncomesIcon: 3,
-            ),
-          ]));
+      when(() => dataSource.getIncomesStream())
+          .thenAnswer((_) => Stream.value(incomesList));
       //act
       final results = sut.getMontlyIncomeStream(year: 2022, month: 5);
       //assert
@@ -171,36 +132,8 @@ void main() {
     });
     test('Should emit list of incomes in given day in month', () async {
       //arrange
-      when(() => dataSource.getIncomesStream()).thenAnswer((_) => Stream.value([
-            IncomesModel(
-              id: '1',
-              incomeDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
-              incomeName: 'incomeName1',
-              incomeValue: 1,
-              selectedIncomesIcon: 1,
-            ),
-            IncomesModel(
-              id: '2',
-              incomeDate: DateTime(2022, 5, 2, 12, 30, 0, 0),
-              incomeName: 'incomeName2',
-              incomeValue: 2,
-              selectedIncomesIcon: 2,
-            ),
-            IncomesModel(
-              id: '3',
-              incomeDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
-              incomeName: 'incomeName3',
-              incomeValue: 3,
-              selectedIncomesIcon: 3,
-            ),
-            IncomesModel(
-              id: '4',
-              incomeDate: DateTime(2023, 6, 3, 11, 30, 0, 0),
-              incomeName: 'incomeName4',
-              incomeValue: 4,
-              selectedIncomesIcon: 4,
-            ),
-          ]));
+      when(() => dataSource.getIncomesStream())
+          .thenAnswer((_) => Stream.value(incomesList));
       //act
       final results =
           sut.getDailyIncomeStream(selectedDay: DateTime(2023, 6, 3));
@@ -215,13 +148,6 @@ void main() {
                 incomeName: 'incomeName3',
                 incomeValue: 3,
                 selectedIncomesIcon: 3,
-              ),
-              IncomesModel(
-                id: '4',
-                incomeDate: DateTime(2023, 6, 3, 11, 30, 0, 0),
-                incomeName: 'incomeName4',
-                incomeValue: 4,
-                selectedIncomesIcon: 4,
               ),
             ]
           ]));

@@ -91,7 +91,7 @@ void main() {
           cubit.getDailyStream(selectedDay: DateTime(2023, 6, 3, 11, 30, 0, 0)),
       expect: () => [
         const AllItemsState(
-          status: Status.success,
+          status: Status.loading,
         ),
         AllItemsState(
           status: Status.success,

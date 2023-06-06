@@ -10,10 +10,34 @@ class MockFirebaseSpendingsDataSource extends Mock
 void main() {
   late SpendingsRepository sut;
   late MockFirebaseSpendingsDataSource dataSource;
+  late List<SpendingsModel> spendingsList;
 
   setUp(() {
     dataSource = MockFirebaseSpendingsDataSource();
     sut = SpendingsRepository(firebaseSpendingsDataSource: dataSource);
+    spendingsList = [
+      SpendingsModel(
+        id: '1',
+        spendingName: 'spendingName1',
+        spendingValue: 1,
+        spendingDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
+        selectedSpendingIcon: 1,
+      ),
+      SpendingsModel(
+        id: '2',
+        spendingName: 'spendingName2',
+        spendingValue: 2,
+        spendingDate: DateTime(2022, 5, 2, 12, 30, 0, 0),
+        selectedSpendingIcon: 2,
+      ),
+      SpendingsModel(
+        id: '3',
+        spendingName: 'spendingName3',
+        spendingValue: 3,
+        spendingDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
+        selectedSpendingIcon: 3,
+      ),
+    ];
   });
 
   group('getSpendingsModel', () {
@@ -31,29 +55,7 @@ void main() {
     test('Should emit list of all spendings', () async {
       //arrange
       when(() => dataSource.getSpendingsStream())
-          .thenAnswer((_) => Stream.value([
-                SpendingsModel(
-                  id: '1',
-                  spendingName: 'spendingName1',
-                  spendingValue: 1,
-                  spendingDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
-                  selectedSpendingIcon: 1,
-                ),
-                SpendingsModel(
-                  id: '2',
-                  spendingName: 'spendingName2',
-                  spendingValue: 2,
-                  spendingDate: DateTime(2022, 5, 2, 12, 30, 0, 0),
-                  selectedSpendingIcon: 2,
-                ),
-                SpendingsModel(
-                  id: '3',
-                  spendingName: 'spendingName3',
-                  spendingValue: 3,
-                  spendingDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
-                  selectedSpendingIcon: 3,
-                ),
-              ]));
+          .thenAnswer((_) => Stream.value(spendingsList));
       //act
       final results = sut.getSpendingsStream();
       //assert
@@ -88,29 +90,7 @@ void main() {
     test('Should emit list of spendings in given year', () async {
       //arrange
       when(() => dataSource.getSpendingsStream())
-          .thenAnswer((_) => Stream.value([
-                SpendingsModel(
-                  id: '1',
-                  spendingName: 'spendingName1',
-                  spendingValue: 1,
-                  spendingDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
-                  selectedSpendingIcon: 1,
-                ),
-                SpendingsModel(
-                  id: '2',
-                  spendingName: 'spendingName2',
-                  spendingValue: 2,
-                  spendingDate: DateTime(2022, 5, 2, 12, 30, 0, 0),
-                  selectedSpendingIcon: 2,
-                ),
-                SpendingsModel(
-                  id: '3',
-                  spendingName: 'spendingName3',
-                  spendingValue: 3,
-                  spendingDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
-                  selectedSpendingIcon: 3,
-                ),
-              ]));
+          .thenAnswer((_) => Stream.value(spendingsList));
       //act
       final results = sut.getYearlySpendingsStream(year: 2023);
       //assert
@@ -131,29 +111,7 @@ void main() {
     test('Should emit list of spendings in given month', () async {
       //arrange
       when(() => dataSource.getSpendingsStream())
-          .thenAnswer((_) => Stream.value([
-                SpendingsModel(
-                  id: '1',
-                  spendingName: 'spendingName1',
-                  spendingValue: 1,
-                  spendingDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
-                  selectedSpendingIcon: 1,
-                ),
-                SpendingsModel(
-                  id: '2',
-                  spendingName: 'spendingName2',
-                  spendingValue: 2,
-                  spendingDate: DateTime(2022, 5, 2, 12, 30, 0, 0),
-                  selectedSpendingIcon: 2,
-                ),
-                SpendingsModel(
-                  id: '3',
-                  spendingName: 'spendingName3',
-                  spendingValue: 3,
-                  spendingDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
-                  selectedSpendingIcon: 3,
-                ),
-              ]));
+          .thenAnswer((_) => Stream.value(spendingsList));
       //act
       final results = sut.getMontlySpendingsStream(month: 5, year: 2022);
       //assert
@@ -174,36 +132,7 @@ void main() {
     test('Should emit list of spendings in given day in month', () async {
       //arrange
       when(() => dataSource.getSpendingsStream())
-          .thenAnswer((_) => Stream.value([
-                SpendingsModel(
-                  id: '1',
-                  spendingName: 'spendingName1',
-                  spendingValue: 1,
-                  spendingDate: DateTime(2022, 4, 1, 12, 30, 0, 0),
-                  selectedSpendingIcon: 1,
-                ),
-                SpendingsModel(
-                  id: '2',
-                  spendingName: 'spendingName2',
-                  spendingValue: 2,
-                  spendingDate: DateTime(2022, 5, 2, 12, 30, 0, 0),
-                  selectedSpendingIcon: 2,
-                ),
-                SpendingsModel(
-                  id: '3',
-                  spendingName: 'spendingName3',
-                  spendingValue: 3,
-                  spendingDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
-                  selectedSpendingIcon: 3,
-                ),
-                SpendingsModel(
-                  id: '4',
-                  spendingName: 'spendingName4',
-                  spendingValue: 3,
-                  spendingDate: DateTime(2023, 6, 3, 11, 30, 0, 0),
-                  selectedSpendingIcon: 3,
-                ),
-              ]));
+          .thenAnswer((_) => Stream.value(spendingsList));
       //act
       final results =
           sut.getDailySpendingStream(selectedDay: DateTime(2023, 6, 3));
@@ -217,13 +146,6 @@ void main() {
                 spendingName: 'spendingName3',
                 spendingValue: 3,
                 spendingDate: DateTime(2023, 6, 3, 12, 30, 0, 0),
-                selectedSpendingIcon: 3,
-              ),
-              SpendingsModel(
-                id: '4',
-                spendingName: 'spendingName4',
-                spendingValue: 3,
-                spendingDate: DateTime(2023, 6, 3, 11, 30, 0, 0),
                 selectedSpendingIcon: 3,
               ),
             ]

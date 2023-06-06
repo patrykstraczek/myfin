@@ -8,8 +8,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/app/features/pages/summaries/cubit/yearly_summaries_cubit.dart';
 import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
 import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
-import 'package:myfin/app/domain/repositories/incomes_repository.dart';
-import 'package:myfin/app/domain/repositories/spendings_repository.dart';
+import 'package:myfin/App/domain/repositories/incomes_repository.dart';
+import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 
 class YearlySummariesPage extends StatefulWidget {
   const YearlySummariesPage({Key? key}) : super(key: key);

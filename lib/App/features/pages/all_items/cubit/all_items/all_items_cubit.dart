@@ -6,8 +6,6 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myfin/App/core/enums.dart';
 import 'package:myfin/App/domain/models/spendings_model.dart';
-import 'package:myfin/App/domain/remote_data_sources/incomes_data_source.dart';
-import 'package:myfin/App/domain/remote_data_sources/spending_data_source.dart';
 import 'package:myfin/App/domain/repositories/incomes_repository.dart';
 import 'package:myfin/App/domain/repositories/spendings_repository.dart';
 import 'package:myfin/App/domain/models/incomes_model.dart';
@@ -17,8 +15,6 @@ part 'all_items_cubit.freezed.dart';
 
 class AllItemsCubit extends Cubit<AllItemsState> {
   final now = DateTime.now();
-  final spendingDataSource = FirebaseSpendingsDataSource();
-  final incomeDataSource = FirebaseIncomeDataSource();
   AllItemsCubit(this._incomesRepository, this._spendingsRepository)
       : super(const AllItemsState());
 
