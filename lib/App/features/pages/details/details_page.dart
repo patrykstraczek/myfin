@@ -146,7 +146,7 @@ class _SpendingDetailsItemWidget extends StatelessWidget {
         ),
       ),
       confirmDismiss: (direction) async {
-        return direction == DismissDirection.startToEnd;
+        return direction == DismissDirection.endToStart;
       },
       onDismissed: (direction) {
         context.read<DetailsCubit>().removeSpending(documentID: model.id);
