@@ -224,7 +224,7 @@ class _IncomeDetailsItemWidget extends StatelessWidget {
         ),
       ),
       confirmDismiss: (direction) async {
-        return direction == DismissDirection.startToEnd;
+        return direction == DismissDirection.endToStart;
       },
       onDismissed: (direction) {
         context.read<DetailsCubit>().removeIncome(documentID: model.id);

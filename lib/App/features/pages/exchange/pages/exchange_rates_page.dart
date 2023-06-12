@@ -115,8 +115,7 @@ class _ExchangeRateBody extends StatelessWidget {
                                       title: Text('$value PLN'),
                                     ));
                           },
-                          child: Text(
-                              '${exchangeRatesModel.code} ${AppLocalizations.of(context).to} PLN')),
+                          child: Text('${exchangeRatesModel.code} -> PLN')),
                       TextButton(
                           onPressed: () {
                             double value =
@@ -130,8 +129,7 @@ class _ExchangeRateBody extends StatelessWidget {
                                           '$value ${exchangeRatesModel.code}'),
                                     ));
                           },
-                          child: Text(
-                              'PLN ${AppLocalizations.of(context).to} ${exchangeRatesModel.code}')),
+                          child: Text('PLN -> ${exchangeRatesModel.code}')),
                       TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
