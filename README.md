@@ -1,8 +1,10 @@
 MYFIN
 
-Easily control your spendings and incomes. 
+Easily control your expenses and income. 
 Check daily, monthly and yearly summaries. 
 View exchange rates and convert PLN to foreign currencies.
+
+Both in English and Polish
 
 
 <p float="left">
