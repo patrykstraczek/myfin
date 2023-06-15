@@ -8,8 +8,8 @@ View exchange rates and convert PLN to foreign currencies.
 <p float="left">
   <img src="https://github.com/patrykstraczek/myfin/assets/106317125/7624141a-2986-42fc-97ed-1c982d09a561" width="200" />
   <img src="https://github.com/patrykstraczek/myfin/assets/106317125/d144bbd1-0821-44fb-830e-485619acd06f" width="200" />
-  <img src="https://github.com/patrykstraczek/myfin/assets/106317125/9ed4c332-01b1-4fd2-9dec-76e3639e4ec3" width="200" />
   <img src="https://github.com/patrykstraczek/myfin/assets/106317125/224dddc5-bc51-4e28-91ff-3fbe93e43904" width="200" />
+  <img src="https://github.com/patrykstraczek/myfin/assets/106317125/9ed4c332-01b1-4fd2-9dec-76e3639e4ec3" width="200" />
 </p>
 <p float="left">
   <img src="https://github.com/patrykstraczek/myfin/assets/106317125/70081907-bfbb-484a-a429-cba602c9efd2" width="200" />
