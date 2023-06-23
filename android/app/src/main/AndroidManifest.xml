@@ -2,7 +2,7 @@
     package="com.patrykstraczek.myfin">
      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
-        android:label="myfin"
+        android:label="FinBud"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true">

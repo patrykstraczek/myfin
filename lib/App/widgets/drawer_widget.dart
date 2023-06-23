@@ -22,7 +22,7 @@ class DrawerWidget extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'MyFin.',
+                  'FinBud.',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.lato(
                     fontWeight: FontWeight.bold,
@@ -91,7 +91,7 @@ class DrawerWidget extends StatelessWidget {
               color: accentColors(),
             ),
             applicationIcon: const Icon(Icons.info),
-            applicationName: 'MyFin - Moje Finanse',
+            applicationName: 'FinBud - Kontrola finansów',
             applicationVersion: '1.0.6',
             applicationLegalese: 'Patryk Strączek',
             child: Text(AppLocalizations.of(context).info,

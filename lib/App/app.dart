@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<CurrencyNotifier>(
           create: (_) {
             CurrencyNotifier currencyNotifier = CurrencyNotifier();
-            currencyNotifier.loadCurrency(); 
+            currencyNotifier.loadCurrency();
             return currencyNotifier;
           },
         ),
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
                 return const HomePage();
               },
             },
-            title: 'MyFin - Moje Finanse',
+            title: 'FinBud - Kontrola Finansów',
             theme: themeProvider.getTheme(),
             localizationsDelegates: [
               FirebaseUILocalizations.delegate,
