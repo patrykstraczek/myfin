@@ -92,8 +92,7 @@ class _HomePageState extends State<HomePage> {
               }
               // Save _isDarkMode value in SharedPreferences
               Provider.of<ThemeProvider>(context, listen: false)
-                  .saveDarkModeState(
-                      isDarkMode); 
+                  .saveDarkModeState(isDarkMode);
             },
           ),
         ],
@@ -209,7 +208,7 @@ class _AllHistoryItem extends StatelessWidget {
   }
 }
 
-class _HomePageBody extends StatelessWidget {
+class _HomePageBody extends StatefulWidget {
   const _HomePageBody({
     Key? key,
     required this.isDarkMode,
@@ -222,22 +221,46 @@ class _HomePageBody extends StatelessWidget {
   final int year;
 
   @override
+  State<_HomePageBody> createState() => _HomePageBodyState();
+}
+
+class _HomePageBodyState extends State<_HomePageBody> {
+  double balance = incomeInMonth - spendingsInMonth;
+
+  @override
   Widget build(BuildContext context) {
+    Color getColorForBalance(double balance) {
+      if (balance < 0) {
+        return Colors.red;
+      } else if (balance == 0) {
+        return Colors.orange;
+      } else {
+        return Colors.green;
+      }
+    }
+
     return Column(children: [
       Container(
         padding: const EdgeInsets.only(left: 10),
         margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: isDarkMode ? Colors.grey[900] : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              offset: const Offset(4, 4),
+              blurRadius: 6,
+            ),
+          ],
+          color: widget.isDarkMode ? Colors.grey[900] : Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(16)),
         ),
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => DailyReportsPage(
-                month: month,
-                year: year,
+                month: widget.month,
+                year: widget.year,
               ),
             ));
           },
@@ -249,18 +272,35 @@ class _HomePageBody extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      DateFormat.MMMM(AppLocalizations.of(context).dateFormat)
-                          .format(DateTime(year, month))
-                          .toUpperCase(),
-                      style: const TextStyle(fontSize: 18),
+                    Row(
+                      children: [
+                        Text(
+                          DateFormat.MMMM(
+                                  AppLocalizations.of(context).dateFormat)
+                              .format(DateTime(widget.year, widget.month))
+                              .toUpperCase(),
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          incomeInMonth - spendingsInMonth > 0
+                              ? '+${(incomeInMonth - spendingsInMonth).toStringAsFixed(2)}'
+                              : (incomeInMonth - spendingsInMonth)
+                                  .toStringAsFixed(2),
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: getColorForBalance(
+                                (incomeInMonth - spendingsInMonth)),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
                       decoration: const BoxDecoration(
                         color: Colors.red,
                       ),
@@ -279,7 +319,7 @@ class _HomePageBody extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
                       decoration: const BoxDecoration(
                         color: Colors.green,
                         borderRadius:

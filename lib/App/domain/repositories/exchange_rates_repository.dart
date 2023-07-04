@@ -9,15 +9,16 @@ class ExchangeRatesRepository {
   final ExchangeRatesDTO remoteDataSource;
 
   Future<List<ExchangeRatesModel>> getExchangeRatesModel() async {
-    final exchangeRatesResponse =
-        await remoteDataSource.getDataFromApi();
+    final exchangeRatesResponse = await remoteDataSource.getDataFromApi();
 
-    final exchangeRates =
-        exchangeRatesResponse.expand((e) => e.rates).toList();
+    final exchangeRates = exchangeRatesResponse.expand((e) => e.rates).toList();
 
-    return exchangeRates.map((rate) => ExchangeRatesModel(
-          rate.code,
-          rate.averageRate,
-        )).toList();
+    return exchangeRates
+        .map((rate) => ExchangeRatesModel(
+              rate.code,
+              rate.currency,
+              rate.averageRate,
+            ))
+        .toList();
   }
 }

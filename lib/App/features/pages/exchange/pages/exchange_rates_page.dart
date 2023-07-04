@@ -50,14 +50,31 @@ class ExchangeRatesPage extends StatelessWidget {
                   ),
                 );
               case Status.error:
-                return Center(
-                  child: Text(
-                    state.errorMessage ?? 'Unknown error',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.error,
+                if (state.errorMessage?.contains('Failed host lookup') ==
+                    true) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context).connectionFailed,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                      state.errorMessage ?? 'Unknown error',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  );
+                }
             }
           },
         ),
@@ -115,7 +132,7 @@ class _ExchangeRateBody extends StatelessWidget {
                                       title: Text('$value PLN'),
                                     ));
                           },
-                          child: Text('${exchangeRatesModel.code} -> PLN')),
+                          child: Text('${exchangeRatesModel.currency} -> PLN')),
                       TextButton(
                           onPressed: () {
                             double value =
@@ -126,10 +143,10 @@ class _ExchangeRateBody extends StatelessWidget {
                                 context: context,
                                 builder: (context) => AlertDialog(
                                       title: Text(
-                                          '$value ${exchangeRatesModel.code}'),
+                                          '$value ${exchangeRatesModel.currency}'),
                                     ));
                           },
-                          child: Text('PLN -> ${exchangeRatesModel.code}')),
+                          child: Text('PLN -> ${exchangeRatesModel.currency}')),
                       TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -144,10 +161,15 @@ class _ExchangeRateBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      exchangeRatesModel.currency,
+                      style: const TextStyle(fontSize: 26),
+                    ),
+                    Text(
                       exchangeRatesModel.code,
-                      style: const TextStyle(fontSize: 36),
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ],
                 ),

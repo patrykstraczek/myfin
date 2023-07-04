@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myfin/App/features/pages/all_items/pages/all_items_page.dart';
 import 'package:myfin/App/features/pages/exchange/pages/exchange_rates_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myfin/App/features/auth/pages/user_profile.dart';
@@ -13,6 +14,14 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LinearGradient createGradient() {
+      return const LinearGradient(
+        colors: [Color(0xff673ab7), Color(0xfff5b041)],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+      );
+    }
+
     return Drawer(
       backgroundColor: isDarkMode ? Colors.black : Colors.white,
       child: ListView(
@@ -24,9 +33,12 @@ class DrawerWidget extends StatelessWidget {
                 Text(
                   'FinBud.',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.lato(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 26,
+                    foreground: Paint()
+                      ..shader = createGradient().createShader(
+                          const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
                   ),
                 ),
                 Text(
@@ -48,6 +60,22 @@ class DrawerWidget extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => const UserProfile(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.history,
+              color: accentColors(),
+            ),
+            title: Text(AppLocalizations.of(context).allData,
+                style: GoogleFonts.lato()),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const AllItemsPage(),
                 ),
               );
             },
@@ -92,7 +120,7 @@ class DrawerWidget extends StatelessWidget {
             ),
             applicationIcon: const Icon(Icons.info),
             applicationName: 'FinBud - Kontrola finansów',
-            applicationVersion: '1.0.6',
+            applicationVersion: '1.2.1',
             applicationLegalese: 'Patryk Strączek',
             child: Text(AppLocalizations.of(context).info,
                 style: GoogleFonts.lato()),

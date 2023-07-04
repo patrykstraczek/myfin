@@ -29,5 +29,7 @@
   "yearlysummariesInfo": "With each new year, your annual statements will appear here.",
   "emailInputLabel": "Enter your email",
   "currency": "Currency",
-  "noItems": "No records found."
+  "noItems": "No records found.",
+  "allData": "All records",
+  "connectionFailed": "Connection failed"
 }

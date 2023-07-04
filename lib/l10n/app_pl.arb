@@ -29,5 +29,7 @@
   "yearlysummariesInfo": "Z każdym nowym rokiem będą się tutaj pojawiać Twoje roczne zestawienia.",
   "emailInputLabel": "Wprowadź email",
   "currency": "Waluta",
-  "noItems": "Pusto, nie zarejestrowano żadnych operacji na ten dzień."
+  "noItems": "Pusto, nie zarejestrowano żadnych operacji na ten dzień.",
+  "allData": "Historia",
+  "connectionFailed": "Nie udało się połączyć"
 }

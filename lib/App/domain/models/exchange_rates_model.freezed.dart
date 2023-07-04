@@ -20,6 +20,8 @@ ExchangeRatesModel _$ExchangeRatesModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ExchangeRatesModel {
+  @JsonKey(name: 'currency')
+  String get currency => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
   @JsonKey(name: 'mid')
   double get averageRate => throw _privateConstructorUsedError;
@@ -36,7 +38,10 @@ abstract class $ExchangeRatesModelCopyWith<$Res> {
           ExchangeRatesModel value, $Res Function(ExchangeRatesModel) then) =
       _$ExchangeRatesModelCopyWithImpl<$Res, ExchangeRatesModel>;
   @useResult
-  $Res call({String code, @JsonKey(name: 'mid') double averageRate});
+  $Res call(
+      {@JsonKey(name: 'currency') String currency,
+      String code,
+      @JsonKey(name: 'mid') double averageRate});
 }
 
 /// @nodoc
@@ -52,10 +57,15 @@ class _$ExchangeRatesModelCopyWithImpl<$Res, $Val extends ExchangeRatesModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? currency = null,
     Object? code = null,
     Object? averageRate = null,
   }) {
     return _then(_value.copyWith(
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -76,7 +86,10 @@ abstract class _$$_ExchangeRatesModelCopyWith<$Res>
       __$$_ExchangeRatesModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String code, @JsonKey(name: 'mid') double averageRate});
+  $Res call(
+      {@JsonKey(name: 'currency') String currency,
+      String code,
+      @JsonKey(name: 'mid') double averageRate});
 }
 
 /// @nodoc
@@ -90,10 +103,15 @@ class __$$_ExchangeRatesModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? currency = null,
     Object? code = null,
     Object? averageRate = null,
   }) {
     return _then(_$_ExchangeRatesModel(
+      null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
       null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -109,11 +127,15 @@ class __$$_ExchangeRatesModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_ExchangeRatesModel implements _ExchangeRatesModel {
-  _$_ExchangeRatesModel(this.code, @JsonKey(name: 'mid') this.averageRate);
+  _$_ExchangeRatesModel(@JsonKey(name: 'currency') this.currency, this.code,
+      @JsonKey(name: 'mid') this.averageRate);
 
   factory _$_ExchangeRatesModel.fromJson(Map<String, dynamic> json) =>
       _$$_ExchangeRatesModelFromJson(json);
 
+  @override
+  @JsonKey(name: 'currency')
+  final String currency;
   @override
   final String code;
   @override
@@ -122,7 +144,7 @@ class _$_ExchangeRatesModel implements _ExchangeRatesModel {
 
   @override
   String toString() {
-    return 'ExchangeRatesModel(code: $code, averageRate: $averageRate)';
+    return 'ExchangeRatesModel(currency: $currency, code: $code, averageRate: $averageRate)';
   }
 
   @override
@@ -130,6 +152,8 @@ class _$_ExchangeRatesModel implements _ExchangeRatesModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ExchangeRatesModel &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.averageRate, averageRate) ||
                 other.averageRate == averageRate));
@@ -137,7 +161,7 @@ class _$_ExchangeRatesModel implements _ExchangeRatesModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, code, averageRate);
+  int get hashCode => Object.hash(runtimeType, currency, code, averageRate);
 
   @JsonKey(ignore: true)
   @override
@@ -156,12 +180,16 @@ class _$_ExchangeRatesModel implements _ExchangeRatesModel {
 
 abstract class _ExchangeRatesModel implements ExchangeRatesModel {
   factory _ExchangeRatesModel(
-          final String code, @JsonKey(name: 'mid') final double averageRate) =
-      _$_ExchangeRatesModel;
+      @JsonKey(name: 'currency') final String currency,
+      final String code,
+      @JsonKey(name: 'mid') final double averageRate) = _$_ExchangeRatesModel;
 
   factory _ExchangeRatesModel.fromJson(Map<String, dynamic> json) =
       _$_ExchangeRatesModel.fromJson;
 
+  @override
+  @JsonKey(name: 'currency')
+  String get currency;
   @override
   String get code;
   @override
