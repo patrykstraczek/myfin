@@ -80,11 +80,11 @@ class _AllItemsPageState extends State<AllItemsPage> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.arrow_upward),
+            icon: const Icon(Icons.payment),
             label: AppLocalizations.of(context).spendings,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.arrow_downward),
+            icon: const Icon(Icons.trending_up),
             label: AppLocalizations.of(context).incomes,
           ),
         ],
