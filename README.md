@@ -10,6 +10,9 @@ The app offers many useful features, such as:
 
 The app is intuitive and easy to use, so anyone can start using it immediately. Whether you plan to save for the future, monitor your daily expenses or invest in currencies, this is the perfect tool for managing your finances.
 
+Available in google play store:
+https://play.google.com/store/apps/details?id=com.patrykstraczek.myfin
+
 
 
 <p float="left">
