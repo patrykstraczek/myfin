@@ -1,10 +1,15 @@
-MYFIN
+A financial management application that allows you to have full control over your finances in a simple and efficient way. Whether you want to track your expenses, analyze your income or monitor exchange rates, our app will meet your needs.
 
-Easily control your expenses and income. 
-Check daily, monthly and yearly summaries. 
-View exchange rates and convert PLN to foreign currencies.
+The app offers many useful features, such as:
 
-Both in English and Polish
+📊 Income and Expense Recording: Add your income and expenses easily to have a complete picture of your finances.
+
+📈 Time summaries: Track your finances at different levels with daily, monthly and yearly summaries. Understand your spending and savings like never before.
+
+💱 Currency rates and conversion: Track current PLN rates against other currencies and convert them easily. This includes the most popular currencies in the world.
+
+The app is intuitive and easy to use, so anyone can start using it immediately. Whether you plan to save for the future, monitor your daily expenses or invest in currencies, this is the perfect tool for managing your finances.
+
 
 
 <p float="left">
